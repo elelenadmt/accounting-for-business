@@ -990,6 +990,117 @@ document.getElementById('t-start').addEventListener('click',()=>{if(tid)return;i
 document.getElementById('t-pause').addEventListener('click',()=>{clearInterval(tid);tid=null;});
 document.getElementById('t-reset').addEventListener('click',()=>{clearInterval(tid);tid=null;left=3600;draw();});
 
+/* ===== exercise generators ===== */
+const r=(a,b,s=1)=>a+s*Math.floor(Math.random()*(Math.floor((b-a)/s)+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const f=n=>(Math.round(n*100)/100).toLocaleString('en-US',{maximumFractionDigits:2});
+const f2=n=>n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const CO=['Lumière Café','Blue Harbor','Pixel Studio','Atlas Consulting','Nova Design','Costa Surf','Alpine Gear','Rio Bakery','Kite Media','Oak &amp; Co','Sol Travel','Luna Events'];
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function je(rows,withDate=true){
+  return '<div class="tbl"><table class="je"><tr>'+(withDate?'<th>Date</th>':'')+'<th>Account</th><th class="n">Dr</th><th class="n">Cr</th></tr>'+
+  rows.map(([d,a,dr,cr])=>'<tr>'+(withDate?'<td>'+(d||'')+'</td>':'')+'<td'+(cr&&!dr?' class="ind"':'')+'>'+a+'</td><td class="n">'+(dr?f(dr):'')+'</td><td class="n">'+(cr?f(cr):'')+'</td></tr>').join('')+'</table></div>';
+}
+const tbl=(rows,total)=>'<table>'+rows.map(([a,b])=>'<tr><td>'+a+'</td><td class="n">'+b+'</td></tr>').join('')+(total?'<tr class="total"><td>'+total[0]+'</td><td class="n">'+total[1]+'</td></tr>':'')+'</table>';
+const money=n=>n<0?'('+f(-n)+')':f(n);
+
+const GEN={
+ex1(){const co=pick(CO),I=r(30000,80000,5000),E=r(10000,30000,1000),c=r(2000,Math.min(8000,E-2000),500),S=r(1000,4000,250),R=r(4000,12000,500),W=r(1000,R-1500,250),p=r(250,S,250),D=r(500,Math.min(2000,R-W),250);
+ const cash=I-c+R-W-p-D,notes=E-c,ap=S-p,re=R-W-D,A=cash+E+S,L=notes+ap,Q=I+re;
+ return{title:'Transaction analysis: '+co,
+ task:'<p>Show the effect of each transaction on Assets, Liabilities and Equity, then give the totals and net income.</p><ol><li>Owners invest $'+f(I)+' cash in exchange for capital stock.</li><li>Buy equipment for $'+f(E)+': $'+f(c)+' cash and a note payable for the rest.</li><li>Buy supplies for $'+f(S)+' on account.</li><li>Provide services for $'+f(R)+' cash.</li><li>Pay wages of $'+f(W)+' cash.</li><li>Pay $'+f(p)+' of the account payable.</li><li>Pay a $'+f(D)+' cash dividend.</li></ol>',
+ sol:'<div class="tbl"><table><tr><th>#</th><th class="n">Assets</th><th class="n">Liabilities</th><th class="n">Equity</th></tr>'+
+ [[1,'Cash +'+f(I),'','Stock +'+f(I)],[2,'Equip +'+f(E)+', Cash −'+f(c),'Notes +'+f(notes),''],[3,'Supplies +'+f(S),'A/P +'+f(S),''],[4,'Cash +'+f(R),'','RE +'+f(R)+' (revenue)'],[5,'Cash −'+f(W),'','RE −'+f(W)+' (expense)'],[6,'Cash −'+f(p),'A/P −'+f(p),''],[7,'Cash −'+f(D),'','RE −'+f(D)+' (dividend)']].map(x=>'<tr><td>'+x[0]+'</td><td class="n">'+x[1]+'</td><td class="n">'+x[2]+'</td><td class="n">'+x[3]+'</td></tr>').join('')+
+ '<tr class="total"><td>Total</td><td class="n">'+f(A)+'</td><td class="n">'+f(L)+'</td><td class="n">'+f(Q)+'</td></tr></table></div>'+
+ '<p>Cash = '+f(cash)+' · Equipment '+f(E)+' · Supplies '+f(S)+' → <b>Assets '+f(A)+' = '+f(L)+' + '+f(Q)+'</b> ✓</p><p>Net income = '+f(R)+' − '+f(W)+' = <b>'+f(R-W)+'</b>. The dividend is not an expense: it reduces retained earnings, not net income.</p>'};},
+
+ex2(){const co=pick(CO),m=r(0,11);
+ const POOL=[
+  ['Issued capital stock for $X cash.',()=>r(20000,60000,5000),'Cash','Capital stock'],
+  ['Paid this month\'s rent, $X.',()=>r(800,3000,100),'Rent expense','Cash'],
+  ['Bought equipment for $X on account.',()=>r(3000,15000,500),'Equipment','Accounts payable'],
+  ['Billed a client $X for services done.',()=>r(1500,9000,100),'Accounts receivable','Service revenue'],
+  ['Collected $X from a client for an earlier invoice.',()=>r(500,5000,100),'Cash','Accounts receivable'],
+  ['Paid a $X dividend.',()=>r(500,4000,500),'Dividends','Cash'],
+  ['Paid salaries of $X.',()=>r(1500,6000,100),'Salaries expense','Cash'],
+  ['Bought supplies for $X cash.',()=>r(150,1200,50),'Supplies','Cash'],
+  ['Received $X cash for services done today.',()=>r(400,4000,100),'Cash','Service revenue'],
+  ['Paid $X owed to a supplier.',()=>r(500,5000,100),'Accounts payable','Cash'],
+  ['Borrowed $X from the bank, signing a note payable.',()=>r(5000,25000,1000),'Cash','Notes payable'],
+  ['Received the utility bill for $X, to be paid next month.',()=>r(100,600,10),'Utilities expense','Accounts payable']];
+ const rest=POOL.slice(1).sort(()=>Math.random()-.5).slice(0,5);
+ const items=[POOL[0],...rest];const days=[1,...[...new Set(Array.from({length:12},()=>r(2,30)))].slice(0,5).sort((a,b)=>a-b)];
+ while(days.length<6)days.push(Math.min(30,days[days.length-1]+1));
+ const tx=items.map((it,i)=>({d:MON[m]+' '+days[i],t:it[0],a:it[1](),dr:it[2],cr:it[3]}));
+ return{title:'Journal entries: '+co+', '+MONTHS[m],
+ task:'<p>Write the journal entry for each transaction.</p><ul>'+tx.map(x=>'<li>'+x.d+': '+x.t.replace('X',f(x.a))+'</li>').join('')+'</ul>',
+ sol:je(tx.flatMap(x=>[[x.d,x.dr,x.a,0],['',x.cr,0,x.a]]))+'<p>Check each one: the debit side goes up for assets, expenses and dividends; the credit side goes up for liabilities, equity and revenue. Revenue is recorded when the service is done, even without cash; collecting a receivable is not revenue.</p>'};},
+
+ex3(){const co=pick(CO);const exps=[['Salaries expense',r(20000,50000,1000)],['Rent expense',r(6000,18000,500)],[pick(['Utilities expense','Advertising expense','Insurance expense']),r(1000,6000,500)],['Depreciation expense',r(2000,8000,500)]];
+ const tot=exps.reduce((s,x)=>s+x[1],0);const loss=Math.random()<.25;const R=loss?tot-r(2000,8000,1000):tot+r(5000,40000,1000);const D=r(2000,12000,1000),RE0=r(20000,80000,5000),NI=R-tot,RE1=RE0+NI-D;
+ const rows=[['① Revenues','Service revenue',R,0],['','Income summary',0,R],['② Expenses','Income summary',tot,0],...exps.map(x=>['',x[0],0,x[1]]),
+  NI>=0?['③ Income summary','Income summary',NI,0]:['③ Income summary','Retained earnings',-NI,0],NI>=0?['','Retained earnings',0,NI]:['','Income summary',0,-NI],['④ Dividends','Retained earnings',D,0],['','Dividends',0,D]];
+ return{title:'Closing entries: '+co,
+ task:'<p>Year-end balances: Service revenue '+f(R)+' · '+exps.map(x=>x[0]+' '+f(x[1])).join(' · ')+' · Dividends '+f(D)+' · Retained earnings (Jan 1) '+f(RE0)+'.</p><ol><li>Write the 4 closing entries.</li><li>Compute net income and ending retained earnings.</li></ol>',
+ sol:je(rows).replace('<th>Date</th>','<th>Step</th>')+'<p>Net income = '+f(R)+' − '+f(tot)+' = <b>'+money(NI)+'</b>'+(NI<0?' (a net loss: Income summary has a <b>debit</b> balance, so it is credited and retained earnings are debited)':'')+'. Ending RE = '+f(RE0)+(NI>=0?' + ':' − ')+f(Math.abs(NI))+' − '+f(D)+' = <b>'+f(RE1)+'</b>.</p>'};},
+
+ex4(){const co=pick(['Velo Shop','Casa Home','Brightlight','TechNest','Kitchen Pro']);const prod=pick(['bikes','armchairs','lamps','tablets','coffee machines']);
+ const u=r(100,600,50),n=r(10,30),k=r(3,8),p=Math.max(u+50,Math.round(u*(1.5+Math.random()*.6)/50)*50),net=u*0.98,sOn=Math.random()<.5,cOn=Math.random()<.5;
+ const bal=(k-1)*p,disc=cOn?bal*0.02:0;
+ const rows=[['Nov 2','Inventory ('+f(n*u)+' × 98%)',n*net,0],['','Accounts payable',0,n*net],['Nov 5','Accounts receivable',k*p,0],['','Sales',0,k*p],['','Cost of goods sold ('+k+' × '+f(net)+')',k*net,0],['','Inventory',0,k*net],['Nov 7','Sales returns &amp; allowances',p,0],['','Accounts receivable',0,p],['','Inventory',net,0],['','Cost of goods sold',0,net]];
+ if(sOn)rows.push(['Nov 12','Accounts payable',n*net,0],['','Cash',0,n*net]);else rows.push(['Nov 28','Accounts payable',n*net,0],['','Purchase discounts lost',n*u-n*net,0],['','Cash',0,n*u]);
+ if(cOn)rows.push(['Nov 14','Cash ('+f(bal)+' × 98%)',bal-disc,0],['','Sales discounts',disc,0],['','Accounts receivable',0,bal]);else rows.push(['Dec 3','Cash',bal,0],['','Accounts receivable',0,bal]);
+ const NS=k*p-p-disc,CG=(k-1)*net;
+ return{title:'Merchandising with discounts: '+co,
+ task:'<p>'+co+' uses a <b>perpetual</b> inventory system and records purchases at <b>net cost</b>.</p><ul><li>Nov 2: Buys '+n+' '+prod+' at $'+f(u)+' each on account, terms 2/10, n/30.</li><li>Nov 5: Sells '+k+' '+prod+' at $'+f(p)+' each on account, terms 2/10, n/30.</li><li>Nov 7: The customer returns 1 of them.</li><li>'+(sOn?'Nov 12':'Nov 28')+': Pays the supplier in full.</li><li>'+(cOn?'Nov 14':'Dec 3')+': Collects the balance from the customer.</li></ul><p>Write the entries, then compute net sales and gross profit.</p>',
+ sol:'<p>Net cost of one unit = '+f(u)+' × 98% = <b>'+f(net)+'</b>.</p>'+je(rows)+'<p>Net sales = '+f(k*p)+' − '+f(p)+(disc?' − '+f(disc):'')+' = <b>'+f(NS)+'</b>. COGS = '+f(k*net)+' − '+f(net)+' = <b>'+f(CG)+'</b>. Gross profit = <b>'+f(NS-CG)+'</b>.</p><p>'+(sOn?'Supplier paid on day 10: discount kept.':'Supplier paid after day 10: the 2% is lost, recorded as Purchase discounts lost (non-operating expense).')+' '+(cOn?'Customer paid on day 9: Sales discounts (contra-revenue).':'Customer paid after 10 days: no discount, full amount.')+'</p>'};},
+
+ex5(){const co=pick(CO),mo=pick(MONTHS);const B=r(8000,20000),DIT=r(300,2500,10),OC=r(400,3000,10),SC=r(10,40),NSF=r(80,600,5),INT=r(15,80),hasNote=Math.random()<.6,NOTE=hasNote?r(300,1500,100):0,FEE=hasNote?r(5,20,5):0;
+ let a=r(1,9),b=r(1,9),c=r(0,9);while(c===b)c=r(0,9);const x=100*a+10*b+c,y=100*a+10*c+b;const [act,rec]=Math.random()<.5?[x,y]:[y,x];const diff=rec-act;
+ const adj=B+DIT-OC,bookAdj=-SC-NSF+INT+NOTE-FEE+diff,X=adj-bookAdj;
+ const brow=[['Book balance',f(X)],['− Service charge','('+SC+')'],['− NSF cheque','('+f(NSF)+')'],['+ Interest',INT]];if(hasNote)brow.push(['+ Note collected',f(NOTE)],['− Collection fee','('+FEE+')']);brow.push([(diff>0?'+':'−')+' Error ('+rec+' recorded, '+act+' actual)',diff>0?diff:'('+(-diff)+')']);
+ const ent=['Dr Bank service charge expense '+SC+' / Cr Cash '+SC,'Dr Accounts receivable '+f(NSF)+' / Cr Cash '+f(NSF),'Dr Cash '+INT+' / Cr Interest revenue '+INT];
+ if(hasNote)ent.push('Dr Cash '+f(NOTE-FEE)+' · Dr Bank charges '+FEE+' / Cr Notes receivable '+f(NOTE));
+ ent.push(diff>0?'Dr Cash '+diff+' / Cr Telephone expense '+diff:'Dr Telephone expense '+(-diff)+' / Cr Cash '+(-diff));
+ return{title:'Bank reconciliation: '+co+', '+mo+' 30',
+ task:'<ul><li>Bank statement balance: $'+f(B)+' · Cash ledger balance: $'+f(X)+'</li><li>Deposit in transit: $'+f(DIT)+' · Outstanding cheques: $'+f(OC)+'</li><li>Bank service charge: $'+SC+' · NSF cheque from a customer: $'+f(NSF)+'</li><li>Interest earned: $'+INT+(hasNote?' · The bank collected a $'+f(NOTE)+' note for the company and charged a $'+FEE+' fee':'')+'</li><li>A cheque for telephone expense of $'+act+' was recorded in the books as $'+rec+'</li></ul><p>Prepare the reconciliation and the journal entries needed.</p>',
+ sol:'<div class="grid2">'+tbl([['Bank balance',f(B)],['+ Deposit in transit',f(DIT)],['− Outstanding cheques','('+f(OC)+')']],['Adjusted',f(adj)])+tbl(brow,['Adjusted',f(adj)])+'</div><p>Entries (book side only): '+ent.join(' · ')+'.</p><p>'+(diff>0?'The books recorded '+diff+' too much paid out, so cash goes back <b>up</b>.':'The books recorded '+(-diff)+' too little paid out, so cash goes <b>down</b>.')+'</p>'};},
+
+ex6(){const co=pick(CO);const g=[['Not yet due',r(30000,90000,1000),pick([1,2])],['1–30 days past due',r(10000,40000,1000),pick([3,4,5])],['31–60 days',r(5000,20000,1000),pick([8,10,15])],['Over 60 days',r(2000,10000,1000),pick([30,40,50])]];
+ const AR=g.reduce((s,x)=>s+x[1],0),req=g.reduce((s,x)=>s+x[1]*x[2]/100,0),deb=Math.random()<.3,ex=deb?r(200,1000,100):r(500,Math.max(500,req-500),100),exp=deb?req+ex:req-ex,WO=r(300,1500,100);
+ return{title:'Aging of receivables: '+co,
+ task:'<div class="tbl"><table><tr><th>Age group</th><th class="n">Balance</th><th class="n">% uncollectible</th></tr>'+g.map(x=>'<tr><td>'+x[0]+'</td><td class="n">'+f(x[1])+'</td><td class="n">'+x[2]+'%</td></tr>').join('')+'</table></div><ol><li>Compute the required allowance.</li><li>Before adjusting, the allowance has a <b>'+(deb?'debit':'credit')+'</b> balance of '+f(ex)+'. Write the adjusting entry.</li><li>Compute the net realizable value.</li><li>Then write off a '+f(WO)+' account. Entry and NRV after?</li></ol>',
+ sol:'<p>1. '+g.map(x=>f(x[1]*x[2]/100)).join(' + ')+' = <b>'+f(req)+'</b></p><p>2. '+(deb?f(req)+' + '+f(ex)+' (a debit balance must first be cleared)':f(req)+' − '+f(ex))+' = '+f(exp)+' → Dr Uncollectible accounts expense '+f(exp)+' / Cr Allowance '+f(exp)+'</p><p>3. NRV = '+f(AR)+' − '+f(req)+' = <b>'+f(AR-req)+'</b></p><p>4. Dr Allowance '+f(WO)+' / Cr A/R '+f(WO)+' → '+f(AR-WO)+' − '+f(req-WO)+' = <b>'+f(AR-req)+'</b> (unchanged, no expense)</p>'};},
+
+ex7(){const item=pick(['packing machine','delivery van','printing press','server rack','oven line']);const price=r(20,80)*1000,tr=r(5,25)*100,ins=(1000-tr%1000)%1000||1000,cost=price+tr+ins,life=pick([4,5]),res=r(1,Math.max(1,Math.floor(cost*0.1/1000)))*1000,rate=2/life,sl=(cost-res)/life;
+ let bv=cost,acc=0,rows='';for(let y=1;y<=life;y++){let e,comp;if(y===life){e=bv-res;comp=f(bv)+' − '+f(res);}else{e=Math.round(bv*rate);if(bv-e<res)e=bv-res;comp=f(bv)+' × '+(rate*100)+'%';}acc+=e;bv-=e;rows+='<tr><td>'+y+'</td><td>'+comp+'</td><td class="n">'+f(e)+'</td><td class="n">'+f(acc)+'</td><td class="n">'+f(bv)+'</td></tr>';}
+ return{title:'Cost and depreciation schedule: '+item,
+ task:'<p>On January 2 a company buys a '+item+': price '+f(price)+', transport '+f(tr)+', installation '+f(ins)+'. Residual value '+f(res)+', useful life '+life+' years.</p><ol><li>Capitalized cost?</li><li>Straight-line depreciation per year.</li><li>Full double-declining balance schedule.</li></ol>',
+ sol:'<p>1. '+f(price)+' + '+f(tr)+' + '+f(ins)+' = <b>'+f(cost)+'</b> (transport and installation are needed to get it ready, so they are part of the cost).</p><p>2. ('+f(cost)+' − '+f(res)+') ÷ '+life+' = <b>'+f(sl)+' / year</b></p><p>3. Rate = (1/'+life+') × 2 = '+(rate*100)+'%. Residual value is ignored until the last year.</p><div class="tbl"><table><tr><th>Year</th><th>Computation</th><th class="n">Expense</th><th class="n">Accum. dep.</th><th class="n">Book value</th></tr>'+rows+'</table></div>'};},
+
+ex8(){const item=pick(['delivery truck','forklift','company car','tractor']);const cost=r(20,60)*1000,life=pick([4,5,8]),res=r(1,4)*1000,annual=(cost-res)/life,m=r(1,10),day=r(1,28),months=day<=15?12-m:11-m,d1=Math.round(annual*months/12*100)/100,Y=pick([3,4]),acc=d1+annual*(Y-2),BV=cost-acc;
+ let price=Math.round(BV*(0.75+Math.random()*0.5)/500)*500;if(price===BV)price+=500;const g=price-BV;
+ return{title:'Partial year and disposal: '+item,
+ task:'<p>A '+item+' costing '+f(cost)+' (residual '+f(res)+', life '+life+' years, straight-line) is put into service on <b>'+MONTHS[m]+' '+day+', Year 1</b>. Year end is December 31; the company uses the half-month convention. It is sold on January 2, Year '+Y+' for '+f(price)+'.</p><ol><li>Depreciation for each year until the sale.</li><li>Book value on the sale date.</li><li>Journal entry for the sale.</li></ol>',
+ sol:'<p>1. Annual: ('+f(cost)+' − '+f(res)+') ÷ '+life+' = '+f(annual)+'. Bought on the '+day+'th, so '+(day<=15?MONTHS[m]+' counts':MONTHS[m]+' does not count')+': '+months+' months → Year 1 = '+f(annual)+' × '+months+'/12 = <b>'+f(d1)+'</b>. '+(Y===3?'Year 2':'Years 2 and 3')+': <b>'+f(annual)+'</b> each.</p><p>2. Accumulated = '+f(acc)+' → BV = '+f(cost)+' − '+f(acc)+' = <b>'+f(BV)+'</b></p><p>3. Cash '+f(price)+(g>0?' &gt; ':' &lt; ')+'BV '+f(BV)+' → <span class="pill '+(g>0?'g">Gain ':'b">Loss ')+f(Math.abs(g))+'</span></p>'+
+ je([['','Cash',price,0],['','Accumulated depreciation',acc,0],...(g<0?[['','Loss on disposal',-g,0]]:[]),['',item[0].toUpperCase()+item.slice(1),0,cost],...(g>0?[['','Gain on disposal',0,g]]:[])],false)};},
+
+ex9(){const co=pick(['Coca-Cola','Inditex','Nestlé','Airbus','Telefónica']);const N=r(5,20)*100,P=r(20,60),k=r(5,20),c=N*k/100,ps=P+k/100,s=r(1,N/100-1)*100;let q=P+r(-4,6);if(q===P)q+=2;const c2=r(20,80,5),proc=s*q-c2,cs=s*ps,g=Math.round((proc-cs)*100)/100,rem=N-s,mk=P-r(1,5),cr=Math.round(rem*ps*100)/100,mv=rem*mk,ul=Math.round((cr-mv)*100)/100;
+ return{title:'Marketable securities: '+co+' shares',
+ task:'<ul><li>Buys '+f(N)+' '+co+' shares at $'+P+' plus $'+f(c)+' commission.</li><li>Sells '+f(s)+' shares at $'+q+', less $'+c2+' commission.</li><li>Year end: the remaining '+f(rem)+' shares are worth $'+mk+' each.</li></ul><p>Write the three entries.</p>',
+ sol:'<p>Cost = '+f(N*P)+' + '+f(c)+' = '+f(N*P+c)+' → <b>'+f2(ps)+'/share</b>. Dr Marketable securities '+f(N*P+c)+' / Cr Cash '+f(N*P+c)+'</p><p>Sale: proceeds '+f(s*q)+' − '+c2+' = '+f(proc)+'; cost '+f(s)+' × '+f2(ps)+' = '+f(cs)+' → <span class="pill '+(g>=0?'g">Gain ':'b">Loss ')+f(Math.abs(g))+'</span><br>Dr Cash '+f(proc)+(g<0?' · Dr Loss on sale '+f(-g):'')+' / Cr Marketable securities '+f(cs)+(g>0?' · Cr Gain on sale '+f(g):'')+'</p><p>Year end: cost '+f(rem)+' × '+f2(ps)+' = '+f(cr)+'; market '+f(mv)+' → Dr Unrealized holding loss '+f(ul)+' / Cr Marketable securities '+f(ul)+'</p>'};}
+};
+Object.keys(GEN).forEach(id=>{
+  const sec=document.getElementById(id);if(!sec)return;
+  const bar=document.createElement('div');bar.className='bar';
+  const b=document.createElement('button');b.type='button';b.className='btn ghost';b.textContent='↻ New version';
+  const note=document.createElement('span');note.className='tag';
+  b.addEventListener('click',()=>{const g=GEN[id]();sec.querySelector('h3').innerHTML=g.title;sec.querySelector('.task').innerHTML=g.task;
+    const d=sec.querySelector('details');d.open=false;d.innerHTML='<summary>Show solution</summary>'+g.sol;note.textContent='New numbers generated';});
+  bar.append(b,note);sec.querySelector('.head').after(bar);
+});
+
 /* routing */
 const VIEWS=['recap','quiz','exercises','mock'];
 function route(){
