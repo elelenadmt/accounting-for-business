@@ -142,6 +142,21 @@ summary{cursor:pointer;font-weight:600;color:var(--accent)}
 .timer-box{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .timer{font:600 32px var(--mono);font-variant-numeric:tabular-nums;min-width:130px}
 .timer.done{color:var(--bad)}
+.layers{display:grid;gap:8px}
+.lrow{display:grid;grid-template-columns:90px 1fr 110px;gap:10px;align-items:center;font-size:14px}
+.lbar{display:flex;height:30px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.lbar span{display:flex;align-items:center;justify-content:center;font:600 11px var(--mono);white-space:nowrap;overflow:hidden;min-width:0;border-right:1px solid var(--paper)}
+.s4{background:var(--debit-soft);color:var(--debit)}
+.s5{background:var(--credit-soft);color:var(--credit)}
+.sa{background:var(--good-soft);color:var(--good)}
+.s4.sold{background:var(--debit);color:var(--paper)}
+.s5.sold{background:var(--credit);color:var(--paper)}
+.sa.sold{background:var(--good);color:var(--paper)}
+@media (max-width:560px){.lrow{grid-template-columns:1fr}}
+.t-card .sides div{line-height:1.7}
+.t-card small{color:var(--muted);font-size:11px}
+.fmt{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.fmt table td{padding:5px 8px}
 </style>
 </head>
 <body>
@@ -149,7 +164,7 @@ summary{cursor:pointer;font-weight:600;color:var(--accent)}
 
 <header>
   <h1>Accounting for Business Decisions: Recap</h1>
-  <p class="lede">Four tabs: the <b>Recap</b> of the seven chapters, <b>Quizzes</b> by chapter, <b>Exercises</b> with full solutions, and two timed <b>Mock exams</b>. Each chapter has the big idea, a visual, the course example with its numbers, and the trap to avoid in the exam. Colour code everywhere: <span class="pill d">Debit</span> blue, <span class="pill c">Credit</span> amber.</p>
+  <p class="lede">Four tabs: the <b>Recap</b> of chapters 1 to 9, <b>Quizzes</b> by chapter, <b>Exercises</b> with full solutions, and two timed <b>Mock exams</b>. Each chapter has the big idea, a visual, the course example with its numbers, and the trap to avoid in the exam. Colour code everywhere: <span class="pill d">Debit</span> blue, <span class="pill c">Credit</span> amber.</p>
 </header>
 
 <nav aria-label="Sections">
@@ -160,7 +175,7 @@ summary{cursor:pointer;font-weight:600;color:var(--accent)}
     <a class="tab" href="#mock" data-view="mock">Mock exams</a>
   </div>
   <div class="chips" id="chips">
-  <a href="#ch1">1 · Intro</a><a href="#ch2">2 · Statements</a><a href="#ch3">3 · Debit &amp; credit</a><a href="#ch5">5 · Closing</a><a href="#ch6">6 · Merchandising</a><a href="#ch7">7 · Financial assets</a><a href="#ch9">9 · Plant assets</a><a href="#formulas">Formula sheet</a>
+  <a href="#ch1">1 · Intro</a><a href="#ch2">2 · Statements</a><a href="#ch3">3 · Debit &amp; credit</a><a href="#ch4">4 · Adjusting</a><a href="#ch5">5 · Closing</a><a href="#ch6">6 · Merchandising</a><a href="#ch7">7 · Financial assets</a><a href="#ch8">8 · Inventories</a><a href="#ch9">9 · Plant assets</a><a href="#formulas">Formula sheet</a>
   </div>
 </nav>
 
@@ -307,6 +322,33 @@ summary{cursor:pointer;font-weight:600;color:var(--accent)}
   </div>
 
   <div class="trap"><b>Trial balance check:</b> lists every account balance (assets first, then liabilities, then equity). If debits ≠ credits: look for a missing account, divide the difference by <b>2</b> (an amount put on the wrong side), divide it by <b>9</b> (digits swapped, e.g. 85 written 58). A balanced trial balance can still hide errors, such as using the wrong account.</div>
+</section>
+
+<!-- CH4 -->
+<section id="ch4">
+  <div class="head"><span class="num">CH 4</span><h2>Adjusting entries</h2>
+  <p class="oneline">At the end of each period, fix the accounts so revenues and expenses land in the right period. This was Exercise 2 of your midterm (20 pts). The Chapter 4 slides weren't uploaded, so this summary follows your midterm.</p></div>
+
+  <div class="key"><b>Two rules:</b> an adjusting entry <b>never touches Cash</b>, and it always pairs <b>one income statement account</b> with <b>one balance sheet account</b>.</div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">1 · Prepaid expense: asset → expense</span>
+      <p>Paid 3,600 on Oct 1 for one year of insurance, debited to Prepaid insurance. One month = 3,600 ÷ 12 = <b>300</b>.</p>
+      <p><span class="dr">Dr</span> Insurance expense 300 · <span class="cr">Cr</span> Prepaid insurance 300</p></div>
+    <div class="box"><span class="tag">2 · Unearned revenue: liability → revenue</span>
+      <p>Received 1,200 on Dec 1 for 3 months of services, credited to Unearned revenue. December earned = 1,200 ÷ 3 = <b>400</b>.</p>
+      <p><span class="dr">Dr</span> Unearned revenue 400 · <span class="cr">Cr</span> Service revenue 400</p></div>
+    <div class="box"><span class="tag">3 · Accrued expense: used, not yet paid</span>
+      <p>Salaries 1,500/week (5 days) = 300/day. Last payday Friday Dec 26; Dec 29, 30, 31 unpaid = 3 days → <b>900</b>.</p>
+      <p><span class="dr">Dr</span> Salaries expense 900 · <span class="cr">Cr</span> Salaries payable 900</p></div>
+    <div class="box"><span class="tag">4 · Accrued revenue: earned, not yet billed</span>
+      <p>Services done in December, not billed or recorded: <b>800</b>.</p>
+      <p><span class="dr">Dr</span> Accounts receivable 800 · <span class="cr">Cr</span> Service revenue 800</p></div>
+  </div>
+  <div class="box"><span class="tag">5 · Depreciation: asset → expense (an example of type 1)</span>
+    <p>Machine 18,000, 4-year life, adjusted every month: 18,000 ÷ (4 × 12) = <b>375 per month</b>.</p>
+    <p><span class="dr">Dr</span> Depreciation expense 375 · <span class="cr">Cr</span> Accumulated depreciation 375</p></div>
+  <div class="trap"><b>Read the frequency.</b> "The company records adjusting entries at the end of <b>each month</b>": the December entry covers <b>one month only</b>, because earlier months were already adjusted. "Only <b>once a year</b>": count all the months since the start (insurance bought Oct 1 → 3 months = 900).</div>
 </section>
 
 <!-- CH5 -->
@@ -474,6 +516,51 @@ summary{cursor:pointer;font-weight:600;color:var(--accent)}
     <p><b>Year end:</b> value the remaining shares at market: 49,000 → 47,000 = <b>unrealized holding loss 2,000</b>.</p></div>
 </section>
 
+<!-- CH8 -->
+<section id="ch8">
+  <div class="head"><span class="num">CH 8</span><h2>Inventories &amp; cost of goods sold</h2>
+  <p class="oneline">When identical units were bought at different prices, you have to decide which cost goes to COGS and which stays in inventory.</p></div>
+
+  <div class="flow">
+    <div class="step"><b>Purchase</b>Dr Inventory / Cr A/P<br><small>asset on the balance sheet</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><b>Sale: 2 entries</b>Dr Cash or A/R / Cr Sales<br>Dr COGS / Cr Inventory</div>
+    <div class="arrow">→</div>
+    <div class="step"><b>COGS</b><small>expense on the income statement</small></div>
+  </div>
+
+  <div>
+    <h3>Course example: Mead sells 500 crystal glasses for $2,800 on Dec 11</h3>
+    <p style="margin-bottom:10px">In stock: <b>1,000 units @ $4</b> (Dec 2) + <b>1,200 units @ $5</b> (Dec 5) = 2,200 units costing $10,000. The darker part of each bar shows the units that go to COGS.</p>
+    <div class="layers">
+      <div class="lrow"><b>FIFO</b><div class="lbar"><span class="s4 sold" style="flex:500">500 @4</span><span class="s4" style="flex:500">500 @4</span><span class="s5" style="flex:1200">1,200 @5</span></div><span class="mono">COGS 2,000</span></div>
+      <div class="lrow"><b>Average</b><div class="lbar"><span class="sa sold" style="flex:500">500 @4.55</span><span class="sa" style="flex:1700">1,700 @4.55</span></div><span class="mono">COGS 2,273</span></div>
+      <div class="lrow"><b>Specific ID</b><div class="lbar"><span class="s4 sold" style="flex:200">200</span><span class="s4" style="flex:800">800 @4</span><span class="s5 sold" style="flex:300">300</span><span class="s5" style="flex:900">900 @5</span></div><span class="mono">COGS 2,300</span></div>
+      <div class="lrow"><b>LIFO</b><div class="lbar"><span class="s4" style="flex:1000">1,000 @4</span><span class="s5" style="flex:700">700 @5</span><span class="s5 sold" style="flex:500">500 @5</span></div><span class="mono">COGS 2,500</span></div>
+    </div>
+    <div class="legend" style="margin-top:8px"><span><i style="background:var(--debit)"></i>$4 layer sold</span><span><i style="background:var(--credit)"></i>$5 layer sold</span><span><i style="background:var(--line)"></i>still in inventory</span></div>
+  </div>
+
+  <div class="tbl"><table>
+    <tr><th>Method</th><th>Which units are sold?</th><th class="n">COGS</th><th class="n">Ending inventory</th><th class="n">Gross profit</th></tr>
+    <tr><td><b>FIFO</b></td><td>the oldest first</td><td class="n">2,000</td><td class="n">8,000</td><td class="n">800</td></tr>
+    <tr><td><b>Average cost</b></td><td>all at 10,000 ÷ 2,200 = 4.55, recomputed after every purchase</td><td class="n">2,273</td><td class="n">7,727</td><td class="n">527</td></tr>
+    <tr><td><b>Specific identification</b></td><td>the actual units (200 @4 + 300 @5)</td><td class="n">2,300</td><td class="n">7,700</td><td class="n">500</td></tr>
+    <tr><td><b>LIFO</b> <span class="tag">expert</span></td><td>the newest first</td><td class="n">2,500</td><td class="n">7,500</td><td class="n">300</td></tr>
+  </table></div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">When prices are rising</span>
+      <p><b>FIFO:</b> lowest COGS, so the <b>highest profit</b> (and higher taxes). Inventory is valued at recent costs.</p>
+      <p><b>LIFO:</b> highest COGS, so the lowest profit, the most conservative method. Inventory is valued at old costs. <b>IFRS prohibits LIFO.</b></p>
+      <p><b>Specific ID:</b> logical when units are unique (cars, art).</p></div>
+    <div class="box"><span class="tag">Other rules</span>
+      <p><b>Consistency:</b> keep the same method every year. You can change it only if you explain why and disclose the effects.</p>
+      <p><b>Physical count:</b> adjusts the records for shrinkage (theft, breakage, spoilage). Obsolete goods are <b>written down</b> to zero or scrap value. In both cases: Dr COGS / Cr Inventory.</p>
+      <p>On the balance sheet, inventory comes right after accounts receivable.</p></div>
+  </div>
+</section>
+
 <!-- CH9 -->
 <section id="ch9">
   <div class="head"><span class="num">CH 9</span><h2>Plant &amp; intangible assets</h2>
@@ -560,6 +647,11 @@ summary{cursor:pointer;font-weight:600;color:var(--accent)}
     <div><b>Revised depreciation</b><code>(BV − Residual) ÷ Remaining life</code></div>
     <div><b>Gain / loss on disposal</b><code>Cash received − Book value</code></div>
     <div><b>2/10, n/30</b><code>2% off if paid in 10 days, else full in 30</code></div>
+    <div><b>Monthly depreciation</b><code>(Cost − Residual) ÷ (Life × 12)</code></div>
+    <div><b>Accrued salaries</b><code>Weekly pay ÷ 5 × unpaid days</code></div>
+    <div><b>Prepaid / unearned per month</b><code>Total ÷ months covered</code></div>
+    <div><b>Average unit cost</b><code>Cost available ÷ Units available</code></div>
+    <div><b>Ending inventory</b><code>Cost available − COGS</code></div>
   </div>
 </section>
 
@@ -577,288 +669,42 @@ summary{cursor:pointer;font-weight:600;color:var(--accent)}
 <!-- ============ EXERCISES VIEW ============ -->
 <div class="view" id="view-exercises" hidden>
   <section>
-    <div class="head"><span class="num">EX</span><h2>Exercises with full solutions</h2>
-    <p class="oneline">Do each exercise on paper first, then open the solution. They follow the chapter order and use the same methods as your slides.</p></div>
+    <div class="head"><span class="num">EX</span><h2>Exam-style exercises</h2>
+    <p class="oneline">Built on the format of your Fall 2025 midterm: journal entries with T-accounts and a trial balance, adjusting entries, merchandising, and financial statements from a list of accounts. Then the same style for chapters 7, 8 and 9, which the final adds. Do each one on paper, then open the solution. <b>↻ New version</b> gives you new numbers and new cases.</p></div>
+    <div class="fmt"><b>On the exam, show your work.</b> Answers without the reasoning can get 0. Write each journal entry with the date, the debits first and the credits indented below, and check that debits = credits.</div>
   </section>
-
-  <section id="ex1">
-    <div class="head"><span class="num">EX 1</span><h3>Transaction analysis: Lumière Café</h3><span class="tag">Ch 2</span></div>
-    <div class="task">
-      <p>Show the effect of each transaction on Assets, Liabilities and Equity, then give the totals and net income.</p>
-      <ol>
-        <li>Owners invest $50,000 cash in exchange for capital stock.</li>
-        <li>Buy equipment for $20,000: $5,000 cash and a note payable for the rest.</li>
-        <li>Buy supplies for $2,000 on account.</li>
-        <li>Provide services for $6,000 cash.</li>
-        <li>Pay wages of $2,500 cash.</li>
-        <li>Pay $1,000 of the account payable.</li>
-        <li>Pay a $1,000 cash dividend.</li>
-      </ol>
-    </div>
-    <details><summary>Show solution</summary>
-      <div class="tbl"><table>
-        <tr><th>#</th><th class="n">Assets</th><th class="n">Liabilities</th><th class="n">Equity</th></tr>
-        <tr><td>1</td><td class="n">Cash +50,000</td><td class="n"></td><td class="n">Stock +50,000</td></tr>
-        <tr><td>2</td><td class="n">Equip +20,000, Cash −5,000</td><td class="n">Notes +15,000</td><td class="n"></td></tr>
-        <tr><td>3</td><td class="n">Supplies +2,000</td><td class="n">A/P +2,000</td><td class="n"></td></tr>
-        <tr><td>4</td><td class="n">Cash +6,000</td><td class="n"></td><td class="n">RE +6,000 (revenue)</td></tr>
-        <tr><td>5</td><td class="n">Cash −2,500</td><td class="n"></td><td class="n">RE −2,500 (expense)</td></tr>
-        <tr><td>6</td><td class="n">Cash −1,000</td><td class="n">A/P −1,000</td><td class="n"></td></tr>
-        <tr><td>7</td><td class="n">Cash −1,000</td><td class="n"></td><td class="n">RE −1,000 (dividend)</td></tr>
-        <tr class="total"><td>Total</td><td class="n">68,500</td><td class="n">16,000</td><td class="n">52,500</td></tr>
-      </table></div>
-      <p>Cash = 46,500 · Equipment 20,000 · Supplies 2,000 → <b>Assets 68,500 = 16,000 + 52,500</b> ✓</p>
-      <p>Net income = 6,000 − 2,500 = <b>3,500</b>. The dividend is <b>not</b> an expense: it reduces retained earnings, not net income.</p>
-    </details>
-  </section>
-
-  <section id="ex2">
-    <div class="head"><span class="num">EX 2</span><h3>Journal entries: Pixel Studio, March</h3><span class="tag">Ch 3</span></div>
-    <div class="task">
-      <p>Write the journal entry for each transaction.</p>
-      <ul>
-        <li>Mar 1: Issued capital stock for $40,000 cash.</li>
-        <li>Mar 3: Paid March rent, $1,200.</li>
-        <li>Mar 8: Bought equipment for $9,000 on account.</li>
-        <li>Mar 15: Billed a client $4,500 for services done.</li>
-        <li>Mar 20: Collected $3,000 from that client.</li>
-        <li>Mar 31: Paid a $2,000 dividend.</li>
-      </ul>
-    </div>
-    <details><summary>Show solution</summary>
-      <div class="tbl"><table class="je">
-        <tr><th>Date</th><th>Account</th><th class="n">Dr</th><th class="n">Cr</th></tr>
-        <tr><td>Mar 1</td><td>Cash</td><td class="n">40,000</td><td></td></tr><tr><td></td><td class="ind">Capital stock</td><td></td><td class="n">40,000</td></tr>
-        <tr><td>Mar 3</td><td>Rent expense</td><td class="n">1,200</td><td></td></tr><tr><td></td><td class="ind">Cash</td><td></td><td class="n">1,200</td></tr>
-        <tr><td>Mar 8</td><td>Equipment</td><td class="n">9,000</td><td></td></tr><tr><td></td><td class="ind">Accounts payable</td><td></td><td class="n">9,000</td></tr>
-        <tr><td>Mar 15</td><td>Accounts receivable</td><td class="n">4,500</td><td></td></tr><tr><td></td><td class="ind">Service revenue</td><td></td><td class="n">4,500</td></tr>
-        <tr><td>Mar 20</td><td>Cash</td><td class="n">3,000</td><td></td></tr><tr><td></td><td class="ind">Accounts receivable</td><td></td><td class="n">3,000</td></tr>
-        <tr><td>Mar 31</td><td>Dividends</td><td class="n">2,000</td><td></td></tr><tr><td></td><td class="ind">Cash</td><td></td><td class="n">2,000</td></tr>
-      </table></div>
-      <p>Mar 15: revenue is recorded when the service is done, even with no cash yet (accrual basis). Mar 20: no revenue, it's just cash replacing a receivable.</p>
-    </details>
-  </section>
-
-  <section id="ex3">
-    <div class="head"><span class="num">EX 3</span><h3>Closing entries: Atlas Consulting</h3><span class="tag">Ch 5</span></div>
-    <div class="task">
-      <p>Year-end balances: Service revenue 80,000 · Salaries expense 35,000 · Rent expense 12,000 · Utilities expense 3,000 · Dividends 10,000 · Retained earnings (Jan 1) 45,000.</p>
-      <ol><li>Write the 4 closing entries.</li><li>Compute net income and ending retained earnings.</li></ol>
-    </div>
-    <details><summary>Show solution</summary>
-      <div class="tbl"><table class="je">
-        <tr><th>Step</th><th>Account</th><th class="n">Dr</th><th class="n">Cr</th></tr>
-        <tr><td>① Revenues</td><td>Service revenue</td><td class="n">80,000</td><td></td></tr><tr><td></td><td class="ind">Income summary</td><td></td><td class="n">80,000</td></tr>
-        <tr><td>② Expenses</td><td>Income summary</td><td class="n">50,000</td><td></td></tr><tr><td></td><td class="ind">Salaries expense</td><td></td><td class="n">35,000</td></tr><tr><td></td><td class="ind">Rent expense</td><td></td><td class="n">12,000</td></tr><tr><td></td><td class="ind">Utilities expense</td><td></td><td class="n">3,000</td></tr>
-        <tr><td>③ Income summary</td><td>Income summary</td><td class="n">30,000</td><td></td></tr><tr><td></td><td class="ind">Retained earnings</td><td></td><td class="n">30,000</td></tr>
-        <tr><td>④ Dividends</td><td>Retained earnings</td><td class="n">10,000</td><td></td></tr><tr><td></td><td class="ind">Dividends</td><td></td><td class="n">10,000</td></tr>
-      </table></div>
-      <p>Net income = 80,000 − 50,000 = <b>30,000</b>. Ending RE = 45,000 + 30,000 − 10,000 = <b>65,000</b>.</p>
-    </details>
-  </section>
-
-  <section id="ex4">
-    <div class="head"><span class="num">EX 4</span><h3>Merchandising with discounts: Velo Shop</h3><span class="tag">Ch 6</span></div>
-    <div class="task">
-      <p>Velo Shop uses a <b>perpetual</b> inventory system and records purchases at <b>net cost</b>.</p>
-      <ul>
-        <li>Nov 2: Buys 20 bikes at $400 each on account, terms 2/10, n/30.</li>
-        <li>Nov 5: Sells 5 bikes at $700 each on account, terms 2/10, n/30.</li>
-        <li>Nov 7: The customer returns 1 bike.</li>
-        <li>Nov 12: Pays the supplier in full.</li>
-        <li>Nov 14: Collects the balance from the customer.</li>
-      </ul>
-      <p>Write the entries, then compute net sales and gross profit.</p>
-    </div>
-    <details><summary>Show solution</summary>
-      <p>Net cost of one bike = 400 × 98% = <b>392</b>.</p>
-      <div class="tbl"><table class="je">
-        <tr><th>Date</th><th>Account</th><th class="n">Dr</th><th class="n">Cr</th></tr>
-        <tr><td>Nov 2</td><td>Inventory (8,000 × 98%)</td><td class="n">7,840</td><td></td></tr><tr><td></td><td class="ind">Accounts payable</td><td></td><td class="n">7,840</td></tr>
-        <tr><td>Nov 5</td><td>Accounts receivable</td><td class="n">3,500</td><td></td></tr><tr><td></td><td class="ind">Sales</td><td></td><td class="n">3,500</td></tr>
-        <tr><td></td><td>Cost of goods sold (5 × 392)</td><td class="n">1,960</td><td></td></tr><tr><td></td><td class="ind">Inventory</td><td></td><td class="n">1,960</td></tr>
-        <tr><td>Nov 7</td><td>Sales returns &amp; allowances</td><td class="n">700</td><td></td></tr><tr><td></td><td class="ind">Accounts receivable</td><td></td><td class="n">700</td></tr>
-        <tr><td></td><td>Inventory</td><td class="n">392</td><td></td></tr><tr><td></td><td class="ind">Cost of goods sold</td><td></td><td class="n">392</td></tr>
-        <tr><td>Nov 12</td><td>Accounts payable</td><td class="n">7,840</td><td></td></tr><tr><td></td><td class="ind">Cash</td><td></td><td class="n">7,840</td></tr>
-        <tr><td>Nov 14</td><td>Cash (2,800 × 98%)</td><td class="n">2,744</td><td></td></tr><tr><td></td><td>Sales discounts</td><td class="n">56</td><td></td></tr><tr><td></td><td class="ind">Accounts receivable</td><td></td><td class="n">2,800</td></tr>
-      </table></div>
-      <p>Net sales = 3,500 − 700 − 56 = <b>2,744</b>. COGS = 1,960 − 392 = <b>1,568</b>. Gross profit = <b>1,176</b>.</p>
-      <p>Paid on day 10 (Nov 12) and collected on day 9 (Nov 14), so both discounts apply.</p>
-    </details>
-  </section>
-
-  <section id="ex5">
-    <div class="head"><span class="num">EX 5</span><h3>Bank reconciliation: Sunset Ltd, April 30</h3><span class="tag">Ch 7</span></div>
-    <div class="task">
-      <ul>
-        <li>Bank statement balance: $8,200 · Cash ledger balance: $7,366</li>
-        <li>Deposit in transit: $1,150 · Outstanding cheques: $1,640</li>
-        <li>Bank service charge: $25 · NSF cheque from a customer: $180</li>
-        <li>Interest earned: $40 · The bank collected a $500 note for the company</li>
-        <li>Cheque for supplies of $312 was recorded in the books as $321</li>
-      </ul>
-      <p>Prepare the reconciliation and the journal entries needed.</p>
-    </div>
-    <details><summary>Show solution</summary>
-      <div class="grid2">
-        <table><tr><td>Bank balance</td><td class="n">8,200</td></tr><tr><td>+ Deposit in transit</td><td class="n">1,150</td></tr><tr><td>− Outstanding cheques</td><td class="n">(1,640)</td></tr><tr class="total"><td>Adjusted</td><td class="n">7,710</td></tr></table>
-        <table><tr><td>Book balance</td><td class="n">7,366</td></tr><tr><td>− Service charge</td><td class="n">(25)</td></tr><tr><td>− NSF cheque</td><td class="n">(180)</td></tr><tr><td>+ Interest</td><td class="n">40</td></tr><tr><td>+ Note collected</td><td class="n">500</td></tr><tr><td>+ Error (321 − 312)</td><td class="n">9</td></tr><tr class="total"><td>Adjusted</td><td class="n">7,710</td></tr></table>
-      </div>
-      <p>Entries (book side only): Dr Bank service charge expense 25 / Cr Cash 25 · Dr Accounts receivable 180 / Cr Cash 180 · Dr Cash 40 / Cr Interest revenue 40 · Dr Cash 500 / Cr Notes receivable 500 · Dr Cash 9 / Cr Supplies 9.</p>
-      <p>The books recorded 9 too much paid out, so cash must go back <b>up</b> by 9.</p>
-    </details>
-  </section>
-
-  <section id="ex6">
-    <div class="head"><span class="num">EX 6</span><h3>Aging of receivables: Nordic Supplies</h3><span class="tag">Ch 7</span></div>
-    <div class="task">
-      <div class="tbl"><table><tr><th>Age group</th><th class="n">Balance</th><th class="n">% uncollectible</th></tr>
-        <tr><td>Not yet due</td><td class="n">60,000</td><td class="n">1%</td></tr><tr><td>1–30 days past due</td><td class="n">25,000</td><td class="n">4%</td></tr><tr><td>31–60 days</td><td class="n">10,000</td><td class="n">10%</td></tr><tr><td>Over 60 days</td><td class="n">5,000</td><td class="n">40%</td></tr></table></div>
-      <ol><li>Compute the required allowance.</li><li>The allowance already has a <b>credit</b> balance of 1,800. Write the adjusting entry.</li><li>Compute the net realizable value.</li><li>Then write off a 700 account. What is the NRV now?</li><li>Bonus: what if the allowance had a <b>debit</b> balance of 500 before adjusting?</li></ol>
-    </div>
-    <details><summary>Show solution</summary>
-      <p>1. 600 + 1,000 + 1,000 + 2,000 = <b>4,600</b></p>
-      <p>2. 4,600 − 1,800 = 2,800 → Dr Uncollectible accounts expense 2,800 / Cr Allowance 2,800</p>
-      <p>3. NRV = 100,000 − 4,600 = <b>95,400</b></p>
-      <p>4. Dr Allowance 700 / Cr A/R 700 → A/R 99,300 − allowance 3,900 = <b>95,400</b> (unchanged)</p>
-      <p>5. A debit balance must first be cleared: 4,600 + 500 = <b>5,100</b> expense.</p>
-    </details>
-  </section>
-
-  <section id="ex7">
-    <div class="head"><span class="num">EX 7</span><h3>Cost and depreciation schedule: packing machine</h3><span class="tag">Ch 9</span></div>
-    <div class="task">
-      <p>On January 2 a company buys a machine: price 48,000, transport 1,500, installation 500. Residual value 5,000, useful life 5 years.</p>
-      <ol><li>Capitalized cost?</li><li>Straight-line depreciation per year.</li><li>Full double-declining balance schedule.</li></ol>
-    </div>
-    <details><summary>Show solution</summary>
-      <p>1. 48,000 + 1,500 + 500 = <b>50,000</b> (transport and installation are needed to get it ready, so they are part of the cost).</p>
-      <p>2. (50,000 − 5,000) ÷ 5 = <b>9,000 / year</b></p>
-      <div class="tbl"><table><tr><th>Year</th><th>Computation</th><th class="n">Expense</th><th class="n">Accum. dep.</th><th class="n">Book value</th></tr>
-        <tr><td>1</td><td>50,000 × 40%</td><td class="n">20,000</td><td class="n">20,000</td><td class="n">30,000</td></tr>
-        <tr><td>2</td><td>30,000 × 40%</td><td class="n">12,000</td><td class="n">32,000</td><td class="n">18,000</td></tr>
-        <tr><td>3</td><td>18,000 × 40%</td><td class="n">7,200</td><td class="n">39,200</td><td class="n">10,800</td></tr>
-        <tr><td>4</td><td>10,800 × 40%</td><td class="n">4,320</td><td class="n">43,520</td><td class="n">6,480</td></tr>
-        <tr><td>5</td><td>6,480 − 5,000</td><td class="n">1,480</td><td class="n">45,000</td><td class="n">5,000</td></tr></table></div>
-    </details>
-  </section>
-
-  <section id="ex8">
-    <div class="head"><span class="num">EX 8</span><h3>Partial year and disposal: delivery truck</h3><span class="tag">Ch 9</span></div>
-    <div class="task">
-      <p>A truck costing 36,000 (residual 6,000, life 5 years, straight-line) is put into service on <b>April 1, Year 1</b>. Year end is December 31. It is sold on January 2, Year 4 for 18,000.</p>
-      <ol><li>Depreciation for Years 1, 2 and 3.</li><li>Book value on the sale date.</li><li>Journal entry for the sale.</li></ol>
-    </div>
-    <details><summary>Show solution</summary>
-      <p>1. Annual: (36,000 − 6,000) ÷ 5 = 6,000. Year 1: 6,000 × 9/12 = <b>4,500</b>. Years 2 and 3: <b>6,000</b> each.</p>
-      <p>2. Accumulated = 16,500 → BV = 36,000 − 16,500 = <b>19,500</b></p>
-      <p>3. Cash 18,000 &lt; BV 19,500 → <span class="pill b">Loss 1,500</span></p>
-      <div class="tbl"><table class="je"><tr><th>Account</th><th class="n">Dr</th><th class="n">Cr</th></tr>
-        <tr><td>Cash</td><td class="n">18,000</td><td></td></tr><tr><td>Accumulated depreciation</td><td class="n">16,500</td><td></td></tr><tr><td>Loss on disposal</td><td class="n">1,500</td><td></td></tr><tr><td class="ind">Truck</td><td></td><td class="n">36,000</td></tr></table></div>
-    </details>
-  </section>
-
-  <section id="ex9">
-    <div class="head"><span class="num">EX 9</span><h3>Marketable securities (expert part)</h3><span class="tag">Ch 7</span></div>
-    <div class="task">
-      <ul><li>Buys 1,000 shares at $25 plus $100 commission.</li><li>Sells 400 shares at $28, less $40 commission.</li><li>Year end: the remaining 600 shares are worth $24 each.</li></ul>
-      <p>Write the three entries.</p>
-    </div>
-    <details><summary>Show solution</summary>
-      <p>Cost = 25,000 + 100 = 25,100 → <b>25.10/share</b>.</p>
-      <p>Sale: proceeds 11,200 − 40 = 11,160; cost 400 × 25.10 = 10,040 → <span class="pill g">Gain 1,120</span><br>Dr Cash 11,160 / Cr Marketable securities 10,040 / Cr Gain on sale 1,120</p>
-      <p>Year end: cost 600 × 25.10 = 15,060; market 14,400 → Dr Unrealized holding loss 660 / Cr Marketable securities 660</p>
-    </details>
-  </section>
+  <div id="ex-root" class="view"></div>
 </div>
 
 <!-- ============ MOCK VIEW ============ -->
 <div class="view" id="view-mock" hidden>
   <section>
-    <div class="head"><span class="num">MOCK</span><h2>Mock exams</h2>
-    <p class="oneline">Two practice exams, 30 points each: Part A is 10 multiple-choice questions (1 pt each, graded automatically when you submit), Part B is 3 problems (20 pts) you do on paper and check against the solution. Allow about 60 minutes each.</p></div>
+    <div class="head"><span class="num">MOCK</span><h2>Mock final exams</h2>
+    <p class="oneline">Each click on "New mock exam" builds a full exam with new numbers, in the format of your midterm, extended with chapters 7 to 9. This is a guess at the final's format, not the real one.</p></div>
+    <div class="fmt">
+      <table>
+        <tr><td>Ex 1 · Accounting cycle: journal, T-accounts, trial balance</td><td class="n">25 pts</td></tr>
+        <tr><td>Ex 2 · Adjusting entries</td><td class="n">15 pts</td></tr>
+        <tr><td>Ex 3 · Merchandising</td><td class="n">15 pts</td></tr>
+        <tr><td>Ex 4 · Financial statements from a list of accounts</td><td class="n">20 pts</td></tr>
+        <tr><td>Ex 5 · Financial assets (Ch 7)</td><td class="n">10 pts</td></tr>
+        <tr><td>Ex 6 · Inventories or plant assets (Ch 8–9)</td><td class="n">15 pts</td></tr>
+        <tr><td>Bonus · 10 MCQ: +1 right, −0.25 wrong, 0 blank</td><td class="n">+10 pts</td></tr>
+      </table>
+      <p style="margin-top:8px;font-size:14px;color:var(--muted)">MCQ tip: with 4 options, a blind guess is worth +1 × ¼ − 0.25 × ¾ = <b>+0.06</b> on average. So even guessing is better than leaving a blank, and once you can eliminate one option it's clearly worth answering.</p>
+    </div>
     <div class="timer-box">
-      <span class="timer" id="timer" aria-live="polite">60:00</span>
-      <button class="btn" type="button" id="t-start">Start 60 min</button>
+      <span class="timer" id="timer" aria-live="polite">120:00</span>
+      <button class="btn" type="button" id="t-start">Start 2 h</button>
       <button class="btn ghost" type="button" id="t-pause">Pause</button>
       <button class="btn ghost" type="button" id="t-reset">Reset</button>
+      <button class="btn" type="button" id="new-mock">↻ New mock exam</button>
     </div>
   </section>
-
-  <section id="mock1">
-    <div class="head"><span class="num">MOCK 1</span><h2>Mock exam 1</h2></div>
-    <h3>Part A: Multiple choice <span class="pts">10 pts</span></h3>
-    <div class="qlist" id="mock1-mcq"></div>
-    <div class="bar"><button class="btn" type="button" data-submit="0">Submit Part A</button><button class="btn ghost" type="button" data-reset="0">Restart</button><span class="result" id="mock1-result"></span></div>
-
-    <h3>Part B: Problems <span class="pts">20 pts</span></h3>
-    <div class="box task"><p><b>Problem 1</b> <span class="pts">8 pts</span>. Home Deco uses a perpetual system and records purchases at <b>gross</b> price. Journalize:</p>
-      <ul><li>Jun 1: Buys inventory for 12,000 on account, terms 2/10, n/30.</li><li>Jun 4: Returns 1,000 of defective goods to the supplier.</li><li>Jun 10: Pays the supplier the balance due.</li><li>Jun 15: Sells goods costing 6,000 for 9,500 cash plus 7% sales tax.</li></ul>
-      <details><summary>Show solution</summary>
-        <div class="tbl"><table class="je"><tr><th>Date</th><th>Account</th><th class="n">Dr</th><th class="n">Cr</th></tr>
-          <tr><td>Jun 1</td><td>Inventory</td><td class="n">12,000</td><td></td></tr><tr><td></td><td class="ind">Accounts payable</td><td></td><td class="n">12,000</td></tr>
-          <tr><td>Jun 4</td><td>Accounts payable</td><td class="n">1,000</td><td></td></tr><tr><td></td><td class="ind">Inventory</td><td></td><td class="n">1,000</td></tr>
-          <tr><td>Jun 10</td><td>Accounts payable</td><td class="n">11,000</td><td></td></tr><tr><td></td><td class="ind">Cash (11,000 × 98%)</td><td></td><td class="n">10,780</td></tr><tr><td></td><td class="ind">Purchase discounts taken</td><td></td><td class="n">220</td></tr>
-          <tr><td>Jun 15</td><td>Cash</td><td class="n">10,165</td><td></td></tr><tr><td></td><td class="ind">Sales</td><td></td><td class="n">9,500</td></tr><tr><td></td><td class="ind">Sales tax payable</td><td></td><td class="n">665</td></tr>
-          <tr><td></td><td>Cost of goods sold</td><td class="n">6,000</td><td></td></tr><tr><td></td><td class="ind">Inventory</td><td></td><td class="n">6,000</td></tr></table></div>
-        <p>Grading: 2 pts per date. Jun 10 is day 9, so the discount applies, on the balance after the return.</p>
-      </details></div>
-    <div class="box task"><p><b>Problem 2</b> <span class="pts">6 pts</span>. Accounts receivable are 80,000. Aging shows 3,200 will not be collected. The allowance has a credit balance of 900.</p>
-      <ol><li>Adjusting entry and NRV.</li><li>Write-off of a 600 customer account: entry and NRV after.</li><li>The customer later pays 200 of the written-off amount: entries.</li></ol>
-      <details><summary>Show solution</summary>
-        <p>1. 3,200 − 900 = 2,300 → Dr Uncollectible accounts expense 2,300 / Cr Allowance 2,300. NRV = 80,000 − 3,200 = <b>76,800</b>.</p>
-        <p>2. Dr Allowance 600 / Cr A/R 600. NRV = 79,400 − 2,600 = <b>76,800</b> (unchanged).</p>
-        <p>3. Dr A/R 200 / Cr Allowance 200, then Dr Cash 200 / Cr A/R 200.</p>
-      </details></div>
-    <div class="box task"><p><b>Problem 3</b> <span class="pts">6 pts</span>. Equipment bought January 2, Year 1: cost 25,000, residual 1,000, life 4 years, <b>double-declining balance</b>.</p>
-      <ol><li>Full depreciation schedule.</li><li>The equipment is sold on January 2, Year 4 for 4,000. Journal entry.</li></ol>
-      <details><summary>Show solution</summary>
-        <div class="tbl"><table><tr><th>Year</th><th>Computation</th><th class="n">Expense</th><th class="n">Accum.</th><th class="n">BV</th></tr>
-          <tr><td>1</td><td>25,000 × 50%</td><td class="n">12,500</td><td class="n">12,500</td><td class="n">12,500</td></tr>
-          <tr><td>2</td><td>12,500 × 50%</td><td class="n">6,250</td><td class="n">18,750</td><td class="n">6,250</td></tr>
-          <tr><td>3</td><td>6,250 × 50%</td><td class="n">3,125</td><td class="n">21,875</td><td class="n">3,125</td></tr>
-          <tr><td>4</td><td>3,125 − 1,000</td><td class="n">2,125</td><td class="n">24,000</td><td class="n">1,000</td></tr></table></div>
-        <p>Sale after 3 years: BV 3,125, cash 4,000 → <span class="pill g">Gain 875</span></p>
-        <p>Dr Cash 4,000 · Dr Accumulated depreciation 21,875 / Cr Equipment 25,000 · Cr Gain on disposal 875</p>
-      </details></div>
-  </section>
-
-  <section id="mock2">
-    <div class="head"><span class="num">MOCK 2</span><h2>Mock exam 2</h2></div>
-    <h3>Part A: Multiple choice <span class="pts">10 pts</span></h3>
-    <div class="qlist" id="mock2-mcq"></div>
-    <div class="bar"><button class="btn" type="button" data-submit="1">Submit Part A</button><button class="btn ghost" type="button" data-reset="1">Restart</button><span class="result" id="mock2-result"></span></div>
-
-    <h3>Part B: Problems <span class="pts">20 pts</span></h3>
-    <div class="box task"><p><b>Problem 1</b> <span class="pts">7 pts</span>. Adjusted trial balance of Studio Nova, December 31:</p>
-      <div class="tbl"><table><tr><th>Account</th><th class="n">Dr</th><th class="n">Cr</th></tr>
-        <tr><td>Cash</td><td class="n">12,000</td><td></td></tr><tr><td>Accounts receivable</td><td class="n">8,000</td><td></td></tr><tr><td>Equipment</td><td class="n">30,000</td><td></td></tr><tr><td>Accumulated depreciation</td><td></td><td class="n">6,000</td></tr><tr><td>Accounts payable</td><td></td><td class="n">5,000</td></tr><tr><td>Capital stock</td><td></td><td class="n">25,000</td></tr><tr><td>Retained earnings (Jan 1)</td><td></td><td class="n">9,000</td></tr><tr><td>Dividends</td><td class="n">3,000</td><td></td></tr><tr><td>Service revenue</td><td></td><td class="n">40,000</td></tr><tr><td>Salaries expense</td><td class="n">18,000</td><td></td></tr><tr><td>Rent expense</td><td class="n">9,000</td><td></td></tr><tr><td>Depreciation expense</td><td class="n">5,000</td><td></td></tr>
-        <tr class="total"><td>Total</td><td class="n">85,000</td><td class="n">85,000</td></tr></table></div>
-      <ol><li>Net income.</li><li>Ending retained earnings.</li><li>Total assets, and check the accounting equation.</li><li>The closing entries.</li></ol>
-      <details><summary>Show solution</summary>
-        <p>1. 40,000 − (18,000 + 9,000 + 5,000) = <b>8,000</b></p>
-        <p>2. 9,000 + 8,000 − 3,000 = <b>14,000</b></p>
-        <p>3. 12,000 + 8,000 + (30,000 − 6,000) = <b>44,000</b> = 5,000 + 25,000 + 14,000 ✓ (accumulated depreciation reduces assets)</p>
-        <p>4. Dr Service revenue 40,000 / Cr Income summary 40,000 · Dr Income summary 32,000 / Cr Salaries 18,000, Rent 9,000, Depreciation 5,000 · Dr Income summary 8,000 / Cr RE 8,000 · Dr RE 3,000 / Cr Dividends 3,000</p>
-      </details></div>
-    <div class="box task"><p><b>Problem 2</b> <span class="pts">7 pts</span>. Bank reconciliation, May 31. Bank balance 15,300, book balance 15,260. Deposit in transit 2,100; outstanding cheques 3,250; service charge 30; NSF cheque 420; interest earned 60. A customer payment of 1,080 was recorded in the books as 1,800.</p>
-      <ol><li>Prepare the reconciliation.</li><li>Journal entries required.</li></ol>
-      <details><summary>Show solution</summary>
-        <p>Bank: 15,300 + 2,100 − 3,250 = <b>14,150</b></p>
-        <p>Books: 15,260 − 30 − 420 + 60 − 720 = <b>14,150</b> ✓</p>
-        <p>Entries: Dr Bank service charge expense 30 / Cr Cash 30 · Dr A/R 420 / Cr Cash 420 · Dr Cash 60 / Cr Interest revenue 60 · Dr A/R 720 / Cr Cash 720 (the books overstated the collection by 720, so the customer still owes it).</p>
-      </details></div>
-    <div class="box task"><p><b>Problem 3</b> <span class="pts">6 pts</span>.</p>
-      <ol><li>Equipment bought <b>September 10</b> for 22,000 plus 2,000 installation. No residual value, 5-year life, straight-line, half-month convention. Depreciation for Year 1 and Year 2, and book value at the end of Year 2?</li>
-      <li>500 shares bought at $40 plus $50 commission. 200 sold at $43 less $30 commission. At year end the remaining shares are worth $39. Entries for the sale and the year-end adjustment?</li></ol>
-      <details><summary>Show solution</summary>
-        <p>1. Cost 24,000 → 4,800/yr. Bought on or before the 15th, so September counts: 4 months → Year 1 = <b>1,600</b>; Year 2 = <b>4,800</b>; BV = 24,000 − 6,400 = <b>17,600</b>.</p>
-        <p>2. Cost 20,050 → 40.10/share. Sale: proceeds 8,600 − 30 = 8,570; cost 8,020 → Dr Cash 8,570 / Cr Marketable securities 8,020 / Cr Gain 550. Year end: 300 shares cost 12,030, market 11,700 → Dr Unrealized holding loss 330 / Cr Marketable securities 330.</p>
-      </details></div>
-  </section>
+  <div id="mock-root" class="view"></div>
 </div>
 
-<footer>Based on the course slides (Williams, Haka, Bettner &amp; Carcello, Financial and Managerial Accounting, 18th ed.). Chapters 4 and 8 were not in the uploaded files.</footer>
+<footer>Based on the course slides (Williams, Haka, Bettner &amp; Carcello, Financial and Managerial Accounting, 18th ed.). The Chapter 4 summary and the exam format come from the Fall 2025 midterm; the Chapter 4 slides were not uploaded.</footer>
 </div>
 <script>
 const QUIZ=[
@@ -879,6 +725,14 @@ const QUIZ=[
  {q:"Buying supplies for 300 cash is recorded as…",o:["Dr Cash 300 / Cr Supplies 300","Dr Supplies 300 / Cr Accounts payable 300","Dr Supplies 300 / Cr Cash 300","Dr Supplies expense 300 / Cr Revenue 300"],a:2,e:"Supplies (asset) increases with a debit; Cash (asset) decreases with a credit."},
  {q:"Total debits exceed total credits by 270. Which error could explain it?",o:["A missing transaction","A transposition such as 520 recorded as 250","Using the wrong expense account","An entry recorded twice"],a:1,e:"270 ÷ 9 = 30: differences divisible by 9 point to swapped digits (520 − 250 = 270)."},
  {q:"Services are done in December; the client pays in January. When is revenue recorded?",o:["January, when cash arrives","December, when it is earned","Half in each month","Only at year end"],a:1,e:"Accrual basis and matching: record revenue when the service is rendered."}]},
+{ch:"CH 4",t:"Adjusting entries",qs:[
+ {q:"Depreciation is an example of…",o:["Accruing uncollected revenue","Converting liabilities to revenue","Converting assets to expenses","Accruing unpaid expenses"],a:2,e:"The cost of the asset is moved bit by bit into expense, like a prepaid expense."},
+ {q:"On Oct 1 a company pays 4,800 for a one-year insurance policy (debited to Prepaid insurance). It adjusts every month. December's adjusting entry is for…",o:["4,800","1,200","400","1,600"],a:2,e:"One month only: 4,800 ÷ 12 = 400. Oct and Nov were already adjusted."},
+ {q:"Same policy, but the company adjusts only once a year, on Dec 31. The amount is…",o:["400","1,200","3,600","4,800"],a:1,e:"Three months used (Oct, Nov, Dec): 400 × 3 = 1,200."},
+ {q:"Cash received in advance for future services is first recorded as…",o:["Revenue","A liability (Unearned revenue)","An asset (Accounts receivable)","Equity"],a:1,e:"The company still owes the service. It becomes revenue as the service is delivered."},
+ {q:"Salaries earned by employees but not yet paid at year end are recorded as…",o:["Dr Salaries payable / Cr Cash","Dr Salaries expense / Cr Salaries payable","Dr Salaries expense / Cr Cash","No entry until payday"],a:1,e:"An accrued expense: the cost belongs to this period even though cash leaves next period."},
+ {q:"A machine costs 24,000, has a 5-year life and no residual value. The company adjusts monthly. January depreciation is…",o:["4,800","2,400","400","480"],a:2,e:"24,000 ÷ (5 × 12) = 400 per month."},
+ {q:"Services done in December but not yet billed are recorded as…",o:["Dr Cash / Cr Service revenue","Dr Accounts receivable / Cr Service revenue","Dr Unearned revenue / Cr Service revenue","Nothing until billed"],a:1,e:"Accrued revenue: earned now, so recorded now, with a receivable."}]},
 {ch:"CH 5",t:"Closing entries",qs:[
  {q:"Which account is NOT closed at year end?",o:["Dividends","Service revenue","Utilities expense","Accumulated depreciation"],a:3,e:"Accumulated depreciation is a balance sheet (permanent) account. Revenues, expenses and dividends are temporary."},
  {q:"After closing revenues and expenses, Income Summary has a credit balance. This means…",o:["A net loss","A net income","An error","Dividends were paid"],a:1,e:"Revenues (credits) were larger than expenses (debits), so there is a profit."},
@@ -896,6 +750,15 @@ const QUIZ=[
  {q:"The allowance has a credit balance of 3,000. Aging says it should be 7,500. Uncollectible accounts expense?",o:["7,500","10,500","4,500","3,000"],a:2,e:"Only the difference is booked: 7,500 − 3,000 = 4,500."},
  {q:"Writing off a 1,000 uncollectible account under the allowance method…",o:["Reduces net income","Increases NRV","Does not change NRV","Reduces NRV by 1,000"],a:2,e:"A/R and the allowance both drop by 1,000, so NRV stays the same and no expense is booked."},
  {q:"To be a cash equivalent, an investment must mature within…",o:["30 days","90 days","1 year","5 years"],a:1,e:"Very safe, stable value, maturity within 90 days of purchase."}]},
+{ch:"CH 8",t:"Inventories",qs:[
+ {q:"Prices are rising. Which method gives the highest net income?",o:["LIFO","FIFO","Average cost","They all give the same"],a:1,e:"FIFO sends the oldest, cheapest costs to COGS, so COGS is lowest and profit highest."},
+ {q:"Which method is prohibited under IFRS?",o:["FIFO","Average cost","Specific identification","LIFO"],a:3,e:"IFRS does not allow LIFO."},
+ {q:"In stock: 1,000 units @ $4 then 1,200 units @ $5. 500 units are sold. COGS under FIFO?",o:["2,000","2,273","2,500","2,300"],a:0,e:"FIFO takes the oldest units: 500 × $4 = 2,000."},
+ {q:"Same data, average cost. COGS is about…",o:["2,000","2,273","2,250","2,500"],a:1,e:"Average = 10,000 ÷ 2,200 = 4.545. 500 × 4.545 ≈ 2,273."},
+ {q:"Same data, LIFO. Ending inventory?",o:["8,000","7,727","7,500","2,500"],a:2,e:"LIFO sells 500 @ $5 = 2,500, so 10,000 − 2,500 = 7,500 stays in inventory."},
+ {q:"The principle of consistency means a company…",o:["Can never change its inventory method","Must use the same method as its competitors","Keeps the same method each year, and must explain and disclose any change","Must use FIFO"],a:2,e:"Changes are allowed, but the reasons and effects must be disclosed."},
+ {q:"Obsolete inventory is written down. The entry is…",o:["Dr Inventory / Cr COGS","Dr COGS / Cr Inventory","Dr Loss / Cr Cash","Dr Sales returns / Cr Inventory"],a:1,e:"Handled like shrinkage: inventory and net income both go down."},
+ {q:"Specific identification makes most sense when…",o:["Units are identical and cheap","Each unit is unique, like cars or paintings","Prices are falling","The company follows IFRS"],a:1,e:"It follows the actual physical units, which is logical for unique items."}]},
 {ch:"CH 9",t:"Plant assets",qs:[
  {q:"Machine: cost 50,000, residual 5,000, life 9 years. Straight-line depreciation per year?",o:["5,556","5,000","4,500","6,111"],a:1,e:"(50,000 − 5,000) ÷ 9 = 5,000."},
  {q:"Double-declining balance, cost 20,000, life 4 years. Year 1 depreciation?",o:["5,000","10,000","8,000","20,000"],a:1,e:"Rate = (1/4) × 2 = 50%. 20,000 × 50% = 10,000. Residual value is ignored until the last year."},
@@ -966,29 +829,14 @@ function buildChapter(ch){
 const qroot=document.getElementById('quiz-root');
 QUIZ.forEach(ch=>qroot.append(buildChapter(ch)));
 
-function buildMock(i){
-  const box=document.getElementById('mock'+(i+1)+'-mcq');box.innerHTML='';
-  MOCKS[i].forEach((it,k)=>box.append(makeQ(it,k,'exam')));
-  document.getElementById('mock'+(i+1)+'-result').textContent='';
-}
-[0,1].forEach(buildMock);
-document.querySelectorAll('[data-submit]').forEach(b=>b.addEventListener('click',()=>{
-  const i=+b.dataset.submit;const box=document.getElementById('mock'+(i+1)+'-mcq');let score=0,blank=0;
-  box.querySelectorAll('.q').forEach(d=>{if(d.dataset.locked)return;const c=d.dataset.choice===undefined?-1:+d.dataset.choice;
-    if(c<0)blank++;if(c===d._item.a)score++;reveal(d,d._item,c);});
-  if(box.dataset.scored)return;box.dataset.scored='1';
-  document.getElementById('mock'+(i+1)+'-result').textContent='Part A: '+score+' / 10'+(blank?' ('+blank+' left blank)':'')+'. Now check Part B with the solutions.';
-}));
-document.querySelectorAll('[data-reset]').forEach(b=>b.addEventListener('click',()=>{const i=+b.dataset.reset;document.getElementById('mock'+(i+1)+'-mcq').dataset.scored='';buildMock(i);}));
-
 /* timer */
-let left=3600,tid=null;const tEl=document.getElementById('timer');
+let left=7200,tid=null;const tEl=document.getElementById('timer');
 const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
 const draw=()=>{tEl.textContent=left>0?fmt(left):"Time's up";tEl.classList.toggle('done',left<=0);};
-document.getElementById('t-start').addEventListener('click',()=>{if(tid)return;if(left<=0)left=3600;
+document.getElementById('t-start').addEventListener('click',()=>{if(tid)return;if(left<=0)left=7200;
   tid=setInterval(()=>{left--;draw();if(left<=0){clearInterval(tid);tid=null;}},1000);});
 document.getElementById('t-pause').addEventListener('click',()=>{clearInterval(tid);tid=null;});
-document.getElementById('t-reset').addEventListener('click',()=>{clearInterval(tid);tid=null;left=3600;draw();});
+document.getElementById('t-reset').addEventListener('click',()=>{clearInterval(tid);tid=null;left=7200;draw();});
 
 /* ===== exercise generators ===== */
 const r=(a,b,s=1)=>a+s*Math.floor(Math.random()*(Math.floor((b-a)/s)+1));
@@ -1091,15 +939,205 @@ ex9(){const co=pick(['Coca-Cola','Inditex','Nestlé','Airbus','Telefónica']);co
  task:'<ul><li>Buys '+f(N)+' '+co+' shares at $'+P+' plus $'+f(c)+' commission.</li><li>Sells '+f(s)+' shares at $'+q+', less $'+c2+' commission.</li><li>Year end: the remaining '+f(rem)+' shares are worth $'+mk+' each.</li></ul><p>Write the three entries.</p>',
  sol:'<p>Cost = '+f(N*P)+' + '+f(c)+' = '+f(N*P+c)+' → <b>'+f2(ps)+'/share</b>. Dr Marketable securities '+f(N*P+c)+' / Cr Cash '+f(N*P+c)+'</p><p>Sale: proceeds '+f(s*q)+' − '+c2+' = '+f(proc)+'; cost '+f(s)+' × '+f2(ps)+' = '+f(cs)+' → <span class="pill '+(g>=0?'g">Gain ':'b">Loss ')+f(Math.abs(g))+'</span><br>Dr Cash '+f(proc)+(g<0?' · Dr Loss on sale '+f(-g):'')+' / Cr Marketable securities '+f(cs)+(g>0?' · Cr Gain on sale '+f(g):'')+'</p><p>Year end: cost '+f(rem)+' × '+f2(ps)+' = '+f(cr)+'; market '+f(mv)+' → Dr Unrealized holding loss '+f(ul)+' / Cr Marketable securities '+f(ul)+'</p>'};}
 };
-Object.keys(GEN).forEach(id=>{
-  const sec=document.getElementById(id);if(!sec)return;
-  const bar=document.createElement('div');bar.className='bar';
-  const b=document.createElement('button');b.type='button';b.className='btn ghost';b.textContent='↻ New version';
-  const note=document.createElement('span');note.className='tag';
-  b.addEventListener('click',()=>{const g=GEN[id]();sec.querySelector('h3').innerHTML=g.title;sec.querySelector('.task').innerHTML=g.task;
-    const d=sec.querySelector('details');d.open=false;d.innerHTML='<summary>Show solution</summary>'+g.sol;note.textContent='New numbers generated';});
-  bar.append(b,note);sec.querySelector('.head').after(bar);
+/* ===== exam-style generators ===== */
+const ORDER=['Cash','Accounts receivable','Supplies','Prepaid insurance','Inventory','Land','Building','Equipment','Accounts payable','Salaries payable','Notes payable','Unearned revenue','Capital stock','Retained earnings','Dividends','Service revenue','Rent expense','Salaries expense','Utilities expense'];
+const DAYS=[31,28,31,30,31,30,31,31,30,31,30,31];
+function tcards(T,accts){
+  return '<div class="tacc">'+accts.map(a=>{const x=T[a],sd=x.d.reduce((s,y)=>s+y[1],0),sc=x.c.reduce((s,y)=>s+y[1],0),b=sd-sc;
+    const side=arr=>arr.map(y=>'<small>'+y[0]+'</small> '+f(y[1])).join('<br>');
+    return '<div class="t-card"><div class="name">'+a+'</div><div class="sides"><div>'+side(x.d)+(b>0?'<br><b class="dr">Bal '+f(b)+'</b>':'')+'</div><div>'+side(x.c)+(b<0?'<br><b class="cr">Bal '+f(-b)+'</b>':'')+'</div></div></div>';}).join('')+'</div>';
+}
+function jeEntries(E){return je(E.flatMap(e=>e.l.map(([a,dr,cr],i)=>[i===0?e.d:'',a,dr,cr])));}
+
+Object.assign(GEN,{
+cycle(){
+  const co=pick(['Wine Services','Urban Bikes','Bloom Florists','Peak Fitness','Harbor Tours','Glow Spa','Vinyl Records','Green Garden']);
+  const mi=r(0,11),mon=MON[mi];let day=r(1,5);const nd=()=>{day+=r(1,4);return mon+' '+day;};
+  const E=[];
+  const sh=r(5,20)*1000,pps=pick([5,10,20]),stock=sh*pps;
+  E.push({d:mon+' '+day,t:'Issued '+f(sh)+' shares of capital stock for a total of $'+f(stock)+'.',l:[['Cash',stock,0],['Capital stock',0,stock]]});
+  const eq=r(4,30)*500,ec=r(1,eq/500-1)*500;let AP=eq-ec,AR=0;
+  E.push({d:nd(),t:'Purchased '+pick(['equipment (machinery)','office equipment','kitchen equipment','computer equipment'])+' for $'+f(eq)+': $'+f(ec)+' paid in cash, $'+f(eq-ec)+' on account.',l:[['Equipment',eq,0],['Cash',0,ec],['Accounts payable',0,eq-ec]]});
+  const s3=pick(['sup','rent','ins']);
+  if(s3==='sup'){const S=r(4,30)*100;AP+=S;E.push({d:nd(),t:'Purchased supplies for $'+f(S)+'. The supplies will last for several months, and payment is not due until next month.',l:[['Supplies',S,0],['Accounts payable',0,S]]});}
+  else if(s3==='rent'){const R=r(5,30)*100;E.push({d:nd(),t:'Paid $'+f(R)+' rent for this month.',l:[['Rent expense',R,0],['Cash',0,R]]});}
+  else{const P=r(1,5)*1200;E.push({d:nd(),t:'Paid $'+f(P)+' cash for a one-year insurance policy starting today.',l:[['Prepaid insurance',P,0],['Cash',0,P]]});}
+  const s4=pick(['land','bldg','note','unearned']);
+  if(s4==='land'||s4==='bldg'){const L=r(5,40)*1000,acct=s4==='land'?'Land':'Building';E.push({d:nd(),t:'To expand, the shareholders increased capital by giving the company '+(s4==='land'?'a plot of land':'a small building')+' worth $'+f(L)+', in exchange for new shares.',l:[[acct,L,0],['Capital stock',0,L]]});}
+  else if(s4==='note'){const N=r(5,30)*1000;E.push({d:nd(),t:'Borrowed $'+f(N)+' from the bank, signing a one-year note payable.',l:[['Cash',N,0],['Notes payable',0,N]]});}
+  else{const U=r(5,40)*100;E.push({d:nd(),t:'Received $'+f(U)+' cash from a client in advance, for services to be provided next month.',l:[['Cash',U,0],['Unearned revenue',0,U]]});}
+  const Rv=r(10,80)*100,s5=pick(['bill','cash','mix']);
+  if(s5==='bill'){AR=Rv;E.push({d:nd(),t:'Provided services and billed clients $'+f(Rv)+'. The full amount will be collected next month.',l:[['Accounts receivable',Rv,0],['Service revenue',0,Rv]]});}
+  else if(s5==='cash')E.push({d:nd(),t:'Provided services to clients for $'+f(Rv)+' cash.',l:[['Cash',Rv,0],['Service revenue',0,Rv]]});
+  else{const c=r(1,Rv/100-1)*100;AR=Rv-c;E.push({d:nd(),t:'Provided services for $'+f(Rv)+': clients paid $'+f(c)+' in cash and will pay the rest next month.',l:[['Cash',c,0],['Accounts receivable',Rv-c,0],['Service revenue',0,Rv]]});}
+  if(Math.random()<.6){const opts=['div'];if(AP>=200)opts.push('ap');if(AR>=200)opts.push('ar');const s7=pick(opts);
+    if(s7==='ap'){const p=r(1,Math.floor(AP/100))*100;E.push({d:nd(),t:'Paid $'+f(p)+' of the amount owed to suppliers.',l:[['Accounts payable',p,0],['Cash',0,p]]});}
+    else if(s7==='ar'){const p=r(1,Math.floor(AR/100))*100;E.push({d:nd(),t:'Collected $'+f(p)+' from clients for services billed earlier this month.',l:[['Cash',p,0],['Accounts receivable',0,p]]});}
+    else{const D=r(1,8)*250;E.push({d:nd(),t:'Declared and paid a cash dividend of $'+f(D)+'.',l:[['Dividends',D,0],['Cash',0,D]]});}}
+  const W=r(5,40)*100,s6=pick(['accr','paid','util']),last=mon+' '+DAYS[mi];
+  if(s6==='accr')E.push({d:last,t:'Recorded salary expenses of $'+f(W)+' for its employees; payment is due only on the 10th of next month.',l:[['Salaries expense',W,0],['Salaries payable',0,W]]});
+  else if(s6==='paid')E.push({d:last,t:'Paid employees\' salaries of $'+f(W)+' for the month.',l:[['Salaries expense',W,0],['Cash',0,W]]});
+  else{const u=r(2,9)*50;E.push({d:last,t:'Received the utility bill for the month, $'+f(u)+', to be paid next month.',l:[['Utilities expense',u,0],['Accounts payable',0,u]]});}
+  const T={};E.forEach(e=>e.l.forEach(([a,dr,cr])=>{T[a]=T[a]||{d:[],c:[]};if(dr)T[a].d.push([e.d,dr]);if(cr)T[a].c.push([e.d,cr]);}));
+  const accts=ORDER.filter(a=>T[a]);let td=0,tc=0;
+  const tb=accts.map(a=>{const b=T[a].d.reduce((s,y)=>s+y[1],0)-T[a].c.reduce((s,y)=>s+y[1],0);if(b>0)td+=b;else tc-=b;return '<tr><td>'+a+'</td><td class="n">'+(b>0?f(b):'')+'</td><td class="n">'+(b<0?f(-b):'')+'</td></tr>';}).join('');
+  return{title:'The accounting cycle: '+co+', Inc.',
+  task:'<p>'+co+', Inc. opened for business on '+MONTHS[mi]+' '+E[0].d.split(' ')[1]+'. During the month:</p><ul>'+E.map(e=>'<li><b>'+e.d+'</b> '+e.t+'</li>').join('')+'</ul><ol><li>Journalize the transactions (4 points per correct entry).</li><li>Show the T-accounts resulting from the journal entries.</li><li>Prepare a trial balance dated '+MONTHS[mi]+' '+DAYS[mi]+'.</li></ol>',
+  sol:'<h3>1. Journal</h3>'+jeEntries(E)+'<h3>2. T-accounts</h3>'+tcards(T,accts)+'<h3>3. Trial balance, '+MONTHS[mi]+' '+DAYS[mi]+'</h3><div class="tbl"><table><tr><th>Account</th><th class="n">Debit</th><th class="n">Credit</th></tr>'+tb+'<tr class="total"><td>Total</td><td class="n">'+f(td)+'</td><td class="n">'+f(tc)+'</td></tr></table></div>'+
+  '<p>Traps: shares given in exchange for an asset are not cash (Dr the asset / Cr Capital stock). Supplies that last several months are an <b>asset</b>, not an expense. Salaries recorded but not paid create <b>Salaries payable</b>. Cash received in advance is a liability, <b>Unearned revenue</b>. Order of the trial balance: assets, liabilities, equity, revenues, expenses.</p>'};
+},
+
+adjust(){
+  const co=pick(['Bright Future Tutoring','Sunrise Yoga Studio','Clearview Consulting','Apex Cleaning','Little Steps Daycare','Metro Repairs']);
+  const cal=pick([{y:2025,pay:26,dow:'Wednesday',days:3,list:'Dec 29, 30, 31'},{y:2026,pay:25,dow:'Thursday',days:4,list:'Dec 28, 29, 30, 31'}]);
+  const monthly=Math.random()<.5,all=[];
+  {const im=r(6,10),P=r(1,5)*1200,m=monthly?1:12-im,a=P/12*m;
+   all.push({t:'On '+MONTHS[im]+' 1, the company paid $'+f(P)+' for a one-year insurance policy. The full amount was debited to <i>Prepaid Insurance</i>.',l:[['Insurance expense',a,0],['Prepaid insurance',0,a]],why:'Prepaid expense (asset → expense). '+(monthly?'Monthly adjustments, so December only: '+f(P)+' ÷ 12 = '+f(a)+'.':f(P)+' ÷ 12 × '+m+' months ('+MONTHS[im]+' to December) = '+f(a)+'.')});}
+  {const k=pick([3,6]),U=r(2,10)*k*100,st=pick([10,11]),el=12-st,a=monthly?U/k:U/k*el;
+   all.push({t:'On '+MONTHS[st]+' 1, the company received $'+f(U)+' cash from a client for '+k+' months of services, starting immediately. The full amount was credited to <i>Unearned Revenue</i>.',l:[['Unearned revenue',a,0],['Service revenue',0,a]],why:'Unearned revenue (liability → revenue). '+(monthly||el===1?'December only: '+f(U)+' ÷ '+k+' = '+f(a)+'.':f(U)+' ÷ '+k+' × '+el+' months (November and December) = '+f(a)+'.')});}
+  {const Wk=r(4,20)*250,dd=Wk/5,a=dd*cal.days;
+   all.push({t:'Employees earn $'+f(Wk)+' of salaries each week (5 workdays, Monday to Friday). The last payday was Friday, December '+cal.pay+', '+cal.y+'. Salaries will be paid next on Friday, January '+(cal.pay+7-31)+'. December 31 is a '+cal.dow+'.',l:[['Salaries expense',a,0],['Salaries payable',0,a]],why:'Accrued expense. '+f(Wk)+' ÷ 5 = '+f(dd)+' per day × '+cal.days+' unpaid days ('+cal.list+') = '+f(a)+'.'});}
+  {const V=r(3,20)*100;all.push({t:'The company completed $'+f(V)+' of services in December that have not yet been billed or recorded.',l:[['Accounts receivable',V,0],['Service revenue',0,V]],why:'Accrued revenue: earned in December, so recorded in December.'});}
+  {const n=pick([4,5,8]),C=n*12*r(1,10)*100,a=monthly?C/(12*n):C/n;
+   all.push({t:'Equipment bought on January 1, '+cal.y+' for $'+f(C)+' has a useful life of '+n+' years and no residual value (straight-line).',l:[['Depreciation expense',a,0],['Accumulated depreciation',0,a]],why:'Depreciation (asset → expense). '+(monthly?f(C)+' ÷ ('+n+' × 12) = '+f(a)+' for December.':f(C)+' ÷ '+n+' = '+f(a)+' for the full year.')});}
+  {const S=r(10,40)*100,s=r(2,S/100-2)*100;all.push({t:'Before adjusting, the <i>Supplies</i> account shows $'+f(S)+'. A count on December 31 shows $'+f(s)+' of supplies still on hand.',l:[['Supplies expense',S-s,0],['Supplies',0,S-s]],why:'Supplies used: '+f(S)+' − '+f(s)+' = '+f(S-s)+'.'});}
+  const items=all.sort(()=>Math.random()-.5).slice(0,4);
+  return{title:'Adjusting entries: '+co,
+  task:'<p>The following information is taken from the books of <i>'+co+'</i> on December 31, '+cal.y+' (the company\'s year end). The company records its adjusting entries <b>'+(monthly?'at the end of each month':'only once a year, on December 31')+'</b>.</p><ul>'+items.map(x=>'<li>'+x.t+'</li>').join('')+'</ul><p>Journalize the necessary adjusting entries on December 31 (5 points per correct entry).</p>',
+  sol:je(items.flatMap(x=>[['Dec 31',x.l[0][0],x.l[0][1],0],['',x.l[1][0],0,x.l[1][2]]]))+'<ol>'+items.map(x=>'<li>'+x.why+'</li>').join('')+'</ol><p>None of these entries touches Cash. Each one pairs an income statement account with a balance sheet account.</p>'};
+},
+
+merch(){
+  const co=pick(['Trendy Tees','Sole Sneakers','Bean Coffee Co.','Page Books','Glow Cosmetics','Fit Gear']);
+  const prod={'Trendy Tees':'T-shirts','Sole Sneakers':'pairs of sneakers','Bean Coffee Co.':'bags of coffee','Page Books':'books','Glow Cosmetics':'lipsticks','Fit Gear':'yoga mats'}[co];
+  const sup=pick(['Cotton World','Global Supply','Prime Wholesale','Nordic Traders']),cus=pick(['Streetwear Co.','City Stores','Mall Shop','Hotel Azul','Campus Store']);
+  const u=r(2,30),Q=r(3,10)*100,q=r(1,Math.floor(Q/400))*20,sold=r(5,Math.floor((Q-q)/10)-2)*10,p=Math.round(u*pick([1.5,1.75,2,2.5])),terms=Math.random()<.35,cret=Math.random()<.35,k=cret?r(1,Math.max(1,Math.floor(sold/50)))*5:0;
+  const uc=terms?u*0.98:u,E=[];
+  E.push({d:'Oct 2',t:'Purchased '+f(Q)+' '+prod+' from <i>'+sup+'</i> on account for $'+f(Q*u)+(terms?', terms 2/10, n/30. '+co+' records purchases at <b>net cost</b>.':'.'),l:[['Inventory',Q*uc,0],['Accounts payable',0,Q*uc]]});
+  E.push({d:'Oct 4',t:'Returned '+q+' '+prod+' to <i>'+sup+'</i> for $'+f(q*u)+'.',l:[['Accounts payable',q*uc,0],['Inventory',0,q*uc]]});
+  E.push({d:'Oct 6',t:'Sold '+sold+' '+prod+' to <i>'+cus+'</i> on account for $'+f(sold*p)+'. The cost of the '+prod+' sold was $'+f(sold*uc)+'.',l:[['Accounts receivable',sold*p,0],['Sales',0,sold*p],['Cost of goods sold',sold*uc,0],['Inventory',0,sold*uc]]});
+  if(cret)E.push({d:'Oct 9',t:'<i>'+cus+'</i> returned '+k+' damaged '+prod+' (sold for $'+f(k*p)+', cost $'+f(k*uc)+'). They go back into inventory.',l:[['Sales returns &amp; allowances',k*p,0],['Accounts receivable',0,k*p],['Inventory',k*uc,0],['Cost of goods sold',0,k*uc]]});
+  const owe=(Q-q)*uc;E.push({d:terms?'Oct 11':'Oct 24',t:'Paid <i>'+sup+'</i> the amount owed.',l:[['Accounts payable',owe,0],['Cash',0,owe]]});
+  const due=(sold-k)*p;E.push({d:'Oct 30',t:'Collected payment from <i>'+cus+'</i>.',l:[['Cash',due,0],['Accounts receivable',0,due]]});
+  const ns=sold*p-k*p,cg=(sold-k)*uc;
+  return{title:'Merchandising activities: '+co,
+  task:'<p>You are the accountant for '+co+', which buys and resells '+prod+' and uses a <b>perpetual</b> inventory system. During October:</p><ul>'+E.map(e=>'<li><b>'+e.d+'</b> '+e.t+'</li>').join('')+'</ul><ol><li>Journalize the October transactions (4 points per correct entry).</li><li>Compute the gross profit on this sale.</li></ol>',
+  sol:jeEntries(E)+(terms?'<p>Net cost per unit = '+f(u)+' × 98% = '+f(uc)+'. Paid on Oct 11 (day 9), so the discount is kept and the payment equals the net amount owed.</p>':'')+
+  '<p>Gross profit = net sales '+f(ns)+' − COGS '+f(cg)+' = <b>'+f(ns-cg)+'</b>.</p><p>Traps: a return <b>to the supplier</b> reduces Inventory and Accounts payable. A sale needs <b>two entries</b> (price and cost). A return <b>from a customer</b> also needs two: Sales returns (contra-revenue) and putting the goods back into inventory, which <b>decreases COGS</b>.</p>'};
+},
+
+stmts(){
+  const co=pick(['Bird Corporation','Fox Services','Lynx Consulting','Otter Design','Heron Logistics','Wolf Media']);
+  const L=[];const add=(a,v,side,g)=>L.push({a,v,side,g});
+  const cash=r(10,60)*100,ar=r(10,60)*100;add('Cash',cash,'d','ca');add('Accounts Receivable',ar,'d','ca');
+  if(Math.random()<.5)add('Supplies',r(3,20)*100,'d','ca');
+  const hasLand=Math.random()<.75;if(hasLand)add('Land',r(10,40)*100*10,'d','nca');
+  const bld=r(10,40)*1000,adb=Math.round(bld*r(5,35)/100/100)*100;add('Building',bld,'d','nca');add('Accumulated depreciation building',adb,'c','contra:Building');
+  if(Math.random()<.5){const eqv=r(3,15)*1000;add('Equipment',eqv,'d','nca');add('Accumulated depreciation equipment',Math.round(eqv*r(10,50)/100/100)*100,'c','contra:Equipment');}
+  add('Accounts Payable',r(10,50)*100,'c','cl');
+  if(Math.random()<.4)add('Salaries Payable',r(3,15)*100,'c','cl');
+  if(Math.random()<.3)add('Unearned Revenue',r(3,15)*100,'c','cl');
+  if(Math.random()<.7)add('Notes Payable',r(2,10)*1000,'c','ncl');
+  let re0=r(10,60)*100;const div=r(2,15)*100;add('Retained Earnings',re0,'c','re');add('Dividends',div,'d','div');
+  const rev=r(150,400)*100;add('Service Revenues',rev,'c','rev');
+  const loss=Math.random()<.15,ex=[['Wages Expense',.35,.5],['Supplies Expense',.04,.1],['Depreciation Expense',.04,.1]];
+  if(Math.random()<.6)ex.push(['Rent Expense',.08,.15]);if(Math.random()<.4)ex.push(['Utilities Expense',.02,.06]);
+  ex.forEach(([n,lo,hi])=>add(n,Math.round(rev*(lo+Math.random()*(hi-lo))/10)*10,'d','exp'));
+  if(loss){const te=L.filter(x=>x.g==='exp').reduce((s,x)=>s+x.v,0),need=rev+r(5,30)*100-te;L.find(x=>x.a==='Wages Expense').v+=need;const lossAmt=te+need-rev;if(re0<lossAmt+div+500){re0=lossAmt+div+r(5,20)*100;L.find(x=>x.a==='Retained Earnings').v=re0;}}
+  let D=L.filter(x=>x.side==='d').reduce((s,x)=>s+x.v,0),C=L.filter(x=>x.side==='c').reduce((s,x)=>s+x.v,0);
+  if(D-C<8000){const fix=Math.ceil((8000-(D-C))/1000)*1000+r(1,10)*1000;(L.find(x=>x.a==='Land')||L.find(x=>x.a==='Building')).v+=fix;D+=fix;}
+  add('Capital Stock',D-C,'c','stock');
+  const v=a=>(L.find(x=>x.a===a)||{v:0}).v,g=k=>L.filter(x=>x.g===k);
+  const exps=g('exp'),te=exps.reduce((s,x)=>s+x.v,0),NI=rev-te,re1=re0+NI-div;
+  const assets=[];let TA=0;
+  g('ca').forEach(x=>{assets.push([x.a,'',f(x.v)]);TA+=x.v;});
+  g('nca').forEach(x=>{const c=L.find(y=>y.g==='contra:'+x.a);if(c){assets.push([x.a,f(x.v),''],['<i>Less: '+c.a.replace(/ (building|equipment)$/,'')+'</i>','('+f(c.v)+')',f(x.v-c.v)]);TA+=x.v-c.v;}else{assets.push([x.a,'',f(x.v)]);TA+=x.v;}});
+  const liabs=[...g('cl'),...g('ncl')],TL=liabs.reduce((s,x)=>s+x.v,0),TE=v('Capital Stock')+re1;
+  const row3=rr=>rr.map(([a,b,c])=>'<tr><td>'+a+'</td><td class="n">'+b+'</td><td class="n">'+c+'</td></tr>').join('');
+  const list=[...L].sort((a,b)=>a.a.localeCompare(b.a));
+  return{title:'Reporting financial results: '+co,
+  task:'<p>Shown below is the random list of the accounts of '+co+' on December 31:</p><div class="tbl"><table>'+list.map(x=>'<tr><td>'+x.a+'</td><td class="n">'+(x.side==='d'?f(x.v):'')+'</td><td class="n">'+(x.side==='c'?f(x.v):'')+'</td></tr>').join('')+'</table></div><ol><li>Prepare the income statement (10 points).</li><li>Prepare the statement of retained earnings (5 points).</li><li>Prepare the balance sheet (15 points).</li></ol>',
+  sol:'<div class="grid2"><div class="box"><span class="tag">'+co+' · Income statement · Year ended Dec 31</span>'+tbl([['Service revenues',f(rev)],...exps.map(x=>['<span style="padding-left:14px">'+x.a+'</span>','('+f(x.v)+')'])],[NI>=0?'Net income':'Net loss',money(NI)])+'</div>'+
+  '<div class="box"><span class="tag">Statement of retained earnings · Year ended Dec 31</span>'+tbl([['Retained earnings, Jan 1',f(re0)],[NI>=0?'+ Net income':'− Net loss',NI>=0?f(NI):'('+f(-NI)+')'],['− Dividends','('+f(div)+')']],['Retained earnings, Dec 31',f(re1)])+'</div></div>'+
+  '<div class="box"><span class="tag">Balance sheet · December 31</span><div class="grid2"><div class="tbl"><table><tr><th>Assets</th><th></th><th></th></tr>'+row3(assets)+'<tr class="total"><td>Total assets</td><td></td><td class="n">'+f(TA)+'</td></tr></table></div>'+
+  '<div class="tbl"><table><tr><th>Liabilities &amp; equity</th><th></th></tr>'+liabs.map(x=>'<tr><td>'+x.a+'</td><td class="n">'+f(x.v)+'</td></tr>').join('')+'<tr class="total"><td>Total liabilities</td><td class="n">'+f(TL)+'</td></tr><tr><td>Capital stock</td><td class="n">'+f(v('Capital Stock'))+'</td></tr><tr><td>Retained earnings</td><td class="n">'+f(re1)+'</td></tr><tr class="total"><td>Total equity</td><td class="n">'+f(TE)+'</td></tr><tr class="total"><td>Total liabilities &amp; equity</td><td class="n">'+f(TL+TE)+'</td></tr></table></div></div></div>'+
+  '<p>Traps: <b>dividends</b> are not an expense (statement of retained earnings only). The Retained earnings in the list is the <b>beginning</b> balance, so the balance sheet uses the <b>ending</b> one ('+f(re1)+'). <b>Accumulated depreciation</b> is subtracted from its asset; it is not a liability. Order: income statement → retained earnings → balance sheet.</p>'};
+},
+
+inv(){
+  const item=pick(['crystal glasses','phone cases','yoga mats','candles','headphones','water bottles']),co=pick(['Mead Co.','Nova Home','Brio Shop','Atlas Store']);
+  const rising=Math.random()<.7,c1=r(8,20),st=r(1,3)*(rising?1:-1),three=Math.random()<.5;
+  const lay=[{d:'Dec 1 (beginning)',n:r(3,10)*100,c:c1},{d:'Dec 4 purchase',n:r(3,12)*100,c:c1+st}];if(three)lay.push({d:'Dec 8 purchase',n:r(2,8)*100,c:c1+2*st});
+  const U=lay.reduce((s,x)=>s+x.n,0),CA=lay.reduce((s,x)=>s+x.n*x.c,0),S=r(2,U/100-1)*100,maxc=Math.max(...lay.map(x=>x.c)),sp=maxc+r(2,8);
+  const take=order=>{let left=S,cost=0,parts=[];for(const x of order){const t=Math.min(left,x.n);if(t>0){cost+=t*x.c;parts.push(f(t)+' × '+x.c);left-=t;}}return{cost,parts};};
+  const fifo=take(lay),lifo=take([...lay].reverse()),avg=CA/U,avgC=Math.round(S*avg);
+  let left=S;const spec=lay.map(()=>0);
+  for(let i=lay.length-1;i>=0&&left>0;i--){const t=Math.min(left,Math.floor(lay[i].n*Math.random()/100)*100);spec[i]=t;left-=t;}
+  for(let i=0;i<lay.length&&left>0;i++){const t=Math.min(left,lay[i].n-spec[i]);spec[i]+=t;left-=t;}
+  const specC=spec.reduce((s,t,i)=>s+t*lay[i].c,0),specTxt=spec.map((t,i)=>t?f(t)+' from the '+lay[i].d.split(' ').slice(0,2).join(' ')+' lot':'').filter(Boolean).join(' and ');
+  const rows=[['FIFO',fifo.cost,fifo.parts.join(' + ')],['Average cost',avgC,f(CA)+' ÷ '+f(U)+' = '+avg.toFixed(4)+' × '+f(S)],['Specific identification',specC,spec.map((t,i)=>t?f(t)+' × '+lay[i].c:'').filter(Boolean).join(' + ')],['LIFO (expert)',lifo.cost,lifo.parts.join(' + ')]];
+  const best=rising?'FIFO':'LIFO';
+  return{title:'Inventory costing: '+co+' '+item,
+  task:'<p>'+co+' uses a perpetual system. Its '+item+' in December:</p><div class="tbl"><table><tr><th>Date</th><th class="n">Units</th><th class="n">Unit cost</th><th class="n">Total</th></tr>'+lay.map(x=>'<tr><td>'+x.d+'</td><td class="n">'+f(x.n)+'</td><td class="n">$'+x.c+'</td><td class="n">'+f(x.n*x.c)+'</td></tr>').join('')+'<tr class="total"><td>Available</td><td class="n">'+f(U)+'</td><td></td><td class="n">'+f(CA)+'</td></tr></table></div><p>On Dec 12 it sells <b>'+f(S)+' units</b> for <b>$'+sp+' each</b>, cash. For specific identification, the units sold were '+specTxt+'.</p><ol><li>Compute COGS, ending inventory and gross profit under FIFO, average cost, specific identification and LIFO.</li><li>Journalize the sale using FIFO.</li><li>Which method gives the highest gross profit here, and why?</li></ol>',
+  sol:'<div class="tbl"><table><tr><th>Method</th><th>Computation</th><th class="n">COGS</th><th class="n">Ending inv.</th><th class="n">Gross profit</th></tr>'+rows.map(([m,c,t])=>'<tr><td><b>'+m+'</b></td><td class="mono" style="font-size:13px">'+t+'</td><td class="n">'+f(c)+'</td><td class="n">'+f(CA-c)+'</td><td class="n">'+f(S*sp-c)+'</td></tr>').join('')+'</table></div>'+
+  '<p>Sales = '+f(S)+' × '+sp+' = '+f(S*sp)+'. Ending inventory = '+f(CA)+' − COGS.</p>'+je([['Dec 12','Cash',S*sp,0],['','Sales',0,S*sp],['','Cost of goods sold',fifo.cost,0],['','Inventory',0,fifo.cost]])+
+  '<p>3. Prices are <b>'+(rising?'rising':'falling')+'</b>, so <b>'+best+'</b> gives the lowest COGS and the highest gross profit: it sends the '+(rising?'oldest, cheapest':'newest, cheapest')+' units to COGS. Remember that IFRS prohibits LIFO.</p>'};
+}
 });
+
+const EXLIST=[
+ {g:'cycle',tag:'Ch 3 · Accounting cycle',pts:30},
+ {g:'adjust',tag:'Ch 4 · Adjusting entries',pts:20},
+ {g:'merch',tag:'Ch 6 · Merchandising',pts:20},
+ {g:'stmts',tag:'Ch 2 &amp; 5 · Financial statements',pts:30},
+ {g:'ex3',tag:'Ch 5 · Closing entries',pts:10},
+ {g:'ex4',tag:'Ch 6 · Discounts (expert)',pts:15},
+ {g:'ex5',tag:'Ch 7 · Bank reconciliation',pts:15},
+ {g:'ex6',tag:'Ch 7 · Doubtful accounts',pts:15},
+ {g:'ex9',tag:'Ch 7 · Marketable securities (expert)',pts:10},
+ {g:'inv',tag:'Ch 8 · Inventory costing',pts:20},
+ {g:'ex7',tag:'Ch 9 · Depreciation methods',pts:15},
+ {g:'ex8',tag:'Ch 9 · Partial year &amp; disposal',pts:15}];
+
+function exSection(id,num,gk,tag,pts,withBtn){
+  const s=document.createElement('section');s.id=id;
+  const fill=()=>{const g=GEN[gk]();s.querySelector('h3').innerHTML=g.title;s.querySelector('.task').innerHTML=g.task;const d=s.querySelector('details');d.open=false;d.innerHTML='<summary>Show solution</summary>'+g.sol;};
+  s.innerHTML='<div class="head"><span class="num">'+num+'</span><h3></h3><span class="tag">'+tag+'</span><span class="pts">'+pts+' pts</span></div>'+(withBtn?'<div class="bar"><button class="btn ghost" type="button">↻ New version</button></div>':'')+'<div class="task"></div><details></details>';
+  fill();if(withBtn)s.querySelector('.bar button').addEventListener('click',fill);return s;
+}
+const exRoot=document.getElementById('ex-root');
+EXLIST.forEach((x,i)=>exRoot.append(exSection('ex'+(i+1),'EX '+(i+1),x.g,x.tag,x.pts,true)));
+
+/* ===== mock exams ===== */
+const EXTRA_MCQ=[
+ {q:"Depreciation expense is recorded at the end of a period to…",o:["Record the value of the asset when it is purchased","Record the revenue generated by the asset","Show the use of cash to make investments","Record the consumption of the asset during the period"],a:3,e:"Depreciation spreads the asset's cost over the periods that use it (matching)."},
+ {q:"Which statement about credit terms 2/10, n/30 is true?",o:["Inventory recorded by the buyer is the same under the net and gross methods","The cash the buyer pays depends on the recording method","If the buyer pays within 10 days, the seller receives less cash than if the buyer pays later","If the buyer pays within 10 days, the seller receives more cash"],a:2,e:"Paying early earns the 2% discount, so the seller gets 98%. The method changes only how it is recorded, not the cash."},
+ {q:"A company buys 5,000 of merchandise on terms 2/10, n/30 and uses the NET cost method. The purchase entry is…",o:["Dr Inventory 5,000 / Cr A/P 5,000","Dr Inventory 4,900 / Cr A/P 4,900","Dr Inventory 4,900 / Cr Cash 4,900","Dr A/P 4,900 / Cr Inventory 4,900"],a:1,e:"Net method records 98% right away: 5,000 × 98% = 4,900."},
+ {q:"A seller sells goods for 5,000 on account; their cost was 3,200 (perpetual). The seller records…",o:["Dr A/R 5,000 / Cr Sales 5,000 only","Dr A/R 4,900 / Cr Sales 4,900 and Dr COGS 3,200 / Cr Inventory 3,200","Dr A/R 5,000 / Cr Sales 5,000 and Dr COGS 3,200 / Cr Inventory 3,200","Dr A/R 3,200 / Cr Sales 3,200 and Dr COGS 5,000 / Cr Inventory 5,000"],a:2,e:"Two entries: the full selling price, and the cost of the goods."},
+ {q:"A customer returns goods to the seller (perpetual system). For the seller…",o:["Gross profit increases","Sales increase","Inventory decreases","Cost of goods sold decreases"],a:3,e:"The goods go back into inventory (inventory up) and COGS goes down; sales returns reduce net sales."},
+ {q:"Equipment costs 12,000 with accumulated depreciation of 6,000. On the balance sheet it appears as…",o:["Equipment 6,000 only","Equipment 12,000, less accumulated depreciation 6,000 = 6,000","Equipment 12,000 and a liability of 6,000","Equipment 18,000"],a:1,e:"Cost minus accumulated depreciation (a contra-asset) = book value."},
+ {q:"A machine costs 36,000 with a 5-year life and no residual value. Adjusting entries are made monthly. Depreciation for January is…",o:["7,200","3,000","600","720"],a:2,e:"36,000 ÷ 60 months = 600."},
+ {q:"Recognizing revenue that was received in advance is an example of…",o:["Converting assets to expenses","Converting liabilities to revenue","Accruing unpaid expenses","Accruing uncollected revenue"],a:1,e:"Unearned revenue (liability) becomes service revenue as the work is done."},
+ {q:"Shareholders give the company land worth 20,000 in exchange for shares. The entry is…",o:["Dr Cash / Cr Capital stock","Dr Land / Cr Cash","Dr Land / Cr Capital stock","Dr Capital stock / Cr Land"],a:2,e:"No cash moves: an asset comes in and equity increases."},
+ {q:"Supplies bought on account that will last several months are recorded as…",o:["Dr Supplies expense / Cr Cash","Dr Supplies / Cr Accounts payable","Dr Supplies / Cr Cash","Dr Accounts payable / Cr Supplies"],a:1,e:"An asset (future benefit) and a liability (not paid yet)."}];
+const POOL=[...QUIZ.flatMap(c=>c.qs),...MOCKS.flat(),...EXTRA_MCQ];
+let mockNo=0;
+function buildMockExam(){
+  mockNo++;const root=document.getElementById('mock-root');root.innerHTML='';
+  const parts=[{g:'cycle',pts:25,tag:'Accounting cycle'},{g:'adjust',pts:15,tag:'Adjusting entries'},{g:'merch',pts:15,tag:'Merchandising'},{g:'stmts',pts:20,tag:'Financial statements'},{g:pick(['ex5','ex6','ex9']),pts:10,tag:'Financial assets'},{g:pick(['inv','ex7','ex8']),pts:15,tag:'Inventories / plant assets'}];
+  const top=document.createElement('section');top.innerHTML='<div class="head"><span class="num">MOCK '+mockNo+'</span><h2>Mock final exam '+mockNo+'</h2><p class="oneline">6 exercises (100 pts) + bonus MCQ (10 pts). Write your answers on paper, then open each solution to grade yourself.</p></div>';root.append(top);
+  parts.forEach((p,i)=>root.append(exSection('mx'+(i+1),'EX '+(i+1),p.g,p.tag,p.pts,false)));
+  const mcq=[...POOL].sort(()=>Math.random()-.5).slice(0,10);
+  const s=document.createElement('section');s.innerHTML='<div class="head"><span class="num">BONUS</span><h3>MCQ · Expert part</h3><span class="pts">+1 right · −0.25 wrong · 0 blank</span></div>';
+  const list=document.createElement('div');list.className='qlist';mcq.forEach((it,k)=>list.append(makeQ(it,k,'exam')));
+  const bar=document.createElement('div');bar.className='bar';const b=document.createElement('button');b.type='button';b.className='btn';b.textContent='Submit MCQ';const res=document.createElement('span');res.className='result';
+  b.addEventListener('click',()=>{if(list.dataset.done)return;list.dataset.done='1';let ok=0,bad=0,blank=0;
+    list.querySelectorAll('.q').forEach(d=>{const c=d.dataset.choice===undefined?-1:+d.dataset.choice;if(c<0)blank++;else if(c===d._item.a)ok++;else bad++;reveal(d,d._item,c);});
+    res.textContent='Bonus: '+ok+' right, '+bad+' wrong, '+blank+' blank → '+(ok-0.25*bad).toFixed(2)+' / 10';});
+  bar.append(b,res);s.append(list,bar);root.append(s);
+}
+buildMockExam();
+document.getElementById('new-mock').addEventListener('click',()=>{buildMockExam();document.getElementById('mock-root').scrollIntoView();});
 
 /* routing */
 const VIEWS=['recap','quiz','exercises','mock'];
