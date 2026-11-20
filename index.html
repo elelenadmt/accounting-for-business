@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accounting Recap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Ledger study sheet: ink-blue paper, debit = blue, credit = amber. One column of chapter cards, visuals inside each. */
+  --bg:#f3f5f8; --paper:#ffffff; --ink:#18212f; --muted:#5b6678; --line:#d9dee7;
+  --accent:#2446a8; --debit:#2a62d6; --debit-soft:#e6eeff; --credit:#c26a10; --credit-soft:#fdf0e1;
+  --good:#1f8a4c; --good-soft:#e3f5ea; --bad:#c23a3a; --bad-soft:#fbe7e7;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f141c; --paper:#171e29; --ink:#e7ecf3; --muted:#9aa6b8; --line:#2b3545;
+    --accent:#8fa9ff; --debit:#7ea6ff; --debit-soft:#1b2a48; --credit:#f0a65a; --credit-soft:#3a2915;
+    --good:#5fd08f; --good-soft:#163323; --bad:#ff8585; --bad-soft:#3d1c1c; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f141c; --paper:#171e29; --ink:#e7ecf3; --muted:#9aa6b8; --line:#2b3545;
+  --accent:#8fa9ff; --debit:#7ea6ff; --debit-soft:#1b2a48; --credit:#f0a65a; --credit-soft:#3a2915;
+  --good:#5fd08f; --good-soft:#163323; --bad:#ff8585; --bad-soft:#3d1c1c; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--body)}
+.wrap{max-width:980px;margin:0 auto;padding:28px 18px 60px;display:grid;gap:22px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(28px,5vw,42px);font-weight:800}
+h2{font-size:26px;font-weight:800}
+h3{font-size:17px;font-weight:600;margin-bottom:6px}
+p{margin:0}
+.lede{color:var(--muted);max-width:65ch;margin-top:8px}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0;display:flex;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--line)}
+.chips a{font:600 13px var(--body);color:var(--accent);text-decoration:none;border:1px solid var(--line);background:var(--paper);padding:5px 11px;border-radius:999px}
+.chips a:hover,.chips a:focus-visible{border-color:var(--accent);outline:none}
+section{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:18px;scroll-margin-top:64px}
+.head{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.num{font:600 13px var(--mono);color:var(--paper);background:var(--accent);padding:3px 9px;border-radius:6px}
+.oneline{color:var(--muted);flex-basis:100%}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.box{border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:6px;align-content:start}
+.box ul{margin:0;padding-left:18px}
+.box li{margin:2px 0}
+.tag{font:600 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mono,td.n{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.key{background:var(--debit-soft);border-left:4px solid var(--accent);padding:12px 14px;border-radius:8px}
+.key b{color:var(--accent)}
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px}
+.flow .step{flex:1 1 140px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg)}
+.flow .step b{display:block;font-family:var(--display)}
+.flow .arrow{align-self:center;color:var(--muted);font-weight:600}
+/* equation */
+.eq{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:center;text-align:center}
+.eq .t{border-radius:12px;padding:16px 10px;font-family:var(--display);font-weight:800;font-size:20px}
+.eq .t small{display:block;font:500 13px var(--body);margin-top:4px}
+.eq .t span{display:block;font:600 15px var(--mono);margin-top:6px}
+.eq .op{font:800 26px var(--display);color:var(--muted)}
+.a{background:var(--debit-soft);color:var(--debit)}
+.l{background:var(--credit-soft);color:var(--credit)}
+.e{background:var(--good-soft);color:var(--good)}
+@media (max-width:560px){.eq{grid-template-columns:1fr}.eq .op{line-height:1}}
+/* T account */
+.tacc{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.t-card{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.t-card .name{font-weight:600;text-align:center;border-bottom:2px solid var(--ink);padding-bottom:4px}
+.t-card .sides{display:grid;grid-template-columns:1fr 1fr}
+.t-card .sides div{padding:8px 6px;text-align:center;font-size:14px}
+.t-card .sides div:first-child{border-right:2px solid var(--ink)}
+.dr{color:var(--debit);font-weight:600}
+.cr{color:var(--credit);font-weight:600}
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font:600 12px var(--body);color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right}
+tr.total td{font-weight:600;border-top:2px solid var(--ink)}
+.je td:first-child{white-space:nowrap}
+.je .ind{padding-left:34px}
+.pill{display:inline-block;font:600 12px var(--body);padding:2px 8px;border-radius:999px}
+.pill.g{background:var(--good-soft);color:var(--good)}
+.pill.b{background:var(--bad-soft);color:var(--bad)}
+.pill.d{background:var(--debit-soft);color:var(--debit)}
+.pill.c{background:var(--credit-soft);color:var(--credit)}
+.trap{border:1px dashed var(--bad);border-radius:10px;padding:12px 14px;background:var(--bad-soft)}
+.trap b{color:var(--bad)}
+svg text{fill:var(--muted);font:12px var(--body)}
+svg .gl{stroke:var(--line)}
+.legend{display:flex;gap:16px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.legend i{display:inline-block;width:14px;height:4px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.formulas{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.formulas div{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg)}
+.formulas b{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.formulas code{font:600 14px var(--mono);color:var(--ink)}
+footer{color:var(--muted);font-size:13px;text-align:center}
+/* views & tabs */
+.view{display:grid;gap:22px}
+.view[hidden]{display:none}
+section{scroll-margin-top:110px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;flex-basis:100%}
+.tab{font:600 15px var(--display);color:var(--ink);text-decoration:none;padding:7px 14px;border-radius:8px;border:1px solid var(--line);background:var(--paper)}
+.tab[aria-current="page"]{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips[hidden]{display:none}
+/* quiz */
+.qlist{display:grid;gap:12px}
+.q{border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:10px}
+.opts{display:grid;gap:6px}
+.opt{text-align:left;font:inherit;font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.opt.sel{border-color:var(--accent);background:var(--debit-soft)}
+.opt.right{background:var(--good-soft);border-color:var(--good);color:var(--good);font-weight:600}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.opt[aria-disabled="true"]{cursor:default}
+.expl{font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
+.score{font:600 14px var(--mono);color:var(--accent);margin-left:auto}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{font:600 14px var(--body);background:var(--accent);color:var(--paper);border:1px solid var(--accent);border-radius:8px;padding:8px 16px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.result{font:600 16px var(--body)}
+details{border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:var(--bg)}
+details[open]{display:grid;gap:10px}
+summary{cursor:pointer;font-weight:600;color:var(--accent)}
+.task{display:grid;gap:8px}
+.task ol,.task ul{margin:0;padding-left:20px}
+.pts{font:600 12px var(--mono);color:var(--credit)}
+.timer-box{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.timer{font:600 32px var(--mono);font-variant-numeric:tabular-nums;min-width:130px}
+.timer.done{color:var(--bad)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Accounting for Business Decisions: Recap</h1>
+  <p class="lede">Four tabs: the <b>Recap</b> of the seven chapters, <b>Quizzes</b> by chapter, <b>Exercises</b> with full solutions, and two timed <b>Mock exams</b>. Each chapter has the big idea, a visual, the course example with its numbers, and the trap to avoid in the exam. Colour code everywhere: <span class="pill d">Debit</span> blue, <span class="pill c">Credit</span> amber.</p>
+</header>
+
+<nav aria-label="Sections">
+  <div class="tabs">
+    <a class="tab" href="#recap" data-view="recap">Recap</a>
+    <a class="tab" href="#quiz" data-view="quiz">Quizzes</a>
+    <a class="tab" href="#exercises" data-view="exercises">Exercises</a>
+    <a class="tab" href="#mock" data-view="mock">Mock exams</a>
+  </div>
+  <div class="chips" id="chips">
+  <a href="#ch1">1 · Intro</a><a href="#ch2">2 · Statements</a><a href="#ch3">3 · Debit &amp; credit</a><a href="#ch5">5 · Closing</a><a href="#ch6">6 · Merchandising</a><a href="#ch7">7 · Financial assets</a><a href="#ch9">9 · Plant assets</a><a href="#formulas">Formula sheet</a>
+  </div>
+</nav>
+
+<div class="view" id="view-recap">
+
+<!-- CH1 -->
+<section id="ch1">
+  <div class="head"><span class="num">CH 1</span><h2>What is accounting?</h2>
+  <p class="oneline">Accounting turns business transactions into information people use to make decisions.</p></div>
+
+  <div class="flow">
+    <div class="step"><b>1. Interpret &amp; record</b>Write down each business transaction</div>
+    <div class="arrow">→</div>
+    <div class="step"><b>2. Classify</b>Group similar transactions together</div>
+    <div class="arrow">→</div>
+    <div class="step"><b>3. Summarize &amp; communicate</b>Produce reports for decision makers</div>
+  </div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">External users (outside the company)</span>
+      <p>Owners, creditors, potential investors, unions, government agencies, suppliers, customers, the public.</p>
+      <p>They read the <b>4 financial statements</b>: Balance sheet, Income statement, Statement of retained earnings, Statement of cash flows.</p></div>
+    <div class="box"><span class="tag">Internal users (inside the company)</span>
+      <p>Board of directors, CEO, CFO, vice presidents, business-unit, plant and store managers, supervisors.</p>
+      <p>The CFO oversees the <b>Controller</b> (accounting) and the <b>Treasurer</b> (cash &amp; financing).</p></div>
+  </div>
+
+  <div class="key"><b>Goal of external reporting:</b> help people make investment and credit decisions, judge the amount, timing and uncertainty of future cash flows, and see the company's resources and claims on them.</div>
+</section>
+
+<!-- CH2 -->
+<section id="ch2">
+  <div class="head"><span class="num">CH 2</span><h2>Basic financial statements</h2>
+  <p class="oneline">Everything rests on one equation, and every transaction keeps it in balance.</p></div>
+
+  <div class="eq" role="img" aria-label="Assets equals Liabilities plus Owners' Equity, Vagabond example 300,000 = 80,000 + 220,000">
+    <div class="t a">Assets<small>What the company owns</small><span>$300,000</span></div>
+    <div class="op">=</div>
+    <div class="t l">Liabilities<small>What it owes (debts)</small><span>$80,000</span></div>
+    <div class="op">+</div>
+    <div class="t e">Owners' Equity<small>Owners' claim = Capital stock + Retained earnings</small><span>$220,000</span></div>
+  </div>
+  <p style="color:var(--muted);font-size:14px;text-align:center">Example: Vagabond Travel Agency, Dec 31, 2015</p>
+
+  <div class="grid3">
+    <div class="box"><span class="tag">Balance sheet</span><h3>A photo 📸</h3><p>Position on <b>one specific date</b>: assets, liabilities, equity.</p></div>
+    <div class="box"><span class="tag">Income statement</span><h3>A film of profit</h3><p>Revenues − Expenses = Net income, <b>over a period</b>.</p></div>
+    <div class="box"><span class="tag">Statement of cash flows</span><h3>A film of cash</h3><p>How cash changed over a period, split into <b>operating, investing, financing</b>.</p></div>
+  </div>
+
+  <div>
+    <h3>How the statements connect (articulation)</h3>
+    <div class="flow">
+      <div class="step"><b>Income statement</b>gives Net income</div>
+      <div class="arrow">→</div>
+      <div class="step"><b>Retained earnings</b>Beginning RE + Net income − Dividends</div>
+      <div class="arrow">→</div>
+      <div class="step"><b>Balance sheet</b>shows ending RE in equity</div>
+      <div class="arrow">+</div>
+      <div class="step"><b>Cash flows</b>explain the change in the Cash line</div>
+    </div>
+  </div>
+
+  <div>
+    <h3>Course example: Overnight Auto Service (Jan 20–31)</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Date</th><th>Transaction</th><th class="n">Assets</th><th class="n">Liabilities</th><th class="n">Equity</th></tr></thead>
+      <tbody>
+        <tr><td>Jan 20</td><td>Owners invest cash for stock</td><td class="n">+80,000</td><td class="n"></td><td class="n">+80,000</td></tr>
+        <tr><td>Jan 21</td><td>Buy land with cash</td><td class="n">+52,000 −52,000</td><td class="n"></td><td class="n"></td></tr>
+        <tr><td>Jan 22</td><td>Buy garage: 6,000 cash + 30,000 note</td><td class="n">+36,000 −6,000</td><td class="n">+30,000</td><td class="n"></td></tr>
+        <tr><td>Jan 23</td><td>Buy tools on account</td><td class="n">+13,800</td><td class="n">+13,800</td><td class="n"></td></tr>
+        <tr><td>Jan 24</td><td>Sell tools at cost on account</td><td class="n">+1,800 −1,800</td><td class="n"></td><td class="n"></td></tr>
+        <tr><td>Jan 26</td><td>Collect 600 from Ace Towing</td><td class="n">+600 −600</td><td class="n"></td><td class="n"></td></tr>
+        <tr><td>Jan 27</td><td>Pay 6,800 to Snappy Tools</td><td class="n">−6,800</td><td class="n">−6,800</td><td class="n"></td></tr>
+        <tr><td>Jan 31</td><td>Repair revenue in cash</td><td class="n">+2,200</td><td class="n"></td><td class="n">+2,200</td></tr>
+        <tr><td>Jan 31</td><td>Pay expenses in cash</td><td class="n">−1,400</td><td class="n"></td><td class="n">−1,400</td></tr>
+        <tr class="total"><td></td><td>Jan 31 totals</td><td class="n">117,800</td><td class="n">37,000</td><td class="n">80,800</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">Cash flow statement (Overnight)</span>
+      <table>
+        <tr><td>Operating (2,200 − 1,400)</td><td class="n">800</td></tr>
+        <tr><td>Investing (land, building, tools, sale)</td><td class="n">(64,200)</td></tr>
+        <tr><td>Financing (sale of stock)</td><td class="n">80,000</td></tr>
+        <tr class="total"><td>Increase in cash</td><td class="n">16,600</td></tr>
+      </table></div>
+    <div class="box"><span class="tag">Who looks at what</span>
+      <p><b>Creditors</b> care about <b>liquidity</b> (can you pay me back?).</p>
+      <p><b>Investors</b> care about <b>profitability</b>.</p>
+      <p><b>Business entity concept:</b> the company is separate from its owner's personal affairs.</p>
+      <p><b>Notes</b> to the statements give the extra detail needed to read them.</p></div>
+  </div>
+</section>
+
+<!-- CH3 -->
+<section id="ch3">
+  <div class="head"><span class="num">CH 3</span><h2>The accounting cycle: debits &amp; credits</h2>
+  <p class="oneline">Double entry: every transaction touches at least two accounts, and total debits always equal total credits.</p></div>
+
+  <div class="tacc">
+    <div class="t-card"><div class="name">Assets</div><div class="sides"><div class="dr">Debit +<br><small>normal balance</small></div><div class="cr">Credit −</div></div></div>
+    <div class="t-card"><div class="name">Liabilities</div><div class="sides"><div class="dr">Debit −</div><div class="cr">Credit +<br><small>normal balance</small></div></div></div>
+    <div class="t-card"><div class="name">Equity (Capital stock, RE)</div><div class="sides"><div class="dr">Debit −</div><div class="cr">Credit +<br><small>normal balance</small></div></div></div>
+    <div class="t-card"><div class="name">Revenues</div><div class="sides"><div class="dr">Debit −</div><div class="cr">Credit +<br><small>raise equity</small></div></div></div>
+    <div class="t-card"><div class="name">Expenses</div><div class="sides"><div class="dr">Debit +<br><small>lower equity</small></div><div class="cr">Credit −</div></div></div>
+    <div class="t-card"><div class="name">Dividends</div><div class="sides"><div class="dr">Debit +<br><small>lower equity</small></div><div class="cr">Credit −</div></div></div>
+  </div>
+
+  <div class="key"><b>Memory trick "DEA-LER":</b> <span class="dr">Dividends, Expenses, Assets</span> go up with a <span class="dr">debit</span>. <span class="cr">Liabilities, Equity, Revenues</span> go up with a <span class="cr">credit</span>. Debit = left side, credit = right side.</div>
+
+  <div>
+    <h3>The 5 steps to record a transaction</h3>
+    <div class="flow">
+      <div class="step"><b>1</b>Identify the accounts and their type (A, L, E)</div>
+      <div class="step"><b>2</b>Increase or decrease? Apply the debit/credit rules</div>
+      <div class="step"><b>3</b>Write the entry in the <b>journal</b> (date order)</div>
+      <div class="step"><b>4</b><b>Post</b> it to the <b>ledger</b> (one page per account)</div>
+      <div class="step"><b>5</b>Check that A = L + E still balances</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">Example journal entries (Overnight)</span>
+      <div class="tbl"><table class="je">
+        <tr><th>Date</th><th>Account</th><th class="n">Dr</th><th class="n">Cr</th></tr>
+        <tr><td>Jan 22</td><td>Building</td><td class="n">36,000</td><td class="n"></td></tr>
+        <tr><td></td><td class="ind">Cash</td><td class="n"></td><td class="n">6,000</td></tr>
+        <tr><td></td><td class="ind">Notes payable</td><td class="n"></td><td class="n">30,000</td></tr>
+        <tr><td>Feb 28</td><td>Accounts receivable</td><td class="n">5,400</td><td class="n"></td></tr>
+        <tr><td></td><td class="ind">Repair service revenue</td><td class="n"></td><td class="n">5,400</td></tr>
+        <tr><td>Feb 28</td><td>Dividends (8,000 sh × $0.40)</td><td class="n">3,200</td><td class="n"></td></tr>
+        <tr><td></td><td class="ind">Cash</td><td class="n"></td><td class="n">3,200</td></tr>
+      </table></div>
+      <p style="font-size:13px;color:var(--muted)">Debit always written first; the credit line is indented.</p></div>
+    <div class="box"><span class="tag">Key principles</span>
+      <p><b>Time period principle:</b> measure income over short, equal periods.</p>
+      <p><b>Matching / revenue recognition:</b> record revenue when goods are sold or services done; record expenses in the period they helped earn revenue.</p>
+      <p><b>Accrual basis:</b> what matters is when it is <i>earned or used</i>, not when cash moves.</p>
+      <p><b>Retained earnings</b> = all profits since the start − all dividends paid.</p></div>
+  </div>
+
+  <div class="trap"><b>Trial balance check:</b> lists every account balance (assets first, then liabilities, then equity). If debits ≠ credits: look for a missing account, divide the difference by <b>2</b> (an amount put on the wrong side), divide it by <b>9</b> (digits swapped, e.g. 85 written 58). A balanced trial balance can still hide errors, such as using the wrong account.</div>
+</section>
+
+<!-- CH5 -->
+<section id="ch5">
+  <div class="head"><span class="num">CH 5</span><h2>Reporting results &amp; closing entries</h2>
+  <p class="oneline">At year end, prepare the statements in order, then reset the temporary accounts to zero for next year.</p></div>
+
+  <div class="flow">
+    <div class="step"><b>1. Income statement</b>Net income</div><div class="arrow">→</div>
+    <div class="step"><b>2. Statement of retained earnings</b>uses net income</div><div class="arrow">→</div>
+    <div class="step"><b>3. Balance sheet</b>uses ending RE</div><div class="arrow">→</div>
+    <div class="step"><b>4. Closing entries</b>empty the temporary accounts</div>
+  </div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">Temporary accounts (closed every year)</span><p>Revenues, Expenses, Dividends, Income Summary.</p></div>
+    <div class="box"><span class="tag">Permanent accounts (carried forward)</span><p>All balance sheet accounts: assets, liabilities, capital stock, retained earnings.</p></div>
+  </div>
+
+  <div>
+    <h3>The 4 closing entries (Overnight, full year 2015)</h3>
+    <div class="tbl"><table class="je">
+      <tr><th>Step</th><th>Entry</th><th class="n">Dr</th><th class="n">Cr</th></tr>
+      <tr><td>① Close revenues</td><td>Revenues (172,000 + 3,000)</td><td class="n">175,000</td><td class="n"></td></tr>
+      <tr><td></td><td class="ind">Income summary</td><td class="n"></td><td class="n">175,000</td></tr>
+      <tr><td>② Close expenses</td><td>Income summary</td><td class="n">135,058</td><td class="n"></td></tr>
+      <tr><td></td><td class="ind">Each expense account</td><td class="n"></td><td class="n">135,058</td></tr>
+      <tr><td>③ Close Income summary</td><td>Income summary (= net income)</td><td class="n">39,942</td><td class="n"></td></tr>
+      <tr><td></td><td class="ind">Retained earnings</td><td class="n"></td><td class="n">39,942</td></tr>
+      <tr><td>④ Close dividends</td><td>Retained earnings</td><td class="n">14,000</td><td class="n"></td></tr>
+      <tr><td></td><td class="ind">Dividends</td><td class="n"></td><td class="n">14,000</td></tr>
+    </table></div>
+  </div>
+  <div class="key"><b>Result:</b> Retained earnings grow by 39,942 − 14,000 = <b>25,942</b>. Dividends never pass through Income summary: they are not an expense. After closing, an <b>after-closing trial balance</b> shows only permanent accounts.</div>
+  <p style="color:var(--muted)">Listed companies publish annual and quarterly (interim) reports; the annual statements must be audited by CPAs.</p>
+</section>
+
+<!-- CH6 -->
+<section id="ch6">
+  <div class="head"><span class="num">CH 6</span><h2>Merchandising activities</h2>
+  <p class="oneline">A shop buys goods and resells them, so its income statement has an extra line: cost of goods sold.</p></div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">Merchandiser's income statement (Home City)</span>
+      <table>
+        <tr><td>Sales revenue</td><td class="n">900,000</td></tr>
+        <tr><td>− Cost of goods sold</td><td class="n">(540,000)</td></tr>
+        <tr class="total"><td>= Gross profit</td><td class="n">360,000</td></tr>
+        <tr><td>− Operating expenses</td><td class="n">(270,000)</td></tr>
+        <tr class="total"><td>= Net income</td><td class="n">90,000</td></tr>
+      </table>
+      <p style="font-size:13px;color:var(--muted)">Gross profit margin = Gross profit ÷ Net sales = 40%</p></div>
+    <div class="box"><span class="tag">Net sales</span>
+      <table>
+        <tr><td>Sales</td><td class="n">912,000</td></tr>
+        <tr><td>− Sales returns &amp; allowances</td><td class="n">(8,000)</td></tr>
+        <tr><td>− Sales discounts</td><td class="n">(4,000)</td></tr>
+        <tr class="total"><td>= Net sales</td><td class="n">900,000</td></tr>
+      </table>
+      <p style="font-size:13px;color:var(--muted)">Returns and discounts are <b>contra-revenue</b> accounts.</p></div>
+  </div>
+
+  <div>
+    <h3>Perpetual inventory: every sale needs TWO entries</h3>
+    <div class="tbl"><table class="je">
+      <tr><th>Event</th><th>Account</th><th class="n">Dr</th><th class="n">Cr</th></tr>
+      <tr><td>Buy 10 couches × $600</td><td>Inventory</td><td class="n">6,000</td><td class="n"></td></tr>
+      <tr><td></td><td class="ind">Accounts payable</td><td class="n"></td><td class="n">6,000</td></tr>
+      <tr><td>Sell 2 at $1,000: ① price</td><td>Accounts receivable</td><td class="n">2,000</td><td class="n"></td></tr>
+      <tr><td></td><td class="ind">Sales</td><td class="n"></td><td class="n">2,000</td></tr>
+      <tr><td>② cost</td><td>Cost of goods sold</td><td class="n">1,200</td><td class="n"></td></tr>
+      <tr><td></td><td class="ind">Inventory</td><td class="n"></td><td class="n">1,200</td></tr>
+      <tr><td>Customer returns goods</td><td>Sales returns &amp; allow.</td><td class="n">1,000</td><td class="n"></td></tr>
+      <tr><td></td><td class="ind">Accounts receivable</td><td class="n"></td><td class="n">1,000</td></tr>
+      <tr><td></td><td>Inventory</td><td class="n">600</td><td class="n"></td></tr>
+      <tr><td></td><td class="ind">Cost of goods sold</td><td class="n"></td><td class="n">600</td></tr>
+      <tr><td>Year-end count: $2,200 missing</td><td>Cost of goods sold (shrinkage)</td><td class="n">2,200</td><td class="n"></td></tr>
+      <tr><td></td><td class="ind">Inventory</td><td class="n"></td><td class="n">2,200</td></tr>
+    </table></div>
+  </div>
+
+  <div>
+    <h3>Credit terms "2/10, n/30" (expert part)</h3>
+    <p style="margin-bottom:10px">Pay within <b>10 days</b> and get a <b>2% discount</b>; otherwise the full amount is due in <b>30 days</b>. Example: $10,000 purchase.</p>
+    <div class="grid2">
+      <div class="box"><span class="tag">Net method (record at 98%)</span>
+        <p>Purchase: Inventory <b>9,800</b> / A/P 9,800</p>
+        <p><span class="pill g">Paid on time</span> A/P 9,800 / Cash 9,800</p>
+        <p><span class="pill b">Paid late</span> A/P 9,800 + <b>Purchase discounts lost 200</b> / Cash 10,000</p></div>
+      <div class="box"><span class="tag">Gross method (record at 100%)</span>
+        <p>Purchase: Inventory <b>10,000</b> / A/P 10,000</p>
+        <p><span class="pill g">Paid on time</span> A/P 10,000 / Cash 9,800 + <b>Purchase discounts taken 200</b></p>
+        <p><span class="pill b">Paid late</span> A/P 10,000 / Cash 10,000</p></div>
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="box"><span class="tag">Transport on purchases</span><p>Part of the inventory cost.</p></div>
+    <div class="box"><span class="tag">Delivery to customers</span><p>Delivery expense (operating expense).</p></div>
+    <div class="box"><span class="tag">Sales tax (7% on $1,000)</span><p>Cash 1,070 / Sales 1,000 + <b>Sales tax payable 70</b> (a liability, not revenue).</p></div>
+  </div>
+</section>
+
+<!-- CH7 -->
+<section id="ch7">
+  <div class="head"><span class="num">CH 7</span><h2>Financial assets</h2>
+  <p class="oneline">Cash and anything that turns easily into a known amount of cash: short-term investments and receivables.</p></div>
+
+  <div class="grid3">
+    <div class="box"><span class="tag">Cash</span><p>Coins, notes, cheques, card sales, money orders: anything the bank accepts as a deposit.</p></div>
+    <div class="box"><span class="tag">Cash equivalents</span><p>Very safe, stable value, matures within <b>90 days</b>. E.g. money-market funds, Treasury bills.</p></div>
+    <div class="box"><span class="tag">Restricted cash / credit line</span><p>Restricted cash can't be used for daily needs. A line of credit only becomes a liability once you draw on it.</p></div>
+  </div>
+
+  <div class="key"><b>Internal control over cash:</b> the person who handles cash never keeps the records · deposit receipts daily · avoid paying in cash (except petty cash) · separate approving from paying · prepare cash budgets · reconcile the bank statement promptly.</div>
+
+  <div>
+    <h3>Bank reconciliation (Parkview Company, July 31)</h3>
+    <div class="grid2">
+      <div class="box"><span class="tag">Bank side: what the bank doesn't know yet</span>
+        <table>
+          <tr><td>Balance per bank</td><td class="n">5,000.17</td></tr>
+          <tr><td>+ Deposit in transit</td><td class="n">410.90</td></tr>
+          <tr><td>− Outstanding cheques</td><td class="n">(717.75)</td></tr>
+          <tr class="total"><td>Adjusted balance</td><td class="n">4,693.32</td></tr>
+        </table></div>
+      <div class="box"><span class="tag">Book side: what the company doesn't know yet</span>
+        <table>
+          <tr><td>Balance per books</td><td class="n">4,262.83</td></tr>
+          <tr><td>+ Interest earned</td><td class="n">24.74</td></tr>
+          <tr><td>+ Note collected by bank</td><td class="n">500.00</td></tr>
+          <tr><td>− Collection fee</td><td class="n">(5.00)</td></tr>
+          <tr><td>− NSF cheque (J.B. Ball)</td><td class="n">(50.25)</td></tr>
+          <tr><td>− Service charge</td><td class="n">(12.00)</td></tr>
+          <tr><td>− Error cheque #893 (85 − 58)</td><td class="n">(27.00)</td></tr>
+          <tr class="total"><td>Adjusted balance</td><td class="n">4,693.32</td></tr>
+        </table></div>
+    </div>
+    <p style="color:var(--muted);font-size:14px;margin-top:8px">Both sides must end on the same number. Only the <b>book side</b> items need journal entries.</p>
+  </div>
+
+  <div>
+    <h3>Accounts receivable &amp; doubtful accounts</h3>
+    <div class="flow">
+      <div class="step"><b>1. Age</b>Sort receivables by how overdue they are</div>
+      <div class="step"><b>2. Estimate %</b>Older = higher % uncollectible</div>
+      <div class="step"><b>3. Compute</b>Required allowance per age group</div>
+      <div class="step"><b>4. Adjust</b>Book only the difference</div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="box"><span class="tag">Adjusting entry (Ranch Valley)</span>
+        <p>Needed allowance 5,680 − existing 4,000 = <b>1,680</b></p>
+        <p><span class="dr">Dr</span> Uncollectible accounts expense 1,680<br><span class="cr">Cr</span> Allowance for doubtful accounts 1,680</p>
+        <p style="font-size:13px;color:var(--muted)">Allowance = contra-asset. Net realizable value = A/R − Allowance (250,000 − 10,000 = 240,000).</p></div>
+      <div class="box"><span class="tag">Write-off &amp; recovery</span>
+        <p><b>Write-off</b> (4,000): <span class="dr">Dr</span> Allowance / <span class="cr">Cr</span> A/R. Net realizable value stays 240,000 and no expense is booked.</p>
+        <p><b>Recovery</b> (500), two entries: ① <span class="dr">Dr</span> A/R / <span class="cr">Cr</span> Allowance (reverse the write-off), ② <span class="dr">Dr</span> Cash / <span class="cr">Cr</span> A/R.</p></div>
+    </div>
+  </div>
+
+  <div class="box"><span class="tag">Expert part: marketable securities (Foster buys Coca-Cola shares)</span>
+    <p><b>Cost</b> includes commission: (4,000 × 48.98) + 80 = 196,000, so $49/share.</p>
+    <p><b>Sell above cost →</b> <span class="pill g">Gain</span> 500 sh: proceeds 25,000 − cost 24,500 = gain 500.</p>
+    <p><b>Sell below cost →</b> <span class="pill b">Loss</span> 2,500 sh: proceeds 120,000 − cost 122,500 = loss 2,500.</p>
+    <p><b>Year end:</b> value the remaining shares at market: 49,000 → 47,000 = <b>unrealized holding loss 2,000</b>.</p></div>
+</section>
+
+<!-- CH9 -->
+<section id="ch9">
+  <div class="head"><span class="num">CH 9</span><h2>Plant &amp; intangible assets</h2>
+  <p class="oneline">Long-lived assets are spread as an expense over the years they help earn revenue (matching principle).</p></div>
+
+  <div class="grid3">
+    <div class="box"><span class="tag">Tangible</span><h3>Depreciation</h3><p>Buildings, equipment, furniture, land improvements. <b>Land is never depreciated.</b></p></div>
+    <div class="box"><span class="tag">Intangible</span><h3>Amortization</h3><p>Patents, copyrights, goodwill. No physical substance, often exclusive rights.</p></div>
+    <div class="box"><span class="tag">Natural resources</span><h3>Depletion</h3><p>Oil, timber, minerals. Dr Depletion expense / Cr Natural resources.</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">What goes into the cost?</span>
+      <p>Purchase price + everything reasonable and necessary to get the asset <b>to its location</b> and <b>ready to use</b>: transport, insurance in transit, taxes, installation, testing, legal fees, clearing land.</p>
+      <p><b>Lump-sum purchase:</b> split the total by relative market values.</p></div>
+    <div class="box"><span class="tag">Spending after purchase</span>
+      <p><span class="pill d">Capital expenditure</span> increases capacity, efficiency or useful life → added to the asset.</p>
+      <p><span class="pill c">Revenue expenditure</span> ordinary maintenance → expense now.</p></div>
+  </div>
+
+  <div>
+    <h3>Two depreciation methods: S&amp;G truck (cost 17,000, residual 2,000, 5 years)</h3>
+    <div class="grid2">
+      <div class="box"><span class="tag">Straight-line</span>
+        <p class="mono">(17,000 − 2,000) ÷ 5 = 3,000 / year</p>
+        <p>Same expense every year.</p></div>
+      <div class="box"><span class="tag">Double-declining balance</span>
+        <p class="mono">Book value × (1/5 × 2) = BV × 40%</p>
+        <p>Year 1: 17,000 × 40% = 6,800. Ignore residual value until the <b>last year</b>, where expense = BV − residual (2,203 − 2,000 = 203).</p></div>
+    </div>
+    <div class="tbl" style="margin-top:12px">
+      <svg viewBox="0 0 540 240" width="100%" style="max-width:640px;display:block" role="img" aria-label="Book value over 5 years: straight-line falls evenly from 17,000 to 2,000; double-declining falls fast at first (10,200 after year 1) and ends at 2,000">
+        <line class="gl" x1="50" x2="510" y1="200" y2="200"/><line class="gl" x1="50" x2="510" y1="152.8" y2="152.8"/><line class="gl" x1="50" x2="510" y1="105.6" y2="105.6"/><line class="gl" x1="50" x2="510" y1="58.3" y2="58.3"/>
+        <text x="44" y="204" text-anchor="end">0</text><text x="44" y="157" text-anchor="end">5k</text><text x="44" y="110" text-anchor="end">10k</text><text x="44" y="62" text-anchor="end">15k</text>
+        <text x="50" y="220" text-anchor="middle">Start</text><text x="140" y="220" text-anchor="middle">Y1</text><text x="230" y="220" text-anchor="middle">Y2</text><text x="320" y="220" text-anchor="middle">Y3</text><text x="410" y="220" text-anchor="middle">Y4</text><text x="500" y="220" text-anchor="middle">Y5</text>
+        <polyline fill="none" stroke="var(--debit)" stroke-width="3" points="50,39.4 140,67.8 230,96.1 320,124.4 410,152.8 500,181.1"/>
+        <polyline fill="none" stroke="var(--credit)" stroke-width="3" points="50,39.4 140,103.7 230,142.2 320,165.3 410,179.2 500,181.1"/>
+        <g fill="var(--debit)"><circle cx="140" cy="67.8" r="4"/><circle cx="230" cy="96.1" r="4"/><circle cx="320" cy="124.4" r="4"/><circle cx="410" cy="152.8" r="4"/></g>
+        <g fill="var(--credit)"><circle cx="140" cy="103.7" r="4"/><circle cx="230" cy="142.2" r="4"/><circle cx="320" cy="165.3" r="4"/><circle cx="410" cy="179.2" r="4"/></g>
+        <circle cx="50" cy="39.4" r="5" fill="var(--ink)"/><circle cx="500" cy="181.1" r="5" fill="var(--ink)"/>
+        <text x="58" y="32">17,000</text><text x="148" y="62">14,000</text><text x="148" y="120">10,200</text><text x="496" y="172" text-anchor="end">2,000 residual</text>
+      </svg>
+      <div class="legend"><span><i style="background:var(--debit)"></i>Straight-line book value</span><span><i style="background:var(--credit)"></i>Double-declining book value</span></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">Journal entry &amp; where it shows</span>
+      <p><span class="dr">Dr</span> Depreciation expense 3,000 → <b>income statement</b></p>
+      <p><span class="cr">Cr</span> Accumulated depreciation 3,000 → <b>balance sheet</b>, contra-asset</p>
+      <p>Book value = Cost − Accumulated depreciation</p></div>
+    <div class="box"><span class="tag">Special cases</span>
+      <p><b>Partial year:</b> bought July 1 → 6/12 of a year. Half-month rule: bought on/before the 15th counts the full month.</p>
+      <p><b>Revised estimate:</b> (BV now − residual) ÷ remaining life. Truck after 3 years: (8,000 − 2,000) ÷ 5 = 1,200/yr.</p>
+      <p><b>Consistency:</b> don't switch methods from year to year.</p></div>
+  </div>
+
+  <div>
+    <h3>Disposal (expert part): compare cash received with book value</h3>
+    <div class="grid3">
+      <div class="box"><span class="pill g">Cash &gt; BV → Gain</span><p>Sell truck (BV 2,000) for 3,000: gain 1,000 (credit).</p></div>
+      <div class="box"><span class="pill b">Cash &lt; BV → Loss</span><p>Sell for 1,000: loss 1,000 (debit). Discard for 0: loss 2,000.</p></div>
+      <div class="box"><span class="pill d">Cash = BV</span><p>No gain or loss.</p></div>
+    </div>
+    <p style="margin-top:10px">Steps: ① update depreciation to date ② remove the asset (Cr cost) and its accumulated depreciation (Dr) ③ record cash ④ plug the gain or loss.</p>
+  </div>
+</section>
+
+<!-- Formula sheet -->
+<section id="formulas">
+  <div class="head"><span class="num">✓</span><h2>Formula sheet for the exam</h2></div>
+  <div class="formulas">
+    <div><b>Accounting equation</b><code>Assets = Liabilities + Equity</code></div>
+    <div><b>Net income</b><code>Revenues − Expenses</code></div>
+    <div><b>Ending retained earnings</b><code>Begin RE + NI − Dividends</code></div>
+    <div><b>Gross profit</b><code>Net sales − COGS</code></div>
+    <div><b>Net sales</b><code>Sales − Returns − Discounts</code></div>
+    <div><b>Gross profit margin</b><code>Gross profit ÷ Net sales</code></div>
+    <div><b>Net realizable value</b><code>A/R − Allowance</code></div>
+    <div><b>Bad-debt adjustment</b><code>Required allowance − Existing</code></div>
+    <div><b>Straight-line</b><code>(Cost − Residual) ÷ Life</code></div>
+    <div><b>Double-declining</b><code>Book value × (2 ÷ Life)</code></div>
+    <div><b>Book value</b><code>Cost − Accum. depreciation</code></div>
+    <div><b>Revised depreciation</b><code>(BV − Residual) ÷ Remaining life</code></div>
+    <div><b>Gain / loss on disposal</b><code>Cash received − Book value</code></div>
+    <div><b>2/10, n/30</b><code>2% off if paid in 10 days, else full in 30</code></div>
+  </div>
+</section>
+
+</div><!-- /view-recap -->
+
+<!-- ============ QUIZ VIEW ============ -->
+<div class="view" id="view-quiz" hidden>
+  <section>
+    <div class="head"><span class="num">QUIZ</span><h2>Quick quizzes by chapter</h2>
+    <p class="oneline">Click an answer: you see right away if it's correct, with the explanation. Use "Restart" to try a chapter again.</p></div>
+  </section>
+  <div id="quiz-root" class="view"></div>
+</div>
+
+<!-- ============ EXERCISES VIEW ============ -->
+<div class="view" id="view-exercises" hidden>
+  <section>
+    <div class="head"><span class="num">EX</span><h2>Exercises with full solutions</h2>
+    <p class="oneline">Do each exercise on paper first, then open the solution. They follow the chapter order and use the same methods as your slides.</p></div>
+  </section>
+
+  <section id="ex1">
+    <div class="head"><span class="num">EX 1</span><h3>Transaction analysis: Lumière Café</h3><span class="tag">Ch 2</span></div>
+    <div class="task">
+      <p>Show the effect of each transaction on Assets, Liabilities and Equity, then give the totals and net income.</p>
+      <ol>
+        <li>Owners invest $50,000 cash in exchange for capital stock.</li>
+        <li>Buy equipment for $20,000: $5,000 cash and a note payable for the rest.</li>
+        <li>Buy supplies for $2,000 on account.</li>
+        <li>Provide services for $6,000 cash.</li>
+        <li>Pay wages of $2,500 cash.</li>
+        <li>Pay $1,000 of the account payable.</li>
+        <li>Pay a $1,000 cash dividend.</li>
+      </ol>
+    </div>
+    <details><summary>Show solution</summary>
+      <div class="tbl"><table>
+        <tr><th>#</th><th class="n">Assets</th><th class="n">Liabilities</th><th class="n">Equity</th></tr>
+        <tr><td>1</td><td class="n">Cash +50,000</td><td class="n"></td><td class="n">Stock +50,000</td></tr>
+        <tr><td>2</td><td class="n">Equip +20,000, Cash −5,000</td><td class="n">Notes +15,000</td><td class="n"></td></tr>
+        <tr><td>3</td><td class="n">Supplies +2,000</td><td class="n">A/P +2,000</td><td class="n"></td></tr>
+        <tr><td>4</td><td class="n">Cash +6,000</td><td class="n"></td><td class="n">RE +6,000 (revenue)</td></tr>
+        <tr><td>5</td><td class="n">Cash −2,500</td><td class="n"></td><td class="n">RE −2,500 (expense)</td></tr>
+        <tr><td>6</td><td class="n">Cash −1,000</td><td class="n">A/P −1,000</td><td class="n"></td></tr>
+        <tr><td>7</td><td class="n">Cash −1,000</td><td class="n"></td><td class="n">RE −1,000 (dividend)</td></tr>
+        <tr class="total"><td>Total</td><td class="n">68,500</td><td class="n">16,000</td><td class="n">52,500</td></tr>
+      </table></div>
+      <p>Cash = 46,500 · Equipment 20,000 · Supplies 2,000 → <b>Assets 68,500 = 16,000 + 52,500</b> ✓</p>
+      <p>Net income = 6,000 − 2,500 = <b>3,500</b>. The dividend is <b>not</b> an expense: it reduces retained earnings, not net income.</p>
+    </details>
+  </section>
+
+  <section id="ex2">
+    <div class="head"><span class="num">EX 2</span><h3>Journal entries: Pixel Studio, March</h3><span class="tag">Ch 3</span></div>
+    <div class="task">
+      <p>Write the journal entry for each transaction.</p>
+      <ul>
+        <li>Mar 1: Issued capital stock for $40,000 cash.</li>
+        <li>Mar 3: Paid March rent, $1,200.</li>
+        <li>Mar 8: Bought equipment for $9,000 on account.</li>
+        <li>Mar 15: Billed a client $4,500 for services done.</li>
+        <li>Mar 20: Collected $3,000 from that client.</li>
+        <li>Mar 31: Paid a $2,000 dividend.</li>
+      </ul>
+    </div>
+    <details><summary>Show solution</summary>
+      <div class="tbl"><table class="je">
+        <tr><th>Date</th><th>Account</th><th class="n">Dr</th><th class="n">Cr</th></tr>
+        <tr><td>Mar 1</td><td>Cash</td><td class="n">40,000</td><td></td></tr><tr><td></td><td class="ind">Capital stock</td><td></td><td class="n">40,000</td></tr>
+        <tr><td>Mar 3</td><td>Rent expense</td><td class="n">1,200</td><td></td></tr><tr><td></td><td class="ind">Cash</td><td></td><td class="n">1,200</td></tr>
+        <tr><td>Mar 8</td><td>Equipment</td><td class="n">9,000</td><td></td></tr><tr><td></td><td class="ind">Accounts payable</td><td></td><td class="n">9,000</td></tr>
+        <tr><td>Mar 15</td><td>Accounts receivable</td><td class="n">4,500</td><td></td></tr><tr><td></td><td class="ind">Service revenue</td><td></td><td class="n">4,500</td></tr>
+        <tr><td>Mar 20</td><td>Cash</td><td class="n">3,000</td><td></td></tr><tr><td></td><td class="ind">Accounts receivable</td><td></td><td class="n">3,000</td></tr>
+        <tr><td>Mar 31</td><td>Dividends</td><td class="n">2,000</td><td></td></tr><tr><td></td><td class="ind">Cash</td><td></td><td class="n">2,000</td></tr>
+      </table></div>
+      <p>Mar 15: revenue is recorded when the service is done, even with no cash yet (accrual basis). Mar 20: no revenue, it's just cash replacing a receivable.</p>
+    </details>
+  </section>
+
+  <section id="ex3">
+    <div class="head"><span class="num">EX 3</span><h3>Closing entries: Atlas Consulting</h3><span class="tag">Ch 5</span></div>
+    <div class="task">
+      <p>Year-end balances: Service revenue 80,000 · Salaries expense 35,000 · Rent expense 12,000 · Utilities expense 3,000 · Dividends 10,000 · Retained earnings (Jan 1) 45,000.</p>
+      <ol><li>Write the 4 closing entries.</li><li>Compute net income and ending retained earnings.</li></ol>
+    </div>
+    <details><summary>Show solution</summary>
+      <div class="tbl"><table class="je">
+        <tr><th>Step</th><th>Account</th><th class="n">Dr</th><th class="n">Cr</th></tr>
+        <tr><td>① Revenues</td><td>Service revenue</td><td class="n">80,000</td><td></td></tr><tr><td></td><td class="ind">Income summary</td><td></td><td class="n">80,000</td></tr>
+        <tr><td>② Expenses</td><td>Income summary</td><td class="n">50,000</td><td></td></tr><tr><td></td><td class="ind">Salaries expense</td><td></td><td class="n">35,000</td></tr><tr><td></td><td class="ind">Rent expense</td><td></td><td class="n">12,000</td></tr><tr><td></td><td class="ind">Utilities expense</td><td></td><td class="n">3,000</td></tr>
+        <tr><td>③ Income summary</td><td>Income summary</td><td class="n">30,000</td><td></td></tr><tr><td></td><td class="ind">Retained earnings</td><td></td><td class="n">30,000</td></tr>
+        <tr><td>④ Dividends</td><td>Retained earnings</td><td class="n">10,000</td><td></td></tr><tr><td></td><td class="ind">Dividends</td><td></td><td class="n">10,000</td></tr>
+      </table></div>
+      <p>Net income = 80,000 − 50,000 = <b>30,000</b>. Ending RE = 45,000 + 30,000 − 10,000 = <b>65,000</b>.</p>
+    </details>
+  </section>
+
+  <section id="ex4">
+    <div class="head"><span class="num">EX 4</span><h3>Merchandising with discounts: Velo Shop</h3><span class="tag">Ch 6</span></div>
+    <div class="task">
+      <p>Velo Shop uses a <b>perpetual</b> inventory system and records purchases at <b>net cost</b>.</p>
+      <ul>
+        <li>Nov 2: Buys 20 bikes at $400 each on account, terms 2/10, n/30.</li>
+        <li>Nov 5: Sells 5 bikes at $700 each on account, terms 2/10, n/30.</li>
+        <li>Nov 7: The customer returns 1 bike.</li>
+        <li>Nov 12: Pays the supplier in full.</li>
+        <li>Nov 14: Collects the balance from the customer.</li>
+      </ul>
+      <p>Write the entries, then compute net sales and gross profit.</p>
+    </div>
+    <details><summary>Show solution</summary>
+      <p>Net cost of one bike = 400 × 98% = <b>392</b>.</p>
+      <div class="tbl"><table class="je">
+        <tr><th>Date</th><th>Account</th><th class="n">Dr</th><th class="n">Cr</th></tr>
+        <tr><td>Nov 2</td><td>Inventory (8,000 × 98%)</td><td class="n">7,840</td><td></td></tr><tr><td></td><td class="ind">Accounts payable</td><td></td><td class="n">7,840</td></tr>
+        <tr><td>Nov 5</td><td>Accounts receivable</td><td class="n">3,500</td><td></td></tr><tr><td></td><td class="ind">Sales</td><td></td><td class="n">3,500</td></tr>
+        <tr><td></td><td>Cost of goods sold (5 × 392)</td><td class="n">1,960</td><td></td></tr><tr><td></td><td class="ind">Inventory</td><td></td><td class="n">1,960</td></tr>
+        <tr><td>Nov 7</td><td>Sales returns &amp; allowances</td><td class="n">700</td><td></td></tr><tr><td></td><td class="ind">Accounts receivable</td><td></td><td class="n">700</td></tr>
+        <tr><td></td><td>Inventory</td><td class="n">392</td><td></td></tr><tr><td></td><td class="ind">Cost of goods sold</td><td></td><td class="n">392</td></tr>
+        <tr><td>Nov 12</td><td>Accounts payable</td><td class="n">7,840</td><td></td></tr><tr><td></td><td class="ind">Cash</td><td></td><td class="n">7,840</td></tr>
+        <tr><td>Nov 14</td><td>Cash (2,800 × 98%)</td><td class="n">2,744</td><td></td></tr><tr><td></td><td>Sales discounts</td><td class="n">56</td><td></td></tr><tr><td></td><td class="ind">Accounts receivable</td><td></td><td class="n">2,800</td></tr>
+      </table></div>
+      <p>Net sales = 3,500 − 700 − 56 = <b>2,744</b>. COGS = 1,960 − 392 = <b>1,568</b>. Gross profit = <b>1,176</b>.</p>
+      <p>Paid on day 10 (Nov 12) and collected on day 9 (Nov 14), so both discounts apply.</p>
+    </details>
+  </section>
+
+  <section id="ex5">
+    <div class="head"><span class="num">EX 5</span><h3>Bank reconciliation: Sunset Ltd, April 30</h3><span class="tag">Ch 7</span></div>
+    <div class="task">
+      <ul>
+        <li>Bank statement balance: $8,200 · Cash ledger balance: $7,366</li>
+        <li>Deposit in transit: $1,150 · Outstanding cheques: $1,640</li>
+        <li>Bank service charge: $25 · NSF cheque from a customer: $180</li>
+        <li>Interest earned: $40 · The bank collected a $500 note for the company</li>
+        <li>Cheque for supplies of $312 was recorded in the books as $321</li>
+      </ul>
+      <p>Prepare the reconciliation and the journal entries needed.</p>
+    </div>
+    <details><summary>Show solution</summary>
+      <div class="grid2">
+        <table><tr><td>Bank balance</td><td class="n">8,200</td></tr><tr><td>+ Deposit in transit</td><td class="n">1,150</td></tr><tr><td>− Outstanding cheques</td><td class="n">(1,640)</td></tr><tr class="total"><td>Adjusted</td><td class="n">7,710</td></tr></table>
+        <table><tr><td>Book balance</td><td class="n">7,366</td></tr><tr><td>− Service charge</td><td class="n">(25)</td></tr><tr><td>− NSF cheque</td><td class="n">(180)</td></tr><tr><td>+ Interest</td><td class="n">40</td></tr><tr><td>+ Note collected</td><td class="n">500</td></tr><tr><td>+ Error (321 − 312)</td><td class="n">9</td></tr><tr class="total"><td>Adjusted</td><td class="n">7,710</td></tr></table>
+      </div>
+      <p>Entries (book side only): Dr Bank service charge expense 25 / Cr Cash 25 · Dr Accounts receivable 180 / Cr Cash 180 · Dr Cash 40 / Cr Interest revenue 40 · Dr Cash 500 / Cr Notes receivable 500 · Dr Cash 9 / Cr Supplies 9.</p>
+      <p>The books recorded 9 too much paid out, so cash must go back <b>up</b> by 9.</p>
+    </details>
+  </section>
+
+  <section id="ex6">
+    <div class="head"><span class="num">EX 6</span><h3>Aging of receivables: Nordic Supplies</h3><span class="tag">Ch 7</span></div>
+    <div class="task">
+      <div class="tbl"><table><tr><th>Age group</th><th class="n">Balance</th><th class="n">% uncollectible</th></tr>
+        <tr><td>Not yet due</td><td class="n">60,000</td><td class="n">1%</td></tr><tr><td>1–30 days past due</td><td class="n">25,000</td><td class="n">4%</td></tr><tr><td>31–60 days</td><td class="n">10,000</td><td class="n">10%</td></tr><tr><td>Over 60 days</td><td class="n">5,000</td><td class="n">40%</td></tr></table></div>
+      <ol><li>Compute the required allowance.</li><li>The allowance already has a <b>credit</b> balance of 1,800. Write the adjusting entry.</li><li>Compute the net realizable value.</li><li>Then write off a 700 account. What is the NRV now?</li><li>Bonus: what if the allowance had a <b>debit</b> balance of 500 before adjusting?</li></ol>
+    </div>
+    <details><summary>Show solution</summary>
+      <p>1. 600 + 1,000 + 1,000 + 2,000 = <b>4,600</b></p>
+      <p>2. 4,600 − 1,800 = 2,800 → Dr Uncollectible accounts expense 2,800 / Cr Allowance 2,800</p>
+      <p>3. NRV = 100,000 − 4,600 = <b>95,400</b></p>
+      <p>4. Dr Allowance 700 / Cr A/R 700 → A/R 99,300 − allowance 3,900 = <b>95,400</b> (unchanged)</p>
+      <p>5. A debit balance must first be cleared: 4,600 + 500 = <b>5,100</b> expense.</p>
+    </details>
+  </section>
+
+  <section id="ex7">
+    <div class="head"><span class="num">EX 7</span><h3>Cost and depreciation schedule: packing machine</h3><span class="tag">Ch 9</span></div>
+    <div class="task">
+      <p>On January 2 a company buys a machine: price 48,000, transport 1,500, installation 500. Residual value 5,000, useful life 5 years.</p>
+      <ol><li>Capitalized cost?</li><li>Straight-line depreciation per year.</li><li>Full double-declining balance schedule.</li></ol>
+    </div>
+    <details><summary>Show solution</summary>
+      <p>1. 48,000 + 1,500 + 500 = <b>50,000</b> (transport and installation are needed to get it ready, so they are part of the cost).</p>
+      <p>2. (50,000 − 5,000) ÷ 5 = <b>9,000 / year</b></p>
+      <div class="tbl"><table><tr><th>Year</th><th>Computation</th><th class="n">Expense</th><th class="n">Accum. dep.</th><th class="n">Book value</th></tr>
+        <tr><td>1</td><td>50,000 × 40%</td><td class="n">20,000</td><td class="n">20,000</td><td class="n">30,000</td></tr>
+        <tr><td>2</td><td>30,000 × 40%</td><td class="n">12,000</td><td class="n">32,000</td><td class="n">18,000</td></tr>
+        <tr><td>3</td><td>18,000 × 40%</td><td class="n">7,200</td><td class="n">39,200</td><td class="n">10,800</td></tr>
+        <tr><td>4</td><td>10,800 × 40%</td><td class="n">4,320</td><td class="n">43,520</td><td class="n">6,480</td></tr>
+        <tr><td>5</td><td>6,480 − 5,000</td><td class="n">1,480</td><td class="n">45,000</td><td class="n">5,000</td></tr></table></div>
+    </details>
+  </section>
+
+  <section id="ex8">
+    <div class="head"><span class="num">EX 8</span><h3>Partial year and disposal: delivery truck</h3><span class="tag">Ch 9</span></div>
+    <div class="task">
+      <p>A truck costing 36,000 (residual 6,000, life 5 years, straight-line) is put into service on <b>April 1, Year 1</b>. Year end is December 31. It is sold on January 2, Year 4 for 18,000.</p>
+      <ol><li>Depreciation for Years 1, 2 and 3.</li><li>Book value on the sale date.</li><li>Journal entry for the sale.</li></ol>
+    </div>
+    <details><summary>Show solution</summary>
+      <p>1. Annual: (36,000 − 6,000) ÷ 5 = 6,000. Year 1: 6,000 × 9/12 = <b>4,500</b>. Years 2 and 3: <b>6,000</b> each.</p>
+      <p>2. Accumulated = 16,500 → BV = 36,000 − 16,500 = <b>19,500</b></p>
+      <p>3. Cash 18,000 &lt; BV 19,500 → <span class="pill b">Loss 1,500</span></p>
+      <div class="tbl"><table class="je"><tr><th>Account</th><th class="n">Dr</th><th class="n">Cr</th></tr>
+        <tr><td>Cash</td><td class="n">18,000</td><td></td></tr><tr><td>Accumulated depreciation</td><td class="n">16,500</td><td></td></tr><tr><td>Loss on disposal</td><td class="n">1,500</td><td></td></tr><tr><td class="ind">Truck</td><td></td><td class="n">36,000</td></tr></table></div>
+    </details>
+  </section>
+
+  <section id="ex9">
+    <div class="head"><span class="num">EX 9</span><h3>Marketable securities (expert part)</h3><span class="tag">Ch 7</span></div>
+    <div class="task">
+      <ul><li>Buys 1,000 shares at $25 plus $100 commission.</li><li>Sells 400 shares at $28, less $40 commission.</li><li>Year end: the remaining 600 shares are worth $24 each.</li></ul>
+      <p>Write the three entries.</p>
+    </div>
+    <details><summary>Show solution</summary>
+      <p>Cost = 25,000 + 100 = 25,100 → <b>25.10/share</b>.</p>
+      <p>Sale: proceeds 11,200 − 40 = 11,160; cost 400 × 25.10 = 10,040 → <span class="pill g">Gain 1,120</span><br>Dr Cash 11,160 / Cr Marketable securities 10,040 / Cr Gain on sale 1,120</p>
+      <p>Year end: cost 600 × 25.10 = 15,060; market 14,400 → Dr Unrealized holding loss 660 / Cr Marketable securities 660</p>
+    </details>
+  </section>
+</div>
+
+<!-- ============ MOCK VIEW ============ -->
+<div class="view" id="view-mock" hidden>
+  <section>
+    <div class="head"><span class="num">MOCK</span><h2>Mock exams</h2>
+    <p class="oneline">Two practice exams, 30 points each: Part A is 10 multiple-choice questions (1 pt each, graded automatically when you submit), Part B is 3 problems (20 pts) you do on paper and check against the solution. Allow about 60 minutes each.</p></div>
+    <div class="timer-box">
+      <span class="timer" id="timer" aria-live="polite">60:00</span>
+      <button class="btn" type="button" id="t-start">Start 60 min</button>
+      <button class="btn ghost" type="button" id="t-pause">Pause</button>
+      <button class="btn ghost" type="button" id="t-reset">Reset</button>
+    </div>
+  </section>
+
+  <section id="mock1">
+    <div class="head"><span class="num">MOCK 1</span><h2>Mock exam 1</h2></div>
+    <h3>Part A: Multiple choice <span class="pts">10 pts</span></h3>
+    <div class="qlist" id="mock1-mcq"></div>
+    <div class="bar"><button class="btn" type="button" data-submit="0">Submit Part A</button><button class="btn ghost" type="button" data-reset="0">Restart</button><span class="result" id="mock1-result"></span></div>
+
+    <h3>Part B: Problems <span class="pts">20 pts</span></h3>
+    <div class="box task"><p><b>Problem 1</b> <span class="pts">8 pts</span>. Home Deco uses a perpetual system and records purchases at <b>gross</b> price. Journalize:</p>
+      <ul><li>Jun 1: Buys inventory for 12,000 on account, terms 2/10, n/30.</li><li>Jun 4: Returns 1,000 of defective goods to the supplier.</li><li>Jun 10: Pays the supplier the balance due.</li><li>Jun 15: Sells goods costing 6,000 for 9,500 cash plus 7% sales tax.</li></ul>
+      <details><summary>Show solution</summary>
+        <div class="tbl"><table class="je"><tr><th>Date</th><th>Account</th><th class="n">Dr</th><th class="n">Cr</th></tr>
+          <tr><td>Jun 1</td><td>Inventory</td><td class="n">12,000</td><td></td></tr><tr><td></td><td class="ind">Accounts payable</td><td></td><td class="n">12,000</td></tr>
+          <tr><td>Jun 4</td><td>Accounts payable</td><td class="n">1,000</td><td></td></tr><tr><td></td><td class="ind">Inventory</td><td></td><td class="n">1,000</td></tr>
+          <tr><td>Jun 10</td><td>Accounts payable</td><td class="n">11,000</td><td></td></tr><tr><td></td><td class="ind">Cash (11,000 × 98%)</td><td></td><td class="n">10,780</td></tr><tr><td></td><td class="ind">Purchase discounts taken</td><td></td><td class="n">220</td></tr>
+          <tr><td>Jun 15</td><td>Cash</td><td class="n">10,165</td><td></td></tr><tr><td></td><td class="ind">Sales</td><td></td><td class="n">9,500</td></tr><tr><td></td><td class="ind">Sales tax payable</td><td></td><td class="n">665</td></tr>
+          <tr><td></td><td>Cost of goods sold</td><td class="n">6,000</td><td></td></tr><tr><td></td><td class="ind">Inventory</td><td></td><td class="n">6,000</td></tr></table></div>
+        <p>Grading: 2 pts per date. Jun 10 is day 9, so the discount applies, on the balance after the return.</p>
+      </details></div>
+    <div class="box task"><p><b>Problem 2</b> <span class="pts">6 pts</span>. Accounts receivable are 80,000. Aging shows 3,200 will not be collected. The allowance has a credit balance of 900.</p>
+      <ol><li>Adjusting entry and NRV.</li><li>Write-off of a 600 customer account: entry and NRV after.</li><li>The customer later pays 200 of the written-off amount: entries.</li></ol>
+      <details><summary>Show solution</summary>
+        <p>1. 3,200 − 900 = 2,300 → Dr Uncollectible accounts expense 2,300 / Cr Allowance 2,300. NRV = 80,000 − 3,200 = <b>76,800</b>.</p>
+        <p>2. Dr Allowance 600 / Cr A/R 600. NRV = 79,400 − 2,600 = <b>76,800</b> (unchanged).</p>
+        <p>3. Dr A/R 200 / Cr Allowance 200, then Dr Cash 200 / Cr A/R 200.</p>
+      </details></div>
+    <div class="box task"><p><b>Problem 3</b> <span class="pts">6 pts</span>. Equipment bought January 2, Year 1: cost 25,000, residual 1,000, life 4 years, <b>double-declining balance</b>.</p>
+      <ol><li>Full depreciation schedule.</li><li>The equipment is sold on January 2, Year 4 for 4,000. Journal entry.</li></ol>
+      <details><summary>Show solution</summary>
+        <div class="tbl"><table><tr><th>Year</th><th>Computation</th><th class="n">Expense</th><th class="n">Accum.</th><th class="n">BV</th></tr>
+          <tr><td>1</td><td>25,000 × 50%</td><td class="n">12,500</td><td class="n">12,500</td><td class="n">12,500</td></tr>
+          <tr><td>2</td><td>12,500 × 50%</td><td class="n">6,250</td><td class="n">18,750</td><td class="n">6,250</td></tr>
+          <tr><td>3</td><td>6,250 × 50%</td><td class="n">3,125</td><td class="n">21,875</td><td class="n">3,125</td></tr>
+          <tr><td>4</td><td>3,125 − 1,000</td><td class="n">2,125</td><td class="n">24,000</td><td class="n">1,000</td></tr></table></div>
+        <p>Sale after 3 years: BV 3,125, cash 4,000 → <span class="pill g">Gain 875</span></p>
+        <p>Dr Cash 4,000 · Dr Accumulated depreciation 21,875 / Cr Equipment 25,000 · Cr Gain on disposal 875</p>
+      </details></div>
+  </section>
+
+  <section id="mock2">
+    <div class="head"><span class="num">MOCK 2</span><h2>Mock exam 2</h2></div>
+    <h3>Part A: Multiple choice <span class="pts">10 pts</span></h3>
+    <div class="qlist" id="mock2-mcq"></div>
+    <div class="bar"><button class="btn" type="button" data-submit="1">Submit Part A</button><button class="btn ghost" type="button" data-reset="1">Restart</button><span class="result" id="mock2-result"></span></div>
+
+    <h3>Part B: Problems <span class="pts">20 pts</span></h3>
+    <div class="box task"><p><b>Problem 1</b> <span class="pts">7 pts</span>. Adjusted trial balance of Studio Nova, December 31:</p>
+      <div class="tbl"><table><tr><th>Account</th><th class="n">Dr</th><th class="n">Cr</th></tr>
+        <tr><td>Cash</td><td class="n">12,000</td><td></td></tr><tr><td>Accounts receivable</td><td class="n">8,000</td><td></td></tr><tr><td>Equipment</td><td class="n">30,000</td><td></td></tr><tr><td>Accumulated depreciation</td><td></td><td class="n">6,000</td></tr><tr><td>Accounts payable</td><td></td><td class="n">5,000</td></tr><tr><td>Capital stock</td><td></td><td class="n">25,000</td></tr><tr><td>Retained earnings (Jan 1)</td><td></td><td class="n">9,000</td></tr><tr><td>Dividends</td><td class="n">3,000</td><td></td></tr><tr><td>Service revenue</td><td></td><td class="n">40,000</td></tr><tr><td>Salaries expense</td><td class="n">18,000</td><td></td></tr><tr><td>Rent expense</td><td class="n">9,000</td><td></td></tr><tr><td>Depreciation expense</td><td class="n">5,000</td><td></td></tr>
+        <tr class="total"><td>Total</td><td class="n">85,000</td><td class="n">85,000</td></tr></table></div>
+      <ol><li>Net income.</li><li>Ending retained earnings.</li><li>Total assets, and check the accounting equation.</li><li>The closing entries.</li></ol>
+      <details><summary>Show solution</summary>
+        <p>1. 40,000 − (18,000 + 9,000 + 5,000) = <b>8,000</b></p>
+        <p>2. 9,000 + 8,000 − 3,000 = <b>14,000</b></p>
+        <p>3. 12,000 + 8,000 + (30,000 − 6,000) = <b>44,000</b> = 5,000 + 25,000 + 14,000 ✓ (accumulated depreciation reduces assets)</p>
+        <p>4. Dr Service revenue 40,000 / Cr Income summary 40,000 · Dr Income summary 32,000 / Cr Salaries 18,000, Rent 9,000, Depreciation 5,000 · Dr Income summary 8,000 / Cr RE 8,000 · Dr RE 3,000 / Cr Dividends 3,000</p>
+      </details></div>
+    <div class="box task"><p><b>Problem 2</b> <span class="pts">7 pts</span>. Bank reconciliation, May 31. Bank balance 15,300, book balance 15,260. Deposit in transit 2,100; outstanding cheques 3,250; service charge 30; NSF cheque 420; interest earned 60. A customer payment of 1,080 was recorded in the books as 1,800.</p>
+      <ol><li>Prepare the reconciliation.</li><li>Journal entries required.</li></ol>
+      <details><summary>Show solution</summary>
+        <p>Bank: 15,300 + 2,100 − 3,250 = <b>14,150</b></p>
+        <p>Books: 15,260 − 30 − 420 + 60 − 720 = <b>14,150</b> ✓</p>
+        <p>Entries: Dr Bank service charge expense 30 / Cr Cash 30 · Dr A/R 420 / Cr Cash 420 · Dr Cash 60 / Cr Interest revenue 60 · Dr A/R 720 / Cr Cash 720 (the books overstated the collection by 720, so the customer still owes it).</p>
+      </details></div>
+    <div class="box task"><p><b>Problem 3</b> <span class="pts">6 pts</span>.</p>
+      <ol><li>Equipment bought <b>September 10</b> for 22,000 plus 2,000 installation. No residual value, 5-year life, straight-line, half-month convention. Depreciation for Year 1 and Year 2, and book value at the end of Year 2?</li>
+      <li>500 shares bought at $40 plus $50 commission. 200 sold at $43 less $30 commission. At year end the remaining shares are worth $39. Entries for the sale and the year-end adjustment?</li></ol>
+      <details><summary>Show solution</summary>
+        <p>1. Cost 24,000 → 4,800/yr. Bought on or before the 15th, so September counts: 4 months → Year 1 = <b>1,600</b>; Year 2 = <b>4,800</b>; BV = 24,000 − 6,400 = <b>17,600</b>.</p>
+        <p>2. Cost 20,050 → 40.10/share. Sale: proceeds 8,600 − 30 = 8,570; cost 8,020 → Dr Cash 8,570 / Cr Marketable securities 8,020 / Cr Gain 550. Year end: 300 shares cost 12,030, market 11,700 → Dr Unrealized holding loss 330 / Cr Marketable securities 330.</p>
+      </details></div>
+  </section>
+</div>
+
+<footer>Based on the course slides (Williams, Haka, Bettner &amp; Carcello, Financial and Managerial Accounting, 18th ed.). Chapters 4 and 8 were not in the uploaded files.</footer>
+</div>
+<script>
+const QUIZ=[
+{ch:"CH 1",t:"What is accounting?",qs:[
+ {q:"Which of these is an <b>internal</b> user of accounting information?",o:["A bank lending money","A plant manager","The tax authority","A potential investor"],a:1,e:"Internal users work inside the company: board, CEO, CFO, managers, supervisors."},
+ {q:"What are the three basic functions of an accounting system?",o:["Buy, sell, report","Audit, tax, invest","Record, classify, summarize & communicate","Plan, budget, control"],a:2,e:"Interpret & record transactions → classify them → summarize and communicate to decision makers."},
+ {q:"Who reports to the CFO in the typical organization chart?",o:["The Controller and the Treasurer","The CEO and the Board","The shareholders","The plant managers"],a:0,e:"The Controller handles accounting, the Treasurer handles cash and financing."},
+ {q:"Which is NOT one of the primary financial statements?",o:["Statement of cash flows","Income statement","Statement of retained earnings","Annual budget"],a:3,e:"The four statements are: balance sheet, income statement, statement of retained earnings, statement of cash flows."}]},
+{ch:"CH 2",t:"Basic financial statements",qs:[
+ {q:"Assets are 500,000 and liabilities 180,000. What is owners' equity?",o:["680,000","320,000","180,000","500,000"],a:1,e:"Equity = Assets − Liabilities = 500,000 − 180,000 = 320,000."},
+ {q:"The balance sheet shows…",o:["Revenues and expenses for a period","Changes in cash for a period","The financial position on a specific date","Only the owners' investments"],a:2,e:"Balance sheet = a photo at one date. Income statement and cash flows cover a period."},
+ {q:"The company buys equipment for 5,000 on account. Effect?",o:["Assets +5,000, Liabilities +5,000","Assets +5,000, Equity +5,000","Assets −5,000, Liabilities +5,000","No effect"],a:0,e:"Equipment (asset) goes up and Accounts payable (liability) goes up. The equation stays balanced."},
+ {q:"The company collects 1,200 from a customer who owed it money. Total assets…",o:["Increase by 1,200","Decrease by 1,200","Do not change","Increase by 2,400"],a:2,e:"Cash +1,200 and Accounts receivable −1,200: one asset replaces another."},
+ {q:"Selling capital stock for cash is shown in which cash flow section?",o:["Operating","Investing","Financing","It is not shown"],a:2,e:"Like Overnight's 80,000 sale of stock: money from owners or lenders = financing."}]},
+{ch:"CH 3",t:"Debits & credits",qs:[
+ {q:"What is the normal balance of Accounts payable?",o:["Debit","Credit","Zero","Depends on the month"],a:1,e:"Liabilities increase with a credit, so their normal balance is a credit."},
+ {q:"To record an increase in an expense, you…",o:["Credit the expense","Debit the expense","Debit retained earnings directly","Credit cash only"],a:1,e:"Expenses (like dividends and assets) go up with a debit: the DEA side."},
+ {q:"Buying supplies for 300 cash is recorded as…",o:["Dr Cash 300 / Cr Supplies 300","Dr Supplies 300 / Cr Accounts payable 300","Dr Supplies 300 / Cr Cash 300","Dr Supplies expense 300 / Cr Revenue 300"],a:2,e:"Supplies (asset) increases with a debit; Cash (asset) decreases with a credit."},
+ {q:"Total debits exceed total credits by 270. Which error could explain it?",o:["A missing transaction","A transposition such as 520 recorded as 250","Using the wrong expense account","An entry recorded twice"],a:1,e:"270 ÷ 9 = 30: differences divisible by 9 point to swapped digits (520 − 250 = 270)."},
+ {q:"Services are done in December; the client pays in January. When is revenue recorded?",o:["January, when cash arrives","December, when it is earned","Half in each month","Only at year end"],a:1,e:"Accrual basis and matching: record revenue when the service is rendered."}]},
+{ch:"CH 5",t:"Closing entries",qs:[
+ {q:"Which account is NOT closed at year end?",o:["Dividends","Service revenue","Utilities expense","Accumulated depreciation"],a:3,e:"Accumulated depreciation is a balance sheet (permanent) account. Revenues, expenses and dividends are temporary."},
+ {q:"After closing revenues and expenses, Income Summary has a credit balance. This means…",o:["A net loss","A net income","An error","Dividends were paid"],a:1,e:"Revenues (credits) were larger than expenses (debits), so there is a profit."},
+ {q:"The entry to close the Dividends account is…",o:["Dr Dividends / Cr Retained earnings","Dr Income summary / Cr Dividends","Dr Retained earnings / Cr Dividends","Dr Dividends / Cr Cash"],a:2,e:"Dividends have a debit balance, so you credit them, and reduce retained earnings directly (not through Income summary)."},
+ {q:"Beginning RE 50,000, net income 20,000, dividends 5,000. Ending RE?",o:["75,000","65,000","70,000","45,000"],a:1,e:"50,000 + 20,000 − 5,000 = 65,000."}]},
+{ch:"CH 6",t:"Merchandising",qs:[
+ {q:"Sales 500,000 and COGS 300,000. Gross profit margin?",o:["60%","40%","30%","200,000%"],a:1,e:"Gross profit 200,000 ÷ 500,000 = 40%."},
+ {q:"In a perpetual system, a sale on account requires…",o:["One entry: Dr A/R / Cr Sales","Two entries: the sale price and the cost","No entry until the year-end count","One entry: Dr COGS / Cr Inventory"],a:1,e:"Dr A/R / Cr Sales for the price, and Dr COGS / Cr Inventory for the cost."},
+ {q:"An 8,000 invoice, terms 2/10, n/30, paid within 10 days. Cash paid?",o:["8,000","7,840","7,200","7,960"],a:1,e:"8,000 × 98% = 7,840."},
+ {q:"The year-end count shows inventory is 1,500 lower than the records. Entry?",o:["Dr Inventory / Cr COGS","Dr COGS / Cr Inventory","Dr Loss / Cr Cash","No entry"],a:1,e:"Shrinkage (theft, breakage) is a normal cost: it goes to cost of goods sold."},
+ {q:"Sales tax collected from customers is recorded as…",o:["Revenue","An expense","A liability","Equity"],a:2,e:"Sales tax payable: the company owes it to the government."}]},
+{ch:"CH 7",t:"Financial assets",qs:[
+ {q:"In a bank reconciliation, a deposit in transit is…",o:["Added to the bank balance","Subtracted from the bank balance","Added to the book balance","Subtracted from the book balance"],a:0,e:"The bank doesn't know about it yet, so it goes on the bank side, added."},
+ {q:"A customer's NSF cheque returned by the bank is…",o:["Added to the bank balance","Subtracted from the book balance","Added to the book balance","Ignored"],a:1,e:"The company recorded cash it never really got: reduce the book balance (and reinstate the receivable)."},
+ {q:"The allowance has a credit balance of 3,000. Aging says it should be 7,500. Uncollectible accounts expense?",o:["7,500","10,500","4,500","3,000"],a:2,e:"Only the difference is booked: 7,500 − 3,000 = 4,500."},
+ {q:"Writing off a 1,000 uncollectible account under the allowance method…",o:["Reduces net income","Increases NRV","Does not change NRV","Reduces NRV by 1,000"],a:2,e:"A/R and the allowance both drop by 1,000, so NRV stays the same and no expense is booked."},
+ {q:"To be a cash equivalent, an investment must mature within…",o:["30 days","90 days","1 year","5 years"],a:1,e:"Very safe, stable value, maturity within 90 days of purchase."}]},
+{ch:"CH 9",t:"Plant assets",qs:[
+ {q:"Machine: cost 50,000, residual 5,000, life 9 years. Straight-line depreciation per year?",o:["5,556","5,000","4,500","6,111"],a:1,e:"(50,000 − 5,000) ÷ 9 = 5,000."},
+ {q:"Double-declining balance, cost 20,000, life 4 years. Year 1 depreciation?",o:["5,000","10,000","8,000","20,000"],a:1,e:"Rate = (1/4) × 2 = 50%. 20,000 × 50% = 10,000. Residual value is ignored until the last year."},
+ {q:"Which asset is NEVER depreciated?",o:["Buildings","Land improvements","Land","Furniture"],a:2,e:"Land doesn't wear out. Land improvements (fences, paving, lighting) are depreciated."},
+ {q:"Asset cost 30,000, accumulated depreciation 22,000, sold for 10,000 cash. Result?",o:["Loss 2,000","Gain 2,000","Gain 10,000","No gain or loss"],a:1,e:"BV = 8,000. Cash 10,000 > BV → gain 2,000."},
+ {q:"A major engine overhaul that extends a truck's life by 3 years is a…",o:["Revenue expenditure (expense)","Capital expenditure (added to the asset)","Loss","Dividend"],a:1,e:"It extends the useful life, so it is capitalized. Routine maintenance would be a revenue expenditure."}]}
+];
+const MOCKS=[
+[
+ {q:"The owner's personal car is not on the company's balance sheet. Which concept?",o:["Matching principle","Business entity concept","Time period principle","Consistency"],a:1,e:"The business is separate from its owner's personal affairs."},
+ {q:"The company receives 2,000 from a customer for services billed last month. Entry?",o:["Dr Cash / Cr Service revenue","Dr Cash / Cr Accounts receivable","Dr A/R / Cr Cash","Dr Revenue / Cr Cash"],a:1,e:"Revenue was already recorded when billed; now the receivable becomes cash."},
+ {q:"Which transaction increases owners' equity?",o:["Paying a dividend","Paying an account payable","Earning revenue","Buying equipment on account"],a:2,e:"Revenue increases equity; dividends and expenses decrease it."},
+ {q:"Assets 90,000 and equity 55,000. Liabilities?",o:["145,000","35,000","55,000","90,000"],a:1,e:"L = A − E = 90,000 − 55,000 = 35,000."},
+ {q:"Normal balance of Dividends?",o:["Debit","Credit","None","Same as Capital stock"],a:0,e:"Dividends reduce equity, so they increase with a debit (DEA-LER)."},
+ {q:"Which is a contra-asset account?",o:["Sales returns and allowances","Allowance for doubtful accounts","Accounts payable","Cost of goods sold"],a:1,e:"It reduces Accounts receivable on the balance sheet. (Sales returns is contra-revenue.)"},
+ {q:"Sale of 2,000, terms 2/10, n/30. The customer returns 500, then pays within 10 days. Cash received?",o:["1,960","1,500","1,470","1,490"],a:2,e:"(2,000 − 500) × 98% = 1,470."},
+ {q:"Outstanding cheques in a bank reconciliation are…",o:["Added to the book balance","Subtracted from the bank balance","Subtracted from the book balance","Added to the bank balance"],a:1,e:"Already recorded by the company, not yet paid by the bank."},
+ {q:"Asset cost 60,000, no residual, 10-year life, bought October 1; year ends December 31. Year 1 straight-line depreciation?",o:["6,000","4,500","1,500","500"],a:2,e:"6,000 per year × 3/12 = 1,500."},
+ {q:"The closing entry for expenses is…",o:["Dr each expense / Cr Income summary","Dr Income summary / Cr each expense","Dr Retained earnings / Cr each expense","Dr Cash / Cr each expense"],a:1,e:"Expenses have debit balances, so they are credited to bring them to zero."}
+],[
+ {q:"Which statement explains how cash changed during the period?",o:["Balance sheet","Income statement","Statement of cash flows","Statement of retained earnings"],a:2,e:"Split into operating, investing and financing activities."},
+ {q:"Buying land with a note payable…",o:["Increases assets and liabilities","Increases assets and equity","Decreases cash","Has no effect"],a:0,e:"Land (asset) up, Notes payable (liability) up."},
+ {q:"Which is a temporary account?",o:["Retained earnings","Sales revenue","Accounts receivable","Capital stock"],a:1,e:"Revenues, expenses and dividends are closed every year."},
+ {q:"Debits exceed credits by 450 on the trial balance. Which error could explain it?",o:["A 225 credit posted as a debit","A 450 entry omitted completely","Digits 54 written 45","Using the wrong asset account"],a:0,e:"A credit posted as a debit creates a difference of twice the amount: 450 ÷ 2 = 225."},
+ {q:"Sales 200,000, returns 6,000, sales discounts 2,000. Net sales?",o:["208,000","194,000","192,000","200,000"],a:2,e:"200,000 − 6,000 − 2,000 = 192,000."},
+ {q:"Under the net method, paying after the discount period records a debit to…",o:["Purchase discounts taken","Purchase discounts lost","Inventory","Sales discounts"],a:1,e:"Purchase discounts lost is a non-operating expense."},
+ {q:"The bank collected a note receivable for the company. In the reconciliation it is…",o:["Added to the book balance","Added to the bank balance","Subtracted from the book balance","Ignored"],a:0,e:"The bank already has the money; the books don't know yet."},
+ {q:"Which is a cash equivalent?",o:["A 60-day Treasury bill","Shares of Coca-Cola","A 2-year bond","Accounts receivable"],a:0,e:"Very safe and matures within 90 days."},
+ {q:"Cost 40,000, residual 4,000, 6-year life, straight-line. After 2 years, total life is revised to 8 years. New annual depreciation?",o:["6,000","4,500","4,000","3,000"],a:2,e:"BV after 2 years = 40,000 − 12,000 = 28,000. (28,000 − 4,000) ÷ 6 remaining years = 4,000."},
+ {q:"Costs paid by the seller to deliver goods to customers are recorded as…",o:["Part of inventory","Cost of goods sold","Delivery expense","Contra-revenue"],a:2,e:"Delivery expense is an operating expense. Transport on purchases is part of inventory cost."}
+]];
+
+function makeQ(item,idx,mode,onPick){
+  const d=document.createElement('div');d.className='q';
+  const p=document.createElement('p');p.innerHTML='<b>'+(idx+1)+'.</b> '+item.q;d.append(p);
+  const opts=document.createElement('div');opts.className='opts';
+  item.o.forEach((t,i)=>{
+    const b=document.createElement('button');b.type='button';b.className='opt';
+    b.textContent=String.fromCharCode(65+i)+'. '+t;
+    b.addEventListener('click',()=>{
+      if(d.dataset.locked)return;
+      if(mode==='instant'){reveal(d,item,i);onPick(i===item.a);}
+      else{opts.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');d.dataset.choice=i;}
+    });
+    opts.append(b);
+  });
+  const ex=document.createElement('p');ex.className='expl';ex.hidden=true;ex.textContent=item.e;
+  d.append(opts,ex);d._item=item;return d;
+}
+function reveal(d,item,choice){
+  d.dataset.locked='1';
+  d.querySelectorAll('.opt').forEach((b,i)=>{b.classList.remove('sel');b.setAttribute('aria-disabled','true');
+    if(i===item.a)b.classList.add('right');else if(i===choice)b.classList.add('wrong');});
+  d.querySelector('.expl').hidden=false;
+}
+function buildChapter(ch){
+  const s=document.createElement('section');
+  s.innerHTML='<div class="head"><span class="num">'+ch.ch+'</span><h2>'+ch.t+'</h2><span class="score"></span></div>';
+  const sc=s.querySelector('.score');let right=0,done=0;
+  const upd=()=>{sc.textContent=right+' / '+ch.qs.length+(done===ch.qs.length?' ✓ done':'');};upd();
+  const list=document.createElement('div');list.className='qlist';
+  ch.qs.forEach((it,i)=>list.append(makeQ(it,i,'instant',ok=>{done++;if(ok)right++;upd();})));
+  const bar=document.createElement('div');bar.className='bar';
+  const r=document.createElement('button');r.type='button';r.className='btn ghost';r.textContent='Restart this chapter';
+  r.addEventListener('click',()=>s.replaceWith(buildChapter(ch)));
+  bar.append(r);s.append(list,bar);return s;
+}
+const qroot=document.getElementById('quiz-root');
+QUIZ.forEach(ch=>qroot.append(buildChapter(ch)));
+
+function buildMock(i){
+  const box=document.getElementById('mock'+(i+1)+'-mcq');box.innerHTML='';
+  MOCKS[i].forEach((it,k)=>box.append(makeQ(it,k,'exam')));
+  document.getElementById('mock'+(i+1)+'-result').textContent='';
+}
+[0,1].forEach(buildMock);
+document.querySelectorAll('[data-submit]').forEach(b=>b.addEventListener('click',()=>{
+  const i=+b.dataset.submit;const box=document.getElementById('mock'+(i+1)+'-mcq');let score=0,blank=0;
+  box.querySelectorAll('.q').forEach(d=>{if(d.dataset.locked)return;const c=d.dataset.choice===undefined?-1:+d.dataset.choice;
+    if(c<0)blank++;if(c===d._item.a)score++;reveal(d,d._item,c);});
+  if(box.dataset.scored)return;box.dataset.scored='1';
+  document.getElementById('mock'+(i+1)+'-result').textContent='Part A: '+score+' / 10'+(blank?' ('+blank+' left blank)':'')+'. Now check Part B with the solutions.';
+}));
+document.querySelectorAll('[data-reset]').forEach(b=>b.addEventListener('click',()=>{const i=+b.dataset.reset;document.getElementById('mock'+(i+1)+'-mcq').dataset.scored='';buildMock(i);}));
+
+/* timer */
+let left=3600,tid=null;const tEl=document.getElementById('timer');
+const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+const draw=()=>{tEl.textContent=left>0?fmt(left):"Time's up";tEl.classList.toggle('done',left<=0);};
+document.getElementById('t-start').addEventListener('click',()=>{if(tid)return;if(left<=0)left=3600;
+  tid=setInterval(()=>{left--;draw();if(left<=0){clearInterval(tid);tid=null;}},1000);});
+document.getElementById('t-pause').addEventListener('click',()=>{clearInterval(tid);tid=null;});
+document.getElementById('t-reset').addEventListener('click',()=>{clearInterval(tid);tid=null;left=3600;draw();});
+
+/* routing */
+const VIEWS=['recap','quiz','exercises','mock'];
+function route(){
+  const h=location.hash.slice(1);
+  let v='recap';
+  if(VIEWS.includes(h))v=h;else if(/^mock\d/.test(h))v='mock';else if(/^ex\d/.test(h))v='exercises';
+  document.querySelectorAll('.wrap > .view').forEach(x=>x.hidden=x.id!=='view-'+v);
+  document.querySelectorAll('.tab').forEach(t=>{if(t.dataset.view===v)t.setAttribute('aria-current','page');else t.removeAttribute('aria-current');});
+  document.getElementById('chips').hidden=v!=='recap';
+  const el=h&&!VIEWS.includes(h)?document.getElementById(h):null;
+  if(el)el.scrollIntoView();else window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',route);route();
+</script>
+</body>
+</html>
