@@ -13,7 +13,7 @@
   --bg:#f3f5f8; --paper:#ffffff; --ink:#18212f; --muted:#5b6678; --line:#d9dee7;
   --accent:#2446a8; --debit:#2a62d6; --debit-soft:#e6eeff; --credit:#c26a10; --credit-soft:#fdf0e1;
   --good:#1f8a4c; --good-soft:#e3f5ea; --bad:#c23a3a; --bad-soft:#fbe7e7;
-  --soi-acc:#0d7a72; --soi-soft:#e1f4f1;
+  --soi-acc:#0d7a72; --soi-soft:#e1f4f1; --se-acc:#5a3fc0; --se-soft:#ece8fb; --calc-acc:#b3261e; --calc-soft:#fbe9e7;
   --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
   --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
@@ -23,13 +23,13 @@
   :root:not([data-theme="light"]){
     --bg:#0f141c; --paper:#171e29; --ink:#e7ecf3; --muted:#9aa6b8; --line:#2b3545;
     --accent:#8fa9ff; --debit:#7ea6ff; --debit-soft:#1b2a48; --credit:#f0a65a; --credit-soft:#3a2915;
-    --good:#5fd08f; --good-soft:#163323; --bad:#ff8585; --bad-soft:#3d1c1c; --soi-acc:#4fd1c5; --soi-soft:#12332f; color-scheme:dark;
+    --good:#5fd08f; --good-soft:#163323; --bad:#ff8585; --bad-soft:#3d1c1c; --soi-acc:#4fd1c5; --soi-soft:#12332f; --se-acc:#b3a4ff; --se-soft:#241d44; --calc-acc:#ff8a80; --calc-soft:#3b1a18; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#0f141c; --paper:#171e29; --ink:#e7ecf3; --muted:#9aa6b8; --line:#2b3545;
   --accent:#8fa9ff; --debit:#7ea6ff; --debit-soft:#1b2a48; --credit:#f0a65a; --credit-soft:#3a2915;
-  --good:#5fd08f; --good-soft:#163323; --bad:#ff8585; --bad-soft:#3d1c1c; --soi-acc:#4fd1c5; --soi-soft:#12332f; color-scheme:dark;
+  --good:#5fd08f; --good-soft:#163323; --bad:#ff8585; --bad-soft:#3d1c1c; --soi-acc:#4fd1c5; --soi-soft:#12332f; --se-acc:#b3a4ff; --se-soft:#241d44; --calc-acc:#ff8a80; --calc-soft:#3b1a18; color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -164,6 +164,33 @@ summary{cursor:pointer;font-weight:600;color:var(--accent)}
 .sbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .tabs[hidden]{display:none}
 body[data-subj="soi"]{--accent:var(--soi-acc);--debit-soft:var(--soi-soft)}
+body[data-subj="se"]{--accent:var(--se-acc);--debit-soft:var(--se-soft)}
+body[data-subj="calc"]{--accent:var(--calc-acc);--debit-soft:var(--calc-soft)}
+.dims{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:15px}
+.dm{font:700 18px var(--display);background:var(--debit-soft);color:var(--accent);padding:4px 10px;border-radius:6px}
+.hl{color:var(--bad)}
+.elast{display:grid;grid-template-columns:2fr 1fr 2fr;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.elast div{padding:10px 12px;display:grid;gap:2px;font-size:14px}
+.elast span{font-size:12px;color:var(--muted)}
+.el-in{background:var(--debit-soft)}.el-u{background:var(--good-soft);text-align:center}.el-el{background:var(--credit-soft);text-align:right}
+@media (max-width:560px){.elast{grid-template-columns:1fr}.el-el,.el-u{text-align:left}}
+table.mat td{min-width:34px}
+.stack{display:grid;gap:4px;margin:4px 0}
+.lyr{border:1px solid var(--line);border-radius:6px;padding:6px 10px;text-align:center;font-size:13px;background:var(--bg)}
+.lyr.acc{background:var(--accent);color:var(--paper);font-weight:600;border-color:var(--accent)}
+.units{display:grid;gap:4px}
+.units div{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center;font-size:14px}
+.units b{font-family:var(--mono);background:var(--debit-soft);color:var(--accent);border-radius:6px;padding:3px 8px;text-align:center}
+.chipsvg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cpu,.gpu{border:2px solid var(--line);border-radius:10px;padding:10px;display:grid;gap:4px;text-align:center;align-content:start}
+.cpu{grid-template-columns:repeat(2,1fr)}.gpu{grid-template-columns:repeat(8,1fr)}
+.cpu span{height:26px;background:var(--accent);border-radius:4px}.gpu i{height:12px;background:var(--good);border-radius:2px}
+.cpu b,.gpu b,.cpu small,.gpu small{grid-column:1/-1}.cpu small,.gpu small{color:var(--muted);font-size:12px}
+.fc-card{border:2px solid var(--accent);border-radius:14px;padding:22px;min-height:170px;display:grid;gap:12px;align-content:start;background:var(--paper)}
+.fc-meta{font-size:13px;color:var(--muted)}
+.fc-q{font:600 20px/1.35 var(--display);text-wrap:balance}
+.fc-a{border-top:1px dashed var(--line);padding-top:12px;font-size:16px;max-width:75ch}
+.fc-hide{font-size:14px;color:var(--muted);display:flex;gap:6px;align-items:center}
 .hcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
 .hcard{border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:8px;align-content:start;background:var(--paper)}
 .hcard.off{background:var(--bg);border-style:dashed}
@@ -218,7 +245,7 @@ table.mat td{border:1px solid var(--line);padding:4px 9px;text-align:center;font
 </header>
 
 <nav aria-label="Sections">
-  <div class="sbar"><a class="sbtn" href="#home" data-subj="home">⌂ All subjects</a><a class="sbtn" href="#acc" data-subj="acc">Accounting</a><a class="sbtn" href="#soi" data-subj="soi">Science of Intelligence</a></div>
+  <div class="sbar"><a class="sbtn" href="#home" data-subj="home">⌂ All subjects</a><a class="sbtn" href="#acc" data-subj="acc">Accounting</a><a class="sbtn" href="#se" data-subj="se">Software Engineering</a><a class="sbtn" href="#soi" data-subj="soi">Science of Intelligence</a><a class="sbtn" href="#calc" data-subj="calc">Calculus</a></div>
   <div class="tabs" id="tabs">
     <a class="tab" href="#acc-recap" data-view="recap">Recap</a>
     <a class="tab" href="#acc-quiz" data-view="quiz">Quizzes</a>
@@ -230,6 +257,12 @@ table.mat td{border:1px solid var(--line);padding:4px 9px;text-align:center;font
   </div>
   <div class="chips" data-subj="soi" hidden>
   <a href="#soi-c1">1 · Intro to AI</a><a href="#soi-c2">2 · Supervised</a><a href="#soi-c3">3 · Deep learning</a><a href="#soi-c4">4 · Python</a><a href="#soi-c5">5 · Unsupervised</a><a href="#soi-c6">6 · Vision</a><a href="#soi-c7">7 · Reinforcement</a><a href="#soi-c8">8 · Generative AI</a>
+  </div>
+  <div class="chips" data-subj="se" hidden>
+  <a href="#se-s0">Basics ★</a><a href="#se-s1">1 · Shell &amp; Git</a><a href="#se-s2">2 · Vibe coding</a><a href="#se-s3">3 · Machine learning</a><a href="#se-s4">4 · Collaboration</a>
+  </div>
+  <div class="chips" data-subj="calc" hidden>
+  <a href="#calc-c1">1 · Matrices</a><a href="#calc-c2">2 · Derivatives</a><a href="#calc-c3">3 · Exp &amp; log</a><a href="#calc-c4">4 · Optimization</a><a href="#calc-c5">5 · Integrals</a><a href="#calc-formulas">Formula sheet</a>
   </div>
 </nav>
 
@@ -1169,6 +1202,564 @@ my_phone.brand        # 'Apple'</pre>
   <div id="soi-mock-root" class="view"></div>
 </div>
 
+<div class="view" id="view-se-recap" data-subj="se" data-view="recap" hidden>
+<section>
+  <div class="head"><span class="num">SE</span><h2>Software Engineering for AI Projects: recap</h2>
+  <p class="oneline">Final exam: <b>Wednesday 2 December, 9–11h</b>. The course plan says it will be <b>10 open questions</b>. Two are already known: <i>"What is git, GitHub, GitLab, and the differences?"</i> and <i>"What is clone, pull, add, commit and push?"</i>. Your "Question Exam" page lists 10 more likely questions (computer basics); they're all answered below and in the flashcards.</p></div>
+  <div class="trap" style="border-color:var(--accent);background:var(--debit-soft)"><b style="color:var(--accent)">How to answer an open question:</b> 1) define the term in one sentence, 2) explain how it works or the difference, 3) give a concrete example (a command, a product name, a number). That structure is used for every model answer on this site.</div>
+</section>
+
+<!-- S0 basics -->
+<section id="se-s0">
+  <div class="head"><span class="num">BASICS</span><h2>Computer basics (your "Question Exam" list)</h2>
+  <p class="oneline">The 10 questions from your notes. ★ = on your list, so likely on the exam.</p></div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">★ Operating system</span>
+      <div class="stack"><div class="lyr">You (the user)</div><div class="lyr">Applications: Chrome, Word, Spotify</div><div class="lyr acc">Operating system</div><div class="lyr">Hardware: CPU, RAM, disk, screen</div></div>
+      <p>The program that <b>manages the computer's hardware and resources</b> (CPU time, memory, files, devices) and lets users and apps use the machine without talking to the hardware directly. It also provides the interface (desktop, terminal).</p>
+      <p>Examples: <b>Windows, macOS, Linux</b> (Ubuntu), Android, iOS.</p></div>
+    <div class="box"><span class="tag">★ Compiler vs interpreter</span>
+      <div class="flow" style="font-size:14px"><div class="step"><b>Compiler</b>translates the <em>whole</em> program into machine code first → an executable file you run later</div></div>
+      <div class="flow" style="font-size:14px"><div class="step"><b>Interpreter</b>reads and executes the program <em>line by line</em>, at run time, with no separate executable</div></div>
+      <div class="tbl"><table><tr><th></th><th>Compiler</th><th>Interpreter</th></tr>
+        <tr><td>When</td><td>before running</td><td>while running</td></tr>
+        <tr><td>Speed</td><td>fast execution</td><td>slower execution</td></tr>
+        <tr><td>Errors</td><td>all reported at compile time</td><td>stops at the first error it reaches</td></tr>
+        <tr><td>Examples</td><td>C, C++, Rust, Go</td><td>Python, JavaScript, bash</td></tr></table></div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">★ File, directory, extension</span>
+      <p><b>File</b>: a named unit of data stored on a disk (a photo, a document, a program). <b>Directory</b> (folder): a container that organizes files and other directories in a tree. <b>Extension</b>: the suffix after the dot that tells the type of file and which program opens it.</p>
+      <pre class="code">/Users/elena/            ← directory
+└── courses/             ← directory
+    ├── notes.txt        ← file, extension .txt
+    ├── data.csv         ← .csv  (table data)
+    └── model.py         ← .py   (Python script)</pre></div>
+    <div class="box"><span class="tag">★ Bit, byte, KB, MB, GB</span>
+      <div class="units">
+        <div><b>bit</b><span>0 or 1, the smallest unit</span></div>
+        <div><b>byte</b><span>8 bits (one character, e.g. "A")</span></div>
+        <div><b>kilobyte</b><span>1,024 bytes (≈ a short text)</span></div>
+        <div><b>megabyte</b><span>1,024 KB (≈ a photo, a song)</span></div>
+        <div><b>gigabyte</b><span>1,024 MB (≈ a film)</span></div>
+      </div>
+      <p style="font-size:13px;color:var(--muted)">Some contexts (disk makers, SI) use 1,000 instead of 1,024. Network speeds are in <b>bits</b> per second (Mbit/s), file sizes in <b>bytes</b>: 8 bits = 1 byte.</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">★ Natural vs formal language</span>
+      <div class="tbl"><table><tr><th></th><th>Natural</th><th>Formal</th></tr>
+        <tr><td>What</td><td>languages people speak: English, French</td><td>languages designed for a purpose: Python, SQL, math notation</td></tr>
+        <tr><td>Rules</td><td>evolve naturally, many exceptions</td><td>strict syntax, fixed rules</td></tr>
+        <tr><td>Ambiguity</td><td>ambiguous, depends on context ("I saw her duck")</td><td><b>unambiguous</b>: one meaning only</td></tr>
+        <tr><td>Errors</td><td>tolerated: we still understand</td><td>a missing ":" breaks the program</td></tr></table></div></div>
+    <div class="box"><span class="tag">★ CPU vs GPU</span>
+      <div class="chipsvg"><div class="cpu"><span></span><span></span><span></span><span></span><b>CPU</b><small>few powerful cores</small></div><div class="gpu"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><b>GPU</b><small>thousands of simple cores</small></div></div>
+      <p><b>CPU</b>: the general-purpose "brain", a few powerful cores that run tasks one after another very fast (OS, apps, logic). <b>GPU</b>: thousands of small cores doing the same simple operation <b>in parallel</b>; made for graphics, now essential for training AI (matrix multiplications). NVIDIA, AMD.</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">★ IP address, name server, 127.0.0.1</span>
+      <div class="flow" style="font-size:14px">
+        <div class="step"><b>You type</b>google.com</div><div class="arrow">→</div>
+        <div class="step"><b>Name server (DNS)</b>translates the name into an IP</div><div class="arrow">→</div>
+        <div class="step"><b>IP</b>142.250.184.14 → connect</div>
+      </div>
+      <p><b>IP address</b>: the unique number that identifies a device on a network, like a postal address (IPv4: 4 numbers 0–255, e.g. 192.168.1.10). <b>Name server</b> (DNS): converts domain names into IP addresses. <b>127.0.0.1</b> = <b>localhost</b>: your own machine (the loopback address). Your notes say 127.0.1, which is the same address written short.</p></div>
+    <div class="box"><span class="tag">★ CSV, dataset, column of interest</span>
+      <pre class="code">name,age,city,bought
+Ana,23,Madrid,yes
+Leo,31,Paris,no</pre>
+      <p><b>CSV</b> (comma-separated values): a plain text file where each line is a row and values are separated by commas. <b>Dataset</b>: a structured collection of data used for analysis or to train a model (rows = examples, columns = features). <b>Column of interest</b> (the target): the column you want to analyse or predict, e.g. "bought".</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">★ SQL &amp; databases</span>
+      <p><b>Database</b>: an organized collection of data stored so it can be easily searched, updated and managed (tables with rows and columns). <b>SQL</b> (Structured Query Language): the formal language used to create, read, update and delete data in relational databases.</p>
+      <pre class="code">SELECT name FROM customers WHERE city = 'Madrid';</pre>
+      <p>Examples of database systems: <b>MySQL, PostgreSQL, SQLite</b>, Oracle, Microsoft SQL Server, MongoDB (NoSQL).</p></div>
+    <div class="box"><span class="tag">★ Does AI pose a risk to humankind?</span>
+      <p>This is an opinion question: there's no single right answer, but you must <b>take a position and give specific reasons</b>. A strong answer has both sides and a conclusion:</p>
+      <p><span class="pill b">Risks</span> job displacement, deepfakes and misinformation, bias and discrimination, privacy and surveillance, misuse (cyberattacks, weapons), loss of control over very capable systems (models already showing "scheming" in evaluations, Class 1 of Science of Intelligence).</p>
+      <p><span class="pill g">Counterpoints</span> medicine (AlphaFold), climate and weather forecasting, productivity, accessibility. Risk depends on regulation (EU AI Act), safety research and responsible use.</p></div>
+  </div>
+</section>
+
+<!-- S1 -->
+<section id="se-s1">
+  <div class="head"><span class="num">SESSION 1</span><h2>Collaboration: shell, Git and GitHub</h2>
+  <p class="oneline">Work in the terminal, version your code with Git, and collaborate on GitHub.</p></div>
+
+  <div>
+    <h3>Shell: Linux/macOS vs Windows CMD</h3>
+    <div class="tbl"><table>
+      <tr><th>Task</th><th>Linux / macOS (bash, zsh)</th><th>Windows CMD</th></tr>
+      <tr><td>Where am I?</td><td class="mono">pwd</td><td class="mono">cd</td></tr>
+      <tr><td>List files</td><td class="mono">ls  ·  ls -la</td><td class="mono">dir</td></tr>
+      <tr><td>Enter / go up</td><td class="mono">cd folder  ·  cd ..</td><td class="mono">cd folder  ·  cd ..</td></tr>
+      <tr><td>Create a folder</td><td class="mono">mkdir data</td><td class="mono">mkdir data</td></tr>
+      <tr><td>Create a file</td><td class="mono">touch notes.txt</td><td class="mono">type nul &gt; notes.txt</td></tr>
+      <tr><td>Edit a file</td><td class="mono">nano notes.txt</td><td class="mono">notepad notes.txt</td></tr>
+      <tr><td>Show a file</td><td class="mono">cat notes.txt</td><td class="mono">type notes.txt</td></tr>
+      <tr><td>Copy / move-rename</td><td class="mono">cp a b  ·  mv a b</td><td class="mono">copy a b  ·  move a b</td></tr>
+      <tr><td>Delete file / folder</td><td class="mono">rm file  ·  rm -r folder</td><td class="mono">del file  ·  rmdir /s folder</td></tr>
+      <tr><td>Print text</td><td class="mono">echo "Hello"</td><td class="mono">echo Hello</td></tr>
+      <tr><td>Run a script</td><td class="mono">chmod +x run.sh; ./run.sh</td><td class="mono">run.bat</td></tr>
+    </table></div>
+  </div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Script with variables &amp; control flow (bash)</span>
+<pre class="code">#!/bin/bash
+NAME="report"              # variable (no spaces around =)
+for i in 1 2 3; do         # loop
+  touch "${NAME}_$i.txt"   # use it with $
+done
+if [ -f report_1.txt ]; then
+  echo "Files created"
+fi</pre></div>
+    <div class="box"><span class="tag">Why script?</span><p><b>Automating tasks</b>: anything you'd type again and again (backups, renaming 100 files, running the same analysis daily) goes in a script, which runs it the same way every time, without mistakes. A <b>shell</b> is the program that reads your commands (bash, zsh, CMD, PowerShell).</p></div>
+  </div>
+
+  <div>
+    <h3>Git: the four places your code lives</h3>
+    <svg viewBox="0 0 760 190" width="100%" role="img" aria-label="Git areas: working directory, staging area, local repository, remote repository, with add, commit, push, pull and clone arrows">
+      <defs><marker id="ga" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--ink)"/></marker></defs>
+      <g font-size="14">
+        <rect x="5" y="60" width="160" height="60" rx="10" fill="var(--bg)" stroke="var(--line)"/><text x="85" y="86" text-anchor="middle" style="fill:var(--ink);font-weight:600">Working directory</text><text x="85" y="106" text-anchor="middle" font-size="12">files you edit</text>
+        <rect x="200" y="60" width="160" height="60" rx="10" fill="var(--credit-soft)" stroke="var(--credit)"/><text x="280" y="86" text-anchor="middle" style="fill:var(--credit);font-weight:600">Staging area</text><text x="280" y="106" text-anchor="middle" font-size="12">ready for next commit</text>
+        <rect x="395" y="60" width="160" height="60" rx="10" fill="var(--debit-soft)" stroke="var(--accent)"/><text x="475" y="86" text-anchor="middle" style="fill:var(--accent);font-weight:600">Local repository</text><text x="475" y="106" text-anchor="middle" font-size="12">history on your PC</text>
+        <rect x="590" y="60" width="165" height="60" rx="10" fill="var(--good-soft)" stroke="var(--good)"/><text x="672" y="86" text-anchor="middle" style="fill:var(--good);font-weight:600">Remote (GitHub)</text><text x="672" y="106" text-anchor="middle" font-size="12">shared online copy</text>
+      </g>
+      <g stroke="var(--ink)" stroke-width="1.6" fill="none" marker-end="url(#ga)"><path d="M165 75 H197"/><path d="M360 75 H392"/><path d="M555 75 H587"/><path d="M672 122 C672 175 85 175 85 124"/><path d="M640 58 C640 10 120 10 120 57"/></g>
+      <g font-size="13" font-family="IBM Plex Mono, monospace"><text x="181" y="68" text-anchor="middle" style="fill:var(--ink)">add</text><text x="376" y="68" text-anchor="middle" style="fill:var(--ink)">commit</text><text x="571" y="68" text-anchor="middle" style="fill:var(--ink)">push</text><text x="380" y="168" text-anchor="middle" style="fill:var(--ink)">pull (fetch + merge): get others' changes</text><text x="380" y="22" text-anchor="middle" style="fill:var(--ink)">clone: copy the whole repo the first time</text></g>
+    </svg>
+  </div>
+  <div class="tbl"><table>
+    <tr><th>Command</th><th>What it does</th></tr>
+    <tr><td class="mono">git init</td><td>turns the current folder into a new Git repository</td></tr>
+    <tr><td class="mono">git clone &lt;url&gt;</td><td>downloads a full copy of a remote repository, with all its history</td></tr>
+    <tr><td class="mono">git status</td><td>shows modified, staged and untracked files</td></tr>
+    <tr><td class="mono">git add file · git add .</td><td>puts changes in the staging area (chooses what goes in the next commit)</td></tr>
+    <tr><td class="mono">git commit -m "message"</td><td>saves a snapshot of the staged changes in the local history, with a message</td></tr>
+    <tr><td class="mono">git push</td><td>sends your local commits to the remote (GitHub)</td></tr>
+    <tr><td class="mono">git pull</td><td>downloads the remote's new commits and merges them into your branch</td></tr>
+    <tr><td class="mono">git branch x · git checkout -b x</td><td>creates a branch (and switches to it)</td></tr>
+    <tr><td class="mono">git merge x</td><td>combines branch x into the current branch</td></tr>
+  </table></div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">Branching &amp; merging</span>
+      <svg viewBox="0 0 330 110" width="100%" role="img" aria-label="Branch diagram: main line with commits, a feature branch splits off with two commits and merges back">
+        <line x1="20" y1="70" x2="310" y2="70" stroke="var(--accent)" stroke-width="3"/><path d="M80 70 C100 25 120 25 140 25 H200 C225 25 235 60 255 70" fill="none" stroke="var(--credit)" stroke-width="3"/>
+        <g fill="var(--paper)" stroke-width="3"><circle cx="30" cy="70" r="7" stroke="var(--accent)"/><circle cx="80" cy="70" r="7" stroke="var(--accent)"/><circle cx="170" cy="70" r="7" stroke="var(--accent)"/><circle cx="255" cy="70" r="9" stroke="var(--accent)"/><circle cx="145" cy="25" r="7" stroke="var(--credit)"/><circle cx="195" cy="25" r="7" stroke="var(--credit)"/></g>
+        <text x="20" y="98">main</text><text x="140" y="12">feature/login</text><text x="235" y="98">merge commit</text></svg>
+      <p>A <b>branch</b> is an independent line of development: you work on a feature without breaking <b>main</b>. <b>Merging</b> brings the branch's commits back into main.</p></div>
+    <div class="box"><span class="tag">Merge conflict</span>
+<pre class="code">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+price = 10
+=======
+price = 12
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/pricing</pre>
+      <p>Happens when two branches change <b>the same lines</b>. Git can't choose, so it marks both versions. To resolve: edit the file, keep the right version (or combine), delete the markers, then <span class="mono">git add</span> + <span class="mono">git commit</span>.</p></div>
+  </div>
+  <div class="grid3">
+    <div class="box"><span class="tag">Fork</span><p>Your own copy of someone else's repository <b>on GitHub</b>, so you can change it freely. (Clone = copy on your computer.)</p></div>
+    <div class="box"><span class="tag">Pull request</span><p>A request to merge your branch (or fork) into the main project. Others discuss, review, then merge it.</p></div>
+    <div class="box"><span class="tag">Issues · Discussions · Code review</span><p><b>Issues</b> track bugs and tasks; <b>Discussions</b> are for questions and ideas; a <b>code review</b> is a teammate checking your PR before it's merged.</p></div>
+  </div>
+  <div class="tbl"><table>
+    <tr><th></th><th>Git</th><th>GitHub</th><th>GitLab</th></tr>
+    <tr><td><b>What</b></td><td>a <b>version control system</b> (software) that tracks changes in files</td><td>a <b>website/platform</b> that hosts Git repositories online</td><td>another platform that hosts Git repositories</td></tr>
+    <tr><td><b>Where</b></td><td>installed and runs on your computer, works offline</td><td>in the cloud (owned by Microsoft)</td><td>cloud or <b>self-hosted</b> on a company's own servers</td></tr>
+    <tr><td><b>Adds</b></td><td>commits, branches, merges</td><td>pull requests, issues, Discussions, Actions, Copilot, largest open-source community</td><td>merge requests, built-in CI/CD (DevOps), popular with companies</td></tr>
+  </table></div>
+</section>
+
+<!-- S2 -->
+<section id="se-s2">
+  <div class="head"><span class="num">SESSION 2</span><h2>Vibe coding</h2>
+  <p class="oneline">Writing software by describing what you want to an AI (ChatGPT, GitHub Copilot) and guiding, reviewing and testing what it produces.</p></div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Boilerplate code</span><p>The repetitive, standard code every project needs (setup, imports, file reading, a basic web page, a class skeleton). AI is great at it, so you can focus on the logic.</p></div>
+    <div class="box"><span class="tag">Prompt engineering basics</span>
+      <ol style="margin:0;padding-left:18px"><li><b>Role / context</b>: "You are a Python developer. I'm building…"</li><li><b>Clear task</b>: what exactly to produce.</li><li><b>Constraints</b>: language, libraries, style, length.</li><li><b>Examples</b> of input and expected output.</li><li><b>Output format</b>: "only the code, with comments".</li><li><b>Iterate</b>: refine based on the answer.</li></ol></div>
+  </div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Reviewing &amp; testing AI code</span><p>Never trust it blindly. <b>Read and understand</b> every line; <b>run it</b>; write <b>tests</b> including edge cases (empty input, wrong types); check that libraries and functions really exist; look for security problems (passwords in code, unsafe inputs); review it like a teammate's PR.</p></div>
+    <div class="box"><span class="tag">Limitations &amp; ethics</span>
+      <p><span class="pill b">Limits</span> <b>hallucinations</b> (invented functions, wrong facts), outdated knowledge, subtle bugs, code that looks right but isn't, weak with large codebases.</p>
+      <p><span class="pill c">Ethics</span> security and privacy (don't paste secrets or personal data), licensing and copyright of generated code, bias, responsibility (the developer is accountable), over-reliance and loss of skills.</p></div>
+  </div>
+</section>
+
+<!-- S3 -->
+<section id="se-s3">
+  <div class="head"><span class="num">SESSION 3</span><h2>Machine learning</h2>
+  <p class="oneline">ML = programs that learn patterns from data instead of being given explicit rules.</p></div>
+  <div class="grid3">
+    <div class="box"><span class="tag">Supervised</span><p>Labelled data: learn to predict a label. Spam detection, price prediction.</p></div>
+    <div class="box"><span class="tag">Unsupervised</span><p>No labels: find structure. Customer segmentation (clustering).</p></div>
+    <div class="box"><span class="tag">Reinforcement</span><p>An agent learns by trial and error from rewards. Games, robots.</p></div>
+  </div>
+  <div class="flow">
+    <div class="step"><b>1. Data</b>collect, load (CSV), clean, explore</div><div class="arrow">→</div>
+    <div class="step"><b>2. Prepare</b>choose features and target, split train/test</div><div class="arrow">→</div>
+    <div class="step"><b>3. Model</b>choose an algorithm and train it (fit)</div><div class="arrow">→</div>
+    <div class="step"><b>4. Evaluate</b>accuracy, MSE on the test set</div><div class="arrow">→</div>
+    <div class="step"><b>5. Improve / deploy</b>tune, then use it</div>
+  </div>
+  <div class="grid2">
+    <div class="box"><span class="tag">The tools</span>
+      <p><b>Python</b>: the main language for AI. <b>pandas</b>: load and manipulate tables (DataFrames). <b>scikit-learn</b>: ready-made ML models, splitting, metrics. <b>matplotlib</b>: charts. <b>Jupyter / Google Colab</b>: notebooks mixing code, results and text; Colab runs in the browser with free GPUs.</p></div>
+    <div class="box"><span class="tag">A full workflow in code</span>
+<pre class="code">import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+df = pd.read_csv("houses.csv")          # 1. data
+X = df[["size", "rooms"]]               # features
+y = df["price"]                         # column of interest
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+model = LinearRegression()
+model.fit(X_train, y_train)             # 3. train
+print(model.score(X_test, y_test))      # 4. evaluate</pre></div>
+  </div>
+</section>
+
+<!-- S4 -->
+<section id="se-s4">
+  <div class="head"><span class="num">SESSION 4</span><h2>Mini project &amp; collaboration</h2>
+  <p class="oneline">Building something as a team with Git + AI + ML: workflows, teamwork and documentation.</p></div>
+  <div>
+    <h3>GitHub flow</h3>
+    <div class="flow">
+      <div class="step"><b>1. Branch</b>from main</div><div class="arrow">→</div>
+      <div class="step"><b>2. Commit</b>small, clear commits</div><div class="arrow">→</div>
+      <div class="step"><b>3. Pull request</b>open it, describe the change</div><div class="arrow">→</div>
+      <div class="step"><b>4. Review</b>discuss, fix, tests pass</div><div class="arrow">→</div>
+      <div class="step"><b>5. Merge</b>into main, delete the branch</div>
+    </div>
+  </div>
+  <div class="tbl"><table>
+    <tr><th>Workflow (Atlassian)</th><th>How it works</th><th>Good for</th></tr>
+    <tr><td><b>Centralized</b></td><td>everyone commits to main</td><td>very small teams, beginners</td></tr>
+    <tr><td><b>Feature branch</b></td><td>each feature in its own branch, merged by pull request</td><td>most teams</td></tr>
+    <tr><td><b>Forking</b></td><td>each developer forks the repo and sends pull requests</td><td>open-source projects</td></tr>
+    <tr><td><b>Gitflow</b></td><td>long-lived main + develop branches, plus feature, release and hotfix branches</td><td>projects with planned releases</td></tr>
+  </table></div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Teamwork best practices</span><p>Pull before you start; one branch per feature; small, frequent commits with clear messages ("Add login form validation", not "stuff"); never push directly to main; review each other's code kindly and specifically; use issues to split and assign tasks; communicate.</p></div>
+    <div class="box"><span class="tag">Documenting your code</span><p>A <b>README.md</b>: what the project does, how to install and run it, an example, who contributed. <b>Comments</b> explain why. <b>Docstrings</b> describe functions (parameters, return). Keep docs updated with the code.</p></div>
+  </div>
+</section>
+</div>
+
+<div class="view" id="view-se-quiz" data-subj="se" data-view="quiz" hidden>
+  <section id="se-flash">
+    <div class="head"><span class="num">CARDS</span><h2>Flashcards: the open questions</h2><span class="score" id="fc-count"></span>
+    <p class="oneline">The exam is 10 open questions, so this is the best way to revise: read the question, answer it out loud or on paper, then flip and compare with the model answer. ★ = on your "Question Exam" list · ★★ = confirmed final exam question.</p></div>
+    <div class="chips2" id="fc-filters"></div>
+    <label class="fc-hide"><input type="checkbox" id="fc-hide"> Hide the cards I already know</label>
+    <div class="fc-card" id="fc-card">
+      <div class="fc-meta" id="fc-meta"></div>
+      <div class="fc-q" id="fc-q"></div>
+      <div class="fc-a" id="fc-a" hidden></div>
+    </div>
+    <div class="bar">
+      <button class="btn" type="button" id="fc-flip">Show answer</button>
+      <button class="rbtn ok" type="button" id="fc-know">✓ I knew it</button>
+      <button class="rbtn ko" type="button" id="fc-not">✗ Not yet</button>
+      <span style="flex:1"></span>
+      <button class="btn ghost" type="button" id="fc-prev">← Previous</button>
+      <button class="btn ghost" type="button" id="fc-next">Next →</button>
+      <button class="btn ghost" type="button" id="fc-shuffle">Shuffle</button>
+    </div>
+    <details><summary>Export these flashcards to Quizlet</summary>
+      <ol style="margin:0;padding-left:20px;font-size:14px"><li>Click <b>Copy for Quizlet</b> below.</li><li>On Quizlet, create a new study set and click <b>Import</b>.</li><li>Paste. Keep the defaults: <b>Tab</b> between term and definition, <b>New line</b> between cards.</li></ol>
+      <div class="bar"><button class="btn" type="button" id="fc-copy">Copy for Quizlet</button><span class="tag" id="fc-copied"></span></div>
+      <textarea id="fc-export" rows="6" readonly aria-label="Flashcards in Quizlet import format" style="width:100%;font:12px var(--mono);background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px"></textarea>
+    </details>
+  </section>
+  <section>
+    <div class="head"><span class="num">QUIZ</span><h2>Quick multiple-choice checks</h2>
+    <p class="oneline">The exam has no MCQ, but these are a fast way to check the facts before writing full answers.</p></div>
+  </section>
+  <div id="se-quiz-root" class="view"></div>
+</div>
+
+<div class="view" id="view-se-exercises" data-subj="se" data-view="exercises" hidden>
+  <section>
+    <div class="head"><span class="num">EX</span><h2>Software Engineering: exercises</h2>
+    <p class="oneline">Practice with real commands and situations: shell, Git scenarios, merge conflicts, data units, SQL, reading ML code, and open questions. <b>↻ New version</b> gives a new one each time.</p></div>
+    <div id="se-progress" class="fmt"></div>
+  </section>
+  <div id="se-ex-root" class="view"></div>
+</div>
+
+<div class="view" id="view-se-mock" data-subj="se" data-view="mock" hidden>
+  <section>
+    <div class="head"><span class="num">MOCK</span><h2>Software Engineering: mock final</h2>
+    <p class="oneline">Same format as the real exam: <b>10 open questions</b>, 2 hours (Wed 2 Dec, 9–11h). Each mock includes the 2 confirmed questions and 8 others drawn from the course, with a priority on your "Question Exam" list. Write your answers on paper, then open each model answer and grade yourself.</p></div>
+    <div class="timer-box">
+      <span class="timer" id="se-timer" aria-live="polite">120:00</span>
+      <button class="btn" type="button" id="se-t-start">Start 2 h</button>
+      <button class="btn ghost" type="button" id="se-t-pause">Pause</button>
+      <button class="btn ghost" type="button" id="se-t-reset">Reset</button>
+      <button class="btn" type="button" id="se-new-mock">↻ New mock exam</button>
+    </div>
+  </section>
+  <div id="se-mock-root" class="view"></div>
+</div>
+
+<div class="view" id="view-calc-recap" data-subj="calc" data-view="recap" hidden>
+<section>
+  <div class="head"><span class="num">BEC</span><h2>Business &amp; Economics Calculus: recap</h2>
+  <p class="oneline">Prof. Juan Segura's course, chapters 1 to 5. Final exam: <b>Thursday 10 December, 9–11h</b>. Same rules as the midterm: no notes, only the <b>Casio fx-82MS</b> calculator, and <b>every answer must show the process</b> (unjustified answers can get 0).</p></div>
+  <div class="grid3">
+    <div class="box"><span class="tag">Midterm (29 Oct 2025, 90 min)</span><p>Matrices 12 · Systems 20 · Derivatives 16 · Markov 20 · Business &amp; elasticity <b>32</b> = 100 pts.</p></div>
+    <div class="box"><span class="tag">In-class test (6 Oct)</span><p>Matrices · Leontief · System (augmented matrix) · Markov · Derivatives, 20 pts each.</p></div>
+    <div class="box"><span class="tag">Since the midterm</span><p>Exponential models &amp; interest, constrained optimization, partial derivatives, Lagrange, integrals and the Gini index: expect them in the final.</p></div>
+  </div>
+</section>
+
+<!-- CH1 -->
+<section id="calc-c1">
+  <div class="head"><span class="num">CH 1</span><h2>Matrices</h2>
+  <p class="oneline">Tables of numbers to organize data, solve systems of equations, and model production (Leontief) and customer movements (Markov).</p></div>
+  <div class="grid2">
+    <div class="box"><span class="tag">I. Basics</span>
+      <p>A matrix with m rows and n columns has <b>dimension m × n</b>. <b>Square</b>: m = n. <b>Transpose</b> A<sup>T</sup>: rows become columns (a 2×3 becomes 3×2). <b>Symmetric</b>: A<sup>T</sup> = A.</p>
+      <p><b>A + B</b>: only if same dimension, add entry by entry. <b>kA</b>: multiply every entry.</p></div>
+    <div class="box"><span class="tag">Matrix product AB</span>
+      <div class="dims"><span class="dm">A</span><span class="mono">(m × <b class="hl">n</b>)</span><span>·</span><span class="dm">B</span><span class="mono">(<b class="hl">n</b> × p)</span><span>=</span><span class="dm">AB</span><span class="mono">(m × p)</span></div>
+      <p>Possible only if <b>columns of A = rows of B</b>. Entry (i, j) = row i of A · column j of B (multiply and add). In general <b>AB ≠ BA</b>.</p>
+      <p class="mono" style="font-size:13px">[1 2]·[5 6; 7 8] → (1·5+2·7, 1·6+2·8) = (19, 22)</p></div>
+  </div>
+  <div class="grid2">
+    <div class="box"><span class="tag">II. Augmented matrices (Gauss-Jordan)</span>
+      <p>Write the system as [coefficients | constants], then use row operations to reach the identity on the left: the last column is the solution.</p>
+<pre class="code"> x +  y +  z =  400        [ 1  1  1 |  400 ]
+30x + 20y + 10z = 8400  →  [30 20 10 | 8400 ]
+ x −  y +  z =    0        [ 1 −1  1 |    0 ]
+
+R2 → R2 − 30R1 ;  R3 → R3 − R1  …  →  [I | 120, 200, 80]</pre>
+      <p style="font-size:14px">Allowed: swap two rows, multiply a row by a non-zero number, add a multiple of another row. <b>Write every operation</b> (R2 → R2 ÷ (−10)).</p></div>
+    <div class="box"><span class="tag">III. Determinant &amp; inverse</span>
+      <p><b>2×2</b>: det [a b; c d] = <b>ad − bc</b>.</p>
+      <p><b>3×3 (Sarrus)</b>: copy the first two rows below, then (sum of the 3 downward diagonals) − (sum of the 3 upward diagonals).</p>
+      <p><b>M⁻¹ exists ⇔ det(M) ≠ 0</b>, and then M·M⁻¹ = I. To find it: row-reduce <b>[M | I] → [I | M⁻¹]</b>. For 2×2: M⁻¹ = (1/det)·[d −b; −c a].</p></div>
+  </div>
+  <div class="grid2">
+    <div class="box"><span class="tag">IV–V. Leontief input-output</span>
+      <p><b>M</b> (technology matrix): column j = what sector j needs from each sector to produce 1 unit. <b>D</b> = final (external) demand. <b>X</b> = total output.</p>
+      <p class="mono">Total output = internal demand + external demand<br>X = MX + D  ⇔  X − MX = D  ⇔  (I − M)X = D</p>
+      <p style="font-size:14px">Fish farm (in-class test): 1 t of fish needs 0.2 t fish + 0.5 t feed; 1 t of feed needs 1.2 t fish → M = [0.2 1.2; 0.5 0]. Solve [I − M | D] with an augmented matrix.</p></div>
+    <div class="box"><span class="tag">VII. Markov chains</span>
+      <svg viewBox="0 0 320 120" width="100%" role="img" aria-label="Two-state Markov diagram: A stays A 0.8, A to not-A 0.2, not-A to A 0.6, not-A stays 0.4">
+        <defs><marker id="mk" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--ink)"/></marker></defs>
+        <circle cx="90" cy="65" r="26" fill="var(--debit-soft)" stroke="var(--accent)" stroke-width="2"/><text x="90" y="70" text-anchor="middle" font-size="15" style="fill:var(--accent);font-weight:600">A</text>
+        <circle cx="230" cy="65" r="26" fill="var(--credit-soft)" stroke="var(--credit)" stroke-width="2"/><text x="230" y="70" text-anchor="middle" font-size="15" style="fill:var(--credit);font-weight:600">Ā</text>
+        <g fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#mk)"><path d="M112 52 Q160 25 208 52"/><path d="M208 80 Q160 107 112 80"/><path d="M70 47 C40 10 20 60 64 68"/><path d="M250 47 C280 10 300 60 256 68"/></g>
+        <text x="160" y="30" text-anchor="middle">0.2</text><text x="160" y="112" text-anchor="middle">0.6</text><text x="28" y="30">0.8</text><text x="280" y="30">0.4</text></svg>
+      <p class="mono" style="font-size:13px">P = [0.8 0.2; 0.6 0.4]   (each <b>row sums to 1</b>)</p>
+      <p style="font-size:14px">Row = current state, column = next state. <b>S<sub>1</sub> = S<sub>0</sub>P</b>, S<sub>2</sub> = S<sub>1</sub>P… If no S<sub>0</sub> is given, use powers: P² = P·P gives 2-step probabilities; entry (i, j) of Pⁿ = probability of going from i to j in n steps. <b>Absorbing</b> state: probability 1 of staying (row like 0 0 1).</p></div>
+  </div>
+  <div class="trap"><b>Midterm traps:</b> check dimensions before multiplying (a 2×3 times a 3×2 gives 2×2); missing probabilities in a Markov text = 1 − the others ("the remaining 10% go to LocalGoods"); for "in two months" use P², row = starting state, column = arrival state (L → F was (P²)<sub>3,1</sub> = 0.415).</div>
+</section>
+
+<!-- CH2 -->
+<section id="calc-c2">
+  <div class="head"><span class="num">CH 2</span><h2>Derivatives and business applications</h2>
+  <p class="oneline">The derivative f′(x) is the slope of the tangent line: the instantaneous rate of change. In business, it's the marginal value.</p></div>
+  <div class="tbl"><table>
+    <tr><th>Rule</th><th>Formula</th><th>Example</th></tr>
+    <tr><td>Constant</td><td class="mono">(c)′ = 0</td><td class="mono">(8)′ = 0</td></tr>
+    <tr><td>Power</td><td class="mono">(xⁿ)′ = n·xⁿ⁻¹</td><td class="mono">(7/x⁵)′ = (7x⁻⁵)′ = −35x⁻⁶</td></tr>
+    <tr><td>Constant multiple, sum</td><td class="mono">(c·f)′ = c·f′ · (f ± g)′ = f′ ± g′</td><td class="mono">(3x² + 5x)′ = 6x + 5</td></tr>
+    <tr><td>Second power rule (chain)</td><td class="mono">(uⁿ)′ = n·u′·uⁿ⁻¹</td><td class="mono">((x²+2x)³)′ = 3(2x+2)(x²+2x)²</td></tr>
+    <tr><td>Product</td><td class="mono">(uv)′ = u′v + v′u</td><td class="mono">((3x+1)(4x²−x))′ = 36x² + 2x − 1</td></tr>
+    <tr><td>Quotient</td><td class="mono">(u/v)′ = (u′v − v′u) / v²</td><td class="mono">(3x+1)/(4x²−x) → (−12x² − 8x + 1)/(4x²−x)²</td></tr>
+    <tr><td>Chain</td><td class="mono">dy/dx = dy/du · du/dx</td><td class="mono">√(4−x²) → −x(4−x²)<sup>−1/2</sup></td></tr>
+  </table></div>
+  <p style="font-size:14px;color:var(--muted)">Before differentiating, <b>rewrite</b> roots and fractions as powers: √x = x<sup>1/2</sup>, 1/x⁴ = x⁻⁴, ∛x = x<sup>1/3</sup>.</p>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">III. Marginal analysis</span>
+      <p>C(x) = fixed cost + variable cost·x · R(x) = x·p · P(x) = R − C</p>
+      <p><b>Marginal cost C′(x)</b>, <b>marginal revenue R′(x)</b>, <b>marginal profit P′(x)</b> ≈ the change when producing <b>one more unit</b>.</p>
+      <p>Average cost C̄(x) = C(x)/x; marginal average cost = C̄′(x). Break-even: R(x) = C(x).</p>
+      <p style="font-size:14px"><i>Interpretation sentence:</i> "At a production level of 1,000, profit increases by about $6 if production increases by one unit."</p></div>
+    <div class="box"><span class="tag">Increasing, decreasing, max, min</span>
+      <p>f′ &gt; 0 → increasing · f′ &lt; 0 → decreasing. Critical points: <b>f′(c) = 0</b>.</p>
+      <p><b>Second-derivative test</b>: f″(c) &lt; 0 → relative <b>maximum</b> (concave down); f″(c) &gt; 0 → relative <b>minimum</b>; f″(c) = 0 → test fails (use the sign table).</p>
+      <p>Profit is maximum where P′(x) = 0, i.e. <b>R′(x) = C′(x)</b>.</p></div>
+  </div>
+
+  <div>
+    <h3>IV. Price elasticity of demand</h3>
+    <p class="mono">η = (p/x) / (dp/dx) = p / (x·p′)        and we use |η|</p>
+    <div class="elast" role="img" aria-label="Elasticity scale: inelastic below 1, unit elastic at 1, elastic above 1">
+      <div class="el-in"><b>|η| &lt; 1 · inelastic</b><span>raising the price raises revenue</span></div>
+      <div class="el-u"><b>|η| = 1</b><span>revenue is maximum</span></div>
+      <div class="el-el"><b>|η| &gt; 1 · elastic</b><span>lowering the price raises revenue</span></div>
+    </div>
+    <p style="margin-top:8px">Midterm: p = 500 − 10x → p′ = −10 → η = (500 − 10x)/(−10x) → |η| = (50 − x)/x. Inelastic when (50 − x)/x &lt; 1 ⇔ x &gt; 25, so on (25, 50]. Feasible domain from p ≥ 0 and x ≥ 0: 0 ≤ x ≤ 50.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">V. Implicit differentiation</span>
+      <ol style="margin:0;padding-left:18px"><li>Differentiate <b>both sides</b> with respect to x.</li><li>Every time you differentiate a y term, multiply by <b>dy/dx</b> (chain rule): (y⁵)′ = 5y⁴·dy/dx; (2xy²)′ = 2y² + 4xy·dy/dx (product rule).</li><li>Put all dy/dx terms on one side, factor, divide.</li></ol>
+      <p class="mono" style="font-size:13px">x³ + 2xy² − y⁵ = 20 → dy/dx = (−3x² − 2y²)/(4xy − 5y⁴)</p></div>
+    <div class="box"><span class="tag">Midterm profit question (9 pts)</span>
+      <p>P(x) = −10x² + 400x − 5000 → P′ = −20x + 400 = 0 → <b>x = 20</b>; P″ = −20 &lt; 0 → maximum. P(20) = −1,000: the best the company can do is a <b>loss</b> of $1,000, at price p = 500 − 10·20 = $300. Always state the quantity, the price and the profit.</p></div>
+  </div>
+</section>
+
+<!-- CH3 -->
+<section id="calc-c3">
+  <div class="head"><span class="num">CH 3</span><h2>Exponential and logarithmic functions</h2>
+  <p class="oneline">e ≈ 2.71828 and ln = log base e. Used for growth, decay and continuous interest.</p></div>
+  <div class="grid2">
+    <div class="box"><span class="tag">I. Algebra review</span>
+<pre class="code">bᵐ·bⁿ = bᵐ⁺ⁿ     bᵐ/bⁿ = bᵐ⁻ⁿ     (bᵐ)ⁿ = bᵐⁿ    b⁻ⁿ = 1/bⁿ
+ln(ab) = ln a + ln b      ln(a/b) = ln a − ln b
+ln(aⁿ) = n·ln a           ln(eˣ) = x      e^(ln x) = x
+ln 1 = 0   ln e = 1   ln x defined only for x &gt; 0</pre></div>
+    <div class="box"><span class="tag">II. Derivatives</span>
+      <div class="tbl"><table>
+        <tr><td class="mono">(eˣ)′ = eˣ</td><td class="mono">(eᵘ)′ = u′·eᵘ</td></tr>
+        <tr><td class="mono">(ln x)′ = 1/x</td><td class="mono">(ln u)′ = u′/u</td></tr></table></div>
+      <p class="mono" style="font-size:13px">(e<sup>3x²</sup>)′ = 6x·e<sup>3x²</sup>  ·  (ln(e<sup>3x</sup> + 7))′ = 3e<sup>3x</sup>/(e<sup>3x</sup> + 7)</p></div>
+  </div>
+  <div class="grid2">
+    <div class="box"><span class="tag">III.1 Compound interest</span>
+      <p class="mono">A = P(1 + r/n)<sup>nt</sup></p>
+      <p>P principal, r annual rate (decimal), n compoundings per year (1 annually, 4 quarterly, 12 monthly, 365 daily), t years.</p>
+      <p class="mono">Continuous: A = P·e<sup>rt</sup></p>
+      <p style="font-size:14px">Find t: isolate the power, take ln of both sides. A = Pe<sup>rt</sup> → t = ln(A/P)/r.</p></div>
+    <div class="box"><span class="tag">III.2 Growth / decay model</span>
+      <p class="mono">N(t) = N₀·e<sup>kt</sup></p>
+      <p>k &gt; 0: exponential <b>growth</b>; k &lt; 0: <b>decay</b>. Find k from two data points: k = ln(N(t)/N₀)/t. Then predict, or use N′(t) = k·N₀e<sup>kt</sup> for the rate of change.</p>
+      <svg viewBox="0 0 260 90" width="100%" role="img" aria-label="Growth curve rising and decay curve falling"><line x1="10" y1="80" x2="250" y2="80" class="gl"/><path d="M10 70 C120 66 180 50 245 8" fill="none" stroke="var(--good)" stroke-width="2.5"/><path d="M10 15 C70 55 140 72 245 76" fill="none" stroke="var(--bad)" stroke-width="2.5"/><text x="200" y="22">k &gt; 0</text><text x="200" y="68">k &lt; 0</text></svg></div>
+  </div>
+</section>
+
+<!-- CH4 -->
+<section id="calc-c4">
+  <div class="head"><span class="num">CH 4</span><h2>Optimization: constraints, partial derivatives, Lagrange</h2>
+  <p class="oneline">Maximize or minimize a function of two variables, often under a budget or resource constraint.</p></div>
+  <div class="grid2">
+    <div class="box"><span class="tag">I. Substitution method</span>
+      <p>Fence example: maximize A = xy subject to 8x + 4y = 320.</p>
+      <p>1) Isolate y = 80 − 2x. 2) Substitute: A = 80x − 2x², 0 ≤ x ≤ 40. 3) A′ = 80 − 4x = 0 → x = 20, y = 40. A″ = −4 &lt; 0 → max area 800.</p></div>
+    <div class="box"><span class="tag">Partial derivatives</span>
+      <p>∂f/∂x: differentiate in x, treating <b>y as a constant</b>. ∂f/∂y: the other way round.</p>
+      <p class="mono" style="font-size:13px">P = 140x + 200y − 4x² + 2xy − 12y² − 700<br>∂P/∂x = 140 − 8x + 2y   ∂P/∂y = 200 + 2x − 24y</p></div>
+  </div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Cobb-Douglas production</span>
+      <p class="mono">f(x, y) = k·x<sup>m</sup>·y<sup>n</sup>,  m + n = 1</p>
+      <p>x = labor, y = capital. <b>Marginal productivity of labor</b> = ∂f/∂x = k·m·x<sup>m−1</sup>y<sup>n</sup>; of capital = ∂f/∂y. Interpretation: one more unit of labor (capital fixed) adds about ∂f/∂x units of output.</p></div>
+    <div class="box"><span class="tag">II. Lagrange multipliers</span>
+      <ol style="margin:0;padding-left:18px"><li>Write the constraint as g(x, y) = 0 (e.g. 3x + y − 720 = 0).</li><li>F(x, y, λ) = f(x, y) + λ·g(x, y).</li><li>Solve ∂F/∂x = 0, ∂F/∂y = 0, ∂F/∂λ = 0 (an augmented matrix if linear).</li><li>The only critical point gives the max (or min).</li></ol>
+      <p class="mono" style="font-size:13px">max xy s.t. 3x + y = 720 → (x, y, λ) = (120, 360, −120), max = 43,200</p></div>
+  </div>
+</section>
+
+<!-- CH5 -->
+<section id="calc-c5">
+  <div class="head"><span class="num">CH 5</span><h2>Integrals</h2>
+  <p class="oneline">Integration is the reverse of differentiation: from a marginal function back to the total, and the area under a curve.</p></div>
+  <div class="tbl"><table>
+    <tr><th>Rule</th><th>Indefinite</th><th>Example</th></tr>
+    <tr><td>Power</td><td class="mono">∫xⁿdx = xⁿ⁺¹/(n+1) + C, n ≠ −1</td><td class="mono">∫x³dx = x⁴/4 + C</td></tr>
+    <tr><td>General power</td><td class="mono">∫uⁿu′dx = uⁿ⁺¹/(n+1) + C</td><td class="mono">∫(15x²+1)(5x³+x)²dx = (5x³+x)³/3 + C</td></tr>
+    <tr><td>Exponential</td><td class="mono">∫eˣdx = eˣ + C · ∫u′eᵘdx = eᵘ + C</td><td class="mono">∫8x e<sup>x²</sup>dx = 4e<sup>x²</sup> + C</td></tr>
+    <tr><td>Logarithmic</td><td class="mono">∫(1/x)dx = ln|x| + C · ∫(u′/u)dx = ln|u| + C</td><td class="mono">∫18x²/(3x³+5)dx = 2 ln|3x³+5| + C</td></tr>
+  </table></div>
+  <div class="trap" style="border-color:var(--accent);background:var(--debit-soft)"><b style="color:var(--accent)">Missing factor trick:</b> if u′ is missing a constant, multiply and divide by it. ∫e<sup>4x</sup>dx = ¼∫4e<sup>4x</sup>dx = ¼e<sup>4x</sup> + C. ∫5x²e<sup>x³</sup>dx = (5/3)∫3x²e<sup>x³</sup>dx = (5/3)e<sup>x³</sup> + C.</div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Initial condition</span>
+      <p>From a marginal function: integrate, then use the known value to find C.</p>
+      <p style="font-size:14px">S′(t) = 10 − 10e<sup>−0.1t</sup> → S(t) = 10t + 100e<sup>−0.1t</sup> + C; S(0) = 0 → C = −100; S(12) ≈ $50 million.</p></div>
+    <div class="box"><span class="tag">Definite integral</span>
+      <p class="mono">∫ₐᵇ f(x)dx = F(b) − F(a)</p>
+      <p>No + C. It is the signed area between the curve and the x-axis (above counts +, below counts −).</p>
+      <p class="mono" style="font-size:13px">∫₁² x³dx = 2⁴/4 − 1⁴/4 = 15/4</p></div>
+  </div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Gini index of income concentration</span>
+      <p class="mono">Gini = 2∫₀¹ [x − f(x)] dx</p>
+      <p>f = Lorenz curve. <b>0 = perfect equality, 1 = total inequality.</b> Lower Gini = more equal distribution.</p>
+      <p style="font-size:14px">f(x) = x<sup>2.6</sup> → 2(1/2 − 1/3.6) ≈ 0.444 · g(x) = x<sup>1.8</sup> → ≈ 0.286: more equal.</p></div>
+    <svg viewBox="0 0 220 200" width="100%" style="max-width:300px" role="img" aria-label="Lorenz curve below the equality line; shaded area between them is half the Gini index">
+      <rect x="20" y="10" width="180" height="180" fill="none" stroke="var(--line)"/>
+      <path d="M20 190 L200 10 L200 190 Z" fill="none"/>
+      <path d="M20 190 L200 10 C150 60 90 190 20 190 Z" fill="var(--debit-soft)"/>
+      <line x1="20" y1="190" x2="200" y2="10" stroke="var(--ink)" stroke-width="2" stroke-dasharray="5 4"/>
+      <path d="M20 190 C90 190 150 60 200 10" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+      <text x="60" y="80">y = x (equality)</text><text x="120" y="160">Lorenz f(x)</text><text x="95" y="122" style="fill:var(--accent);font-weight:600">area</text></svg>
+  </div>
+</section>
+
+<section id="calc-formulas">
+  <div class="head"><span class="num">✓</span><h2>Formula sheet</h2></div>
+  <div class="formulas">
+    <div><b>Product possible if</b><code>cols(A) = rows(B)</code></div>
+    <div><b>2×2 determinant</b><code>ad − bc</code></div>
+    <div><b>Inverse exists</b><code>det ≠ 0; [M | I] → [I | M⁻¹]</code></div>
+    <div><b>Leontief</b><code>(I − M)X = D</code></div>
+    <div><b>Markov</b><code>S₁ = S₀P · Pⁿ = n steps</code></div>
+    <div><b>Chain / power</b><code>(uⁿ)′ = n·u′·uⁿ⁻¹</code></div>
+    <div><b>Product</b><code>(uv)′ = u′v + v′u</code></div>
+    <div><b>Quotient</b><code>(u/v)′ = (u′v − v′u)/v²</code></div>
+    <div><b>Profit</b><code>P = R − C,  R = x·p</code></div>
+    <div><b>Elasticity</b><code>η = p/(x·p′); |η|=1 → R max</code></div>
+    <div><b>Max / min</b><code>f′=0; f″&lt;0 max, f″&gt;0 min</code></div>
+    <div><b>Exp / log derivatives</b><code>(eᵘ)′ = u′eᵘ; (ln u)′ = u′/u</code></div>
+    <div><b>Compound interest</b><code>A = P(1 + r/n)^(nt)</code></div>
+    <div><b>Continuous</b><code>A = Pe^(rt); N = N₀e^(kt)</code></div>
+    <div><b>Lagrange</b><code>F = f + λg; F_x = F_y = F_λ = 0</code></div>
+    <div><b>Integrals</b><code>∫u′eᵘ = eᵘ; ∫u′/u = ln|u|</code></div>
+    <div><b>Definite</b><code>F(b) − F(a)</code></div>
+    <div><b>Gini</b><code>2∫₀¹ (x − f(x)) dx</code></div>
+  </div>
+</section>
+</div>
+
+<div class="view" id="view-calc-quiz" data-subj="calc" data-view="quiz" hidden>
+  <section><div class="head"><span class="num">QUIZ</span><h2>Calculus: quick checks by chapter</h2><p class="oneline">Rules and definitions you must know without notes.</p></div></section>
+  <div id="calc-quiz-root" class="view"></div>
+</div>
+<div class="view" id="view-calc-exercises" data-subj="calc" data-view="exercises" hidden>
+  <section>
+    <div class="head"><span class="num">EX</span><h2>Calculus: exam-style exercises</h2>
+    <p class="oneline">Built on the midterm and the in-class test, with the same wording and point values, plus the chapters since (exponential models, Lagrange, integrals). Do them on paper with your Casio, then open the full step-by-step solution. <b>↻ New version</b> = new numbers.</p></div>
+    <div id="calc-progress" class="fmt"></div>
+  </section>
+  <div id="calc-ex-root" class="view"></div>
+</div>
+<div class="view" id="view-calc-mock" data-subj="calc" data-view="mock" hidden>
+  <section>
+    <div class="head"><span class="num">MOCK</span><h2>Calculus: mock final</h2>
+    <p class="oneline">A guess at the final's format: the midterm's style, covering the whole course, with more weight on what came after the midterm. 2 hours (Thu 10 Dec, 9–11h).</p></div>
+    <div class="fmt"><table>
+      <tr><td>Ex 1 · System of equations or Leontief</td><td class="n">15 pts</td></tr><tr><td>Ex 2 · Markov chain or matrix operations</td><td class="n">10 pts</td></tr>
+      <tr><td>Ex 3 · Derivatives (incl. implicit, exp, ln)</td><td class="n">15 pts</td></tr><tr><td>Ex 4 · Business application &amp; elasticity</td><td class="n">20 pts</td></tr>
+      <tr><td>Ex 5 · Compound interest &amp; growth</td><td class="n">10 pts</td></tr><tr><td>Ex 6 · Lagrange &amp; Cobb-Douglas</td><td class="n">15 pts</td></tr><tr><td>Ex 7 · Integrals &amp; Gini</td><td class="n">15 pts</td></tr></table></div>
+    <div class="timer-box">
+      <span class="timer" id="calc-timer" aria-live="polite">120:00</span>
+      <button class="btn" type="button" id="calc-t-start">Start 2 h</button>
+      <button class="btn ghost" type="button" id="calc-t-pause">Pause</button>
+      <button class="btn ghost" type="button" id="calc-t-reset">Reset</button>
+      <button class="btn" type="button" id="calc-new-mock">↻ New mock exam</button>
+    </div>
+  </section>
+  <div id="calc-mock-root" class="view"></div>
+</div>
+
 <div class="view" id="view-home" data-view="home" hidden>
   <section>
     <div class="head"><h2>Your subjects</h2>
@@ -1177,7 +1768,7 @@ my_phone.brand        # 'Apple'</pre>
   </section>
 </div>
 
-<footer>Accounting: based on the course slides (Williams, Haka, Bettner &amp; Carcello, 18th ed.); the Chapter 4 summary and the exam format come from the Fall 2025 midterm. Science of Intelligence: based on the Class 1–8 slides by Pablo A. Martin Torres. Mock exam formats are guesses.</footer>
+<footer>Accounting: based on the course slides (Williams, Haka, Bettner &amp; Carcello, 18th ed.); the Chapter 4 summary and the exam format come from the Fall 2025 midterm. Science of Intelligence: based on the Class 1–8 slides by Pablo A. Martin Torres. Software Engineering: based on the course plan (sessions 1–5) and your exam question list. Calculus: based on Prof. Juan Segura's slides (chapters 1–5), the 2025 midterm and the in-class test. Mock exam formats are guesses, except Software Engineering (10 open questions, from the course plan).</footer>
 </div>
 <script>
 const QUIZ=[
@@ -1600,7 +2191,7 @@ function renderProgressFor(cfg){
     const bar=n?'<span class="pbar"><i style="width:'+(d.ok/n*100)+'%;background:var(--good)"></i><i style="width:'+(d.mid/n*100)+'%;background:var(--credit)"></i><i style="width:'+(d.ko/n*100)+'%;background:var(--bad)"></i></span>':'<span class="pbar"></span>';
     return {i,x,n,d,html:'<tr><td><a href="#'+cfg.anchor+(i+1)+'">EX '+(i+1)+'</a> · '+x.tag+'</td><td class="n">'+n+'</td><td>'+bar+'</td><td>'+pill+'</td></tr>'};});
   const focus=rows.filter(r=>r.n&&r.d.last!=='ok'),untried=rows.filter(r=>!r.n);
-  const chip=r=>'<a href="#'+cfg.anchor+(r.i+1)+'">EX '+(r.i+1)+' · '+r.x.tag.replace(/^(Ch|Class|All)[^·]*· /,'')+'</a>';
+  const chip=r=>'<a href="#'+cfg.anchor+(r.i+1)+'">EX '+(r.i+1)+' · '+r.x.tag.replace(/^(Ch|Class|All|Session|Basics)[^·]*· /,'')+'</a>';
   el.innerHTML='<div class="head" style="gap:10px"><h3 style="margin:0">Your progress</h3><span class="score">'+(tN?Math.round(tOk/tN*100)+'% got it · '+tN+(tN===1?' attempt':' attempts'):'No attempts yet')+'</span></div>'+
    '<p style="font-size:14px;color:var(--muted)">After each exercise, and each mock exam exercise, click ✓ Got it, ~ Partly or ✗ Not yet. Results are saved in this browser only.</p>'+
    (focus.length?'<div><b style="font-size:14px">Practice again:</b><div class="chips2">'+focus.map(chip).join('')+'</div></div>':'')+
@@ -1939,8 +2530,487 @@ function renderHome(){
   el.innerHTML=SUBJECTS.map(s=>{const days=Math.ceil((new Date(s.date)-now)/86400000),cd=days>1?'in '+days+' days':days===1?'tomorrow':days===0?'today':'done';
     if(!s.ready)return '<div class="hcard off"><div class="hc-top"><b>'+s.name+'</b><span class="pill n">'+cd+'</span></div><p class="hc-when">'+s.when+'</p><p class="hc-what">Not added yet. Send me the slides in the chat and I\'ll add this subject.</p></div>';
     const st=subjStats(PROG[s.id]);
-    return '<div class="hcard"><div class="hc-top"><b>'+s.name+'</b><span class="pill '+(days<=5?'b':'c')+'">'+cd+'</span></div><p class="hc-when">'+s.when+'</p><p class="hc-what">'+s.what+'</p><p class="hc-prog">'+(st.n?Math.round(st.ok/st.n*100)+'% exercises got it · '+st.n+(st.n===1?' attempt':' attempts'):'No exercises rated yet')+'</p><div class="hc-links"><a class="btn" href="#'+s.id+'-recap">Recap</a><a class="btn ghost" href="#'+s.id+'-quiz">Quizzes</a><a class="btn ghost" href="#'+s.id+'-exercises">Exercises</a><a class="btn ghost" href="#'+s.id+'-mock">Mock</a></div></div>';}).join('');
+    return '<div class="hcard"><div class="hc-top"><b>'+s.name+'</b><span class="pill '+(days<=5?'b':'c')+'">'+cd+'</span></div><p class="hc-when">'+s.when+'</p><p class="hc-what">'+s.what+'</p><p class="hc-prog">'+(st.n?Math.round(st.ok/st.n*100)+'% exercises got it · '+st.n+(st.n===1?' attempt':' attempts'):'No exercises rated yet')+(s.id==='se'&&typeof SE_CARDS!=='undefined'?' · '+SE_CARDS.filter(c=>loadK()[c.id]==='k').length+'/'+SE_CARDS.length+' flashcards known':'')+'</p><div class="hc-links"><a class="btn" href="#'+s.id+'-recap">Recap</a><a class="btn ghost" href="#'+s.id+'-quiz">Quizzes</a><a class="btn ghost" href="#'+s.id+'-exercises">Exercises</a><a class="btn ghost" href="#'+s.id+'-mock">Mock</a></div></div>';}).join('');
 }
+
+/* ===================== SOFTWARE ENGINEERING ===================== */
+const SE_CARDS=[
+ {id:'git3',s:'S1',st:2,q:'What is Git, what is GitHub, what is GitLab, and what are the differences?',a:'Git is a version control system: free software installed on your computer that records the history of changes to files (commits), lets you go back in time, and work in parallel with branches. It works offline. GitHub is a website (owned by Microsoft) that hosts Git repositories online and adds collaboration tools: pull requests, issues, code review, GitHub Actions, Copilot. GitLab is a similar platform that can also be self-hosted on a company\'s own servers and has built-in CI/CD. Difference: Git is the tool; GitHub and GitLab are online services built around it.'},
+ {id:'cmds',s:'S1',st:2,q:'What are clone, pull, add, commit and push?',a:'git clone copies a remote repository (with all its history) onto your computer, the first time. git pull downloads the new commits from the remote and merges them into your local branch. git add moves your changes to the staging area: it chooses what goes into the next commit. git commit -m "message" saves a snapshot of the staged changes in your local history. git push sends your local commits to the remote repository (e.g. GitHub) so others can get them.'},
+ {id:'os',s:'Basics',st:1,q:'What does an operating system do? Give 3 examples.',a:'The operating system is the program that manages the computer\'s hardware and resources (CPU time, memory, files, devices like the keyboard or screen) and gives users and applications a simple way to use the machine without dealing with the hardware directly. It also provides the interface (desktop, terminal). Examples: Windows, macOS, Linux (e.g. Ubuntu), plus Android and iOS on phones.'},
+ {id:'comp',s:'Basics',st:1,q:'What are the differences between a compiler and an interpreter?',a:'A compiler translates the whole program into machine code before it runs, producing an executable file: execution is fast and all errors are reported at compile time (C, C++, Rust). An interpreter reads and executes the program line by line while it runs, with no separate executable: easier to test and portable, but slower, and it stops at the first error it reaches (Python, JavaScript, bash).'},
+ {id:'file',s:'Basics',st:1,q:'Define file, directory and extension on a disk, with examples.',a:'A file is a named unit of data stored on a disk, like a photo, a document or a program (notes.txt). A directory, or folder, is a container that organizes files and other directories in a tree (/Users/elena/courses). An extension is the suffix after the dot in a file name that indicates its type and which program opens it: .txt text, .csv table data, .py Python script, .jpg image, .pdf document.'},
+ {id:'units',s:'Basics',st:1,q:'What are a bit, a byte, a kilobyte, a megabyte and a gigabyte?',a:'A bit is the smallest unit of information: a 0 or a 1. A byte is 8 bits, enough to store one character like "A". A kilobyte (KB) is 1,024 bytes, a megabyte (MB) is 1,024 KB, and a gigabyte (GB) is 1,024 MB (some contexts round to 1,000). Example sizes: a short text ≈ a few KB, a photo or song ≈ a few MB, a film ≈ a few GB.'},
+ {id:'lang',s:'Basics',st:1,q:'What are the differences between a natural language and a formal language?',a:'A natural language (English, French) evolved naturally to communicate between people: it has many exceptions, is often ambiguous and depends on context, and small mistakes are tolerated. A formal language (Python, SQL, mathematical notation) is designed by people for a specific purpose: it has a strict, fixed syntax and each statement has exactly one meaning, so a computer can process it, but a single error (a missing bracket) makes it invalid.'},
+ {id:'cpu',s:'Basics',st:1,q:'What is the difference between a CPU and a GPU?',a:'The CPU (central processing unit) is the general-purpose brain of the computer: a few powerful cores that execute instructions one after another very fast, running the operating system and applications. The GPU (graphics processing unit) has thousands of smaller, simpler cores that perform the same operation on many data in parallel. It was made for graphics and is now essential for AI, because training neural networks is mostly huge numbers of parallel matrix multiplications (NVIDIA, AMD).'},
+ {id:'ai',s:'Basics',st:1,q:'Do you think AI poses a risk to humankind? Give specific reasons for your answer.',a:'There is no single right answer: take a clear position and support it with specific reasons on both sides. Risks: job displacement, deepfakes and misinformation, bias and discrimination in decisions, privacy and mass surveillance, misuse for cyberattacks or weapons, and loss of control over very capable systems. Benefits that balance it: medicine (AlphaFold), climate forecasting, productivity, accessibility. A good conclusion: AI is a real risk if developed without rules, but regulation (EU AI Act), safety research and responsible use can keep the benefits larger than the dangers.'},
+ {id:'ip',s:'Basics',st:1,q:'What is an IP address? What is a name server? Which machine is 127.0.0.1?',a:'An IP address is the unique number that identifies a device on a network, like a postal address (IPv4: four numbers from 0 to 255, e.g. 192.168.1.10). A name server (DNS) translates human-readable domain names like google.com into IP addresses so computers can connect. 127.0.0.1 is "localhost", the loopback address: it always points to your own machine.'},
+ {id:'csv',s:'Basics',st:1,q:'What is a CSV file? What is a dataset? What is a column of interest?',a:'A CSV (comma-separated values) file is a plain text file that stores a table: each line is a row and the values are separated by commas (name,age,city). A dataset is a structured collection of data used for analysis or to train a model, where rows are examples and columns are features. The column of interest (or target) is the column we want to study or predict, for example "price" in a house dataset.'},
+ {id:'sql',s:'Basics',st:1,q:'What is SQL? What is a database? Give 3 examples of database systems.',a:'A database is an organized collection of data, usually in tables of rows and columns, stored so it can be searched, updated and managed efficiently. SQL (Structured Query Language) is the formal language used to create, read, update and delete data in relational databases, e.g. SELECT name FROM customers WHERE city = \'Madrid\'. Examples of database systems: MySQL, PostgreSQL, SQLite, Oracle, Microsoft SQL Server (MongoDB as a NoSQL example).'},
+ {id:'shell',s:'S1',st:0,q:'What is a shell? Give examples and the basic navigation commands.',a:'A shell is a program that reads the commands you type in a terminal and asks the operating system to execute them. Examples: bash and zsh on Linux and macOS, CMD and PowerShell on Windows. Navigation: pwd shows where you are, ls (dir on Windows) lists the files, cd folder enters a folder and cd .. goes up one level.'},
+ {id:'files',s:'S1',st:0,q:'How do you create, edit and delete files and folders in the terminal?',a:'On Linux/macOS: mkdir data creates a folder, touch notes.txt creates an empty file, nano notes.txt edits it, cat shows it, cp copies, mv moves or renames, rm notes.txt deletes a file and rm -r data deletes a folder with its content. On Windows CMD: mkdir, type nul > notes.txt, notepad notes.txt, type, copy, move, del and rmdir /s.'},
+ {id:'script',s:'S1',st:0,q:'What is a shell script? How do you use variables and control flow, and why automate?',a:'A shell script is a text file (.sh, or .bat on Windows) containing a sequence of shell commands that run automatically. Variables store values: NAME="report", used as $NAME. Control flow: if [ condition ]; then … fi, and loops like for i in 1 2 3; do … done. You run it with bash run.sh, or chmod +x run.sh then ./run.sh. Automating repetitive tasks (backups, renaming many files, daily data processing) saves time and avoids human mistakes.'},
+ {id:'branch',s:'S1',st:0,q:'What are branching and merging in Git?',a:'A branch is an independent line of development: you create one (git checkout -b feature/login) to work on a feature or fix without affecting the main branch. Merging (git merge feature/login, from main) combines the commits of that branch back into the current branch. This lets several people work in parallel safely.'},
+ {id:'conflict',s:'S1',st:0,q:'What is a merge conflict and how do you resolve it?',a:'A merge conflict happens when two branches changed the same lines of the same file, so Git can\'t decide which version to keep. Git marks the file with <<<<<<< HEAD (your version), ======= and >>>>>>> other-branch (the incoming version). To resolve it: open the file, keep the correct version or combine both, delete the markers, then git add the file and git commit to finish the merge.'},
+ {id:'fork',s:'S1',st:0,q:'What is the difference between a fork and a clone? What is a pull request?',a:'A fork is your own copy of someone else\'s repository on GitHub, under your account, so you can change it without permission on the original. A clone is a copy of a repository on your computer. A pull request is a request to merge your branch (or your fork\'s changes) into the original project: others can discuss it, review the code and then merge it.'},
+ {id:'review',s:'S1',st:0,q:'What are issues, discussions and code reviews on GitHub?',a:'Issues track bugs, tasks and feature requests: they can be assigned, labelled and linked to pull requests. Discussions are a forum for questions, ideas and announcements that are not tasks. A code review is when teammates read the changes in a pull request before merging, to catch bugs, improve quality and share knowledge; good reviews are specific, kind and focused on the code.'},
+ {id:'status',s:'S1',st:0,q:'What do git init and git status do? What is the staging area?',a:'git init turns the current folder into a new Git repository (it creates a hidden .git folder that stores the history). git status shows the state of your files: modified, staged (ready to commit) or untracked. The staging area is the intermediate zone between your working files and the repository: git add puts changes there, so you choose exactly what goes into the next commit.'},
+ {id:'vibe',s:'S2',st:0,q:'What is vibe coding? What is boilerplate code?',a:'Vibe coding means building software by describing what you want in natural language to an AI assistant (ChatGPT, GitHub Copilot), then guiding, reviewing and testing the code it generates instead of writing every line yourself. Boilerplate code is the repetitive, standard code every project needs (setup, imports, reading a file, a class skeleton, a basic web page); AI is very good at generating it.'},
+ {id:'prompt',s:'S2',st:0,q:'What makes a good prompt? Explain prompt engineering basics.',a:'Prompt engineering is designing instructions so the AI gives useful output. A good prompt gives a role and context ("You are a Python developer, I\'m building…"), a clear and specific task, constraints (language, libraries, style, length), examples of input and expected output, and the output format ("only code, with comments"). Then you iterate: read the answer and refine the prompt.'},
+ {id:'aitest',s:'S2',st:0,q:'How should you review and test AI-generated code?',a:'Never trust it blindly. Read and understand every line, run it, and write tests including edge cases (empty input, wrong types, big values). Check that the libraries and functions it uses really exist, look for security problems (hard-coded passwords, unsafe inputs), compare it with documentation, and review it like a teammate\'s pull request. The developer stays responsible for the code.'},
+ {id:'aiethics',s:'S2',st:0,q:'What are the limitations and ethical issues of AI coding?',a:'Limitations: hallucinations (invented functions or facts), outdated knowledge, subtle bugs in code that looks correct, difficulty with large codebases and context. Ethics: security and privacy (don\'t paste secrets or personal data), licensing and copyright of generated code, bias, accountability (the human developer is responsible), and over-reliance that weakens your own skills.'},
+ {id:'ml',s:'S3',st:0,q:'What is machine learning? What are its three main types?',a:'Machine learning is a branch of AI where programs learn patterns from data instead of following explicitly programmed rules. Supervised learning uses labelled data to predict a label (spam detection, price prediction). Unsupervised learning finds structure in unlabelled data (customer segmentation with clustering). Reinforcement learning trains an agent by trial and error with rewards (games, robots).'},
+ {id:'mlflow',s:'S3',st:0,q:'Describe a typical machine learning workflow.',a:'1) Data: collect and load it (e.g. a CSV with pandas), clean it and explore it. 2) Preparation: choose the features and the column of interest (target), and split into a training set and a test set. 3) Model: choose an algorithm (e.g. scikit-learn\'s LinearRegression) and train it with fit. 4) Evaluation: measure performance on the test set (accuracy, MSE). 5) Improve or deploy.'},
+ {id:'tools',s:'S3',st:0,q:'What are pandas, scikit-learn, matplotlib and Jupyter/Colab used for?',a:'Python is the main language for ML. pandas loads and manipulates tables of data (DataFrames, read_csv). scikit-learn provides ready-made ML models, data splitting and evaluation metrics. matplotlib draws charts to explore data and show results. Jupyter notebooks mix code, results and explanations in one document; Google Colab is a free online Jupyter notebook that runs in the browser, with GPUs.'},
+ {id:'flow',s:'S4',st:0,q:'What is the GitHub flow? Compare it with other Git workflows.',a:'GitHub flow: create a branch from main, make small commits, open a pull request, get it reviewed and tested, then merge into main and delete the branch. Other workflows: centralized (everyone commits to main, only for tiny teams), feature branch (one branch per feature, merged by pull request), forking (each developer forks and sends pull requests, typical of open source) and Gitflow (main + develop branches with feature, release and hotfix branches, for planned releases).'},
+ {id:'team',s:'S4',st:0,q:'What are best practices for teamwork on a software project?',a:'Pull before starting work; one branch per feature; small, frequent commits with clear messages ("Add login form validation", not "stuff"); never push directly to main; use pull requests and code reviews; split and assign work with issues; keep communicating; agree on code style and keep the project documented.'},
+ {id:'docs',s:'S4',st:0,q:'How and why should you document your code?',a:'Documentation helps others (and your future self) understand, use and contribute to the code. A README.md explains what the project does, how to install and run it, with an example. Comments explain why the code does something, not how. Docstrings describe what a function does, its parameters and what it returns. Documentation must be kept up to date with the code.'}
+];
+
+const SE_QUIZ=[
+{ch:"BASICS",t:"Computer basics",qs:[
+ {q:"Which of these is NOT an operating system?",o:["Linux","macOS","Python","Android"],a:2,e:"Python is a programming language. Windows, macOS, Linux, Android and iOS are operating systems."},
+ {q:"An interpreter…",o:["Translates the whole program into an executable before running","Executes the program line by line while it runs","Is only used for C++","Is a type of hardware"],a:1,e:"Python and JavaScript are interpreted; C and C++ are compiled."},
+ {q:"How many bits are in a byte?",o:["2","8","10","1,024"],a:1,e:"1 byte = 8 bits. 1 KB = 1,024 bytes."},
+ {q:"127.0.0.1 is…",o:["Google's server","Your own machine (localhost)","The router","A DNS server"],a:1,e:"The loopback address always points back to your computer."},
+ {q:"What does a name server (DNS) do?",o:["Stores passwords","Translates domain names into IP addresses","Speeds up the CPU","Compiles code"],a:1,e:"google.com → an IP address the computer can connect to."},
+ {q:"Why are GPUs used to train AI?",o:["They have a few very powerful cores","They do thousands of simple operations in parallel","They store more data","They are cheaper than CPUs"],a:1,e:"Neural network training is mostly parallel matrix multiplications."},
+ {q:"Which one is a formal language?",o:["Spanish","SQL","Slovenian","English"],a:1,e:"Formal languages have a strict syntax and no ambiguity."}]},
+{ch:"SESSION 1",t:"Shell, Git & GitHub",qs:[
+ {q:"Which command shows the folder you're in (Linux/macOS)?",o:["ls","cd","pwd","mkdir"],a:2,e:"pwd = print working directory. On Windows CMD, cd alone does it."},
+ {q:"Which command deletes a file on Linux/macOS?",o:["del","rm","rmdir","cut"],a:1,e:"rm file (del on Windows). rm -r deletes a folder and its content."},
+ {q:"git add…",o:["Sends commits to GitHub","Moves changes to the staging area","Creates a new repository","Downloads a repository"],a:1,e:"It chooses what will go in the next commit."},
+ {q:"You want to copy a GitHub repository onto your computer for the first time. You use…",o:["git pull","git clone","git push","git init"],a:1,e:"clone the first time; pull afterwards to get new changes."},
+ {q:"Which statement is true?",o:["Git and GitHub are the same thing","Git is a version control tool; GitHub is a website hosting Git repositories","GitHub works without Git","GitLab can't host repositories"],a:1,e:"GitLab is a similar platform, also self-hostable."},
+ {q:"A merge conflict happens when…",o:["You forget to commit","Two branches changed the same lines of a file","The repository is too big","You push to the wrong remote"],a:1,e:"Git marks both versions with <<<<<<<, ======= and >>>>>>>."},
+ {q:"A fork is…",o:["A copy of a repository on your computer","Your own copy of someone else's repository on GitHub","A branch","A commit"],a:1,e:"Clone = on your computer; fork = on GitHub, under your account."},
+ {q:"In bash, how do you use the variable NAME?",o:["NAME","%NAME%","$NAME","@NAME"],a:2,e:"Set it with NAME=\"x\" (no spaces), use it with $NAME. (%NAME% is Windows CMD.)"}]},
+{ch:"SESSION 2",t:"Vibe coding",qs:[
+ {q:"Boilerplate code is…",o:["The hardest part of a program","Repetitive, standard code every project needs","Code with bugs","Encrypted code"],a:1,e:"Setup, imports, skeletons: AI generates it well."},
+ {q:"An AI 'hallucination' in coding is…",o:["A very fast answer","Invented code, functions or facts presented as true","A security patch","A type of test"],a:1,e:"Always check that the functions and libraries really exist."},
+ {q:"Which is a good prompt practice?",o:["Keep it as vague as possible","Give context, a clear task, constraints and the output format","Never give examples","Always ask for the whole app at once"],a:1,e:"Then iterate on the answer."},
+ {q:"Who is responsible for AI-generated code you put in a project?",o:["The AI company","Nobody","You, the developer","The user"],a:2,e:"Review and test it like any teammate's code."},
+ {q:"Which is an ethical risk of AI coding?",o:["Pasting passwords or personal data into the prompt","Writing comments","Using Git","Running tests"],a:0,e:"Also licensing of generated code and over-reliance."}]},
+{ch:"SESSION 3",t:"Machine learning",qs:[
+ {q:"Grouping customers with no labels into segments is…",o:["Supervised learning","Unsupervised learning","Reinforcement learning","Not ML"],a:1,e:"Clustering of unlabelled data."},
+ {q:"Which library loads a CSV into a DataFrame?",o:["matplotlib","pandas","scikit-learn","git"],a:1,e:"pd.read_csv(\"file.csv\")."},
+ {q:"Which library provides ready-made models like LinearRegression?",o:["pandas","matplotlib","scikit-learn","numpy only"],a:2,e:"Plus train_test_split and metrics."},
+ {q:"Why split data into training and test sets?",o:["To train faster","To check the model works on data it has never seen","To make the dataset bigger","Because pandas requires it"],a:1,e:"The test set measures generalization."},
+ {q:"model.fit(X_train, y_train) …",o:["Evaluates the model","Trains the model","Loads the data","Draws a chart"],a:1,e:"score or predict on the test set evaluates it."},
+ {q:"Google Colab is…",o:["A database","An online Jupyter notebook running in the browser","A Git platform","An operating system"],a:1,e:"Free, with GPUs."}]},
+{ch:"SESSION 4",t:"Collaboration",qs:[
+ {q:"In the GitHub flow, what comes right after making commits on your branch?",o:["Delete main","Open a pull request","Fork the repository","Push directly to main"],a:1,e:"Branch → commits → pull request → review → merge."},
+ {q:"Which workflow is typical of open-source projects?",o:["Centralized","Forking","No workflow","Gitflow only"],a:1,e:"Contributors fork, then send pull requests."},
+ {q:"Which is the best commit message?",o:["stuff","update","Add email validation to signup form","asdf"],a:2,e:"Short, specific, in the imperative."},
+ {q:"What should a README contain?",o:["Only the license","What the project does, how to install and run it, an example","The full source code","Passwords"],a:1,e:"Comments explain why; docstrings describe functions."},
+ {q:"Gitflow uses…",o:["Only one branch","main + develop, plus feature, release and hotfix branches","No branches","Forks only"],a:1,e:"Suited to projects with planned releases."}]}
+];
+
+/* ---- flashcards ---- */
+const FKEY='se-cards-v1';
+function loadK(){try{return JSON.parse(localStorage.getItem(FKEY))||{};}catch(e){return {};}}
+function saveK(K){try{localStorage.setItem(FKEY,JSON.stringify(K));}catch(e){}}
+const FC_FILTERS=[['all','All'],['star','★ Exam questions'],['Basics','Basics'],['S1','Session 1'],['S2','Session 2'],['S3','Session 3'],['S4','Session 4'],['todo','✗ Not yet']];
+let fcF='all',fcOrder=SE_CARDS.map((c,i)=>i),fcPos=0;
+function fcDeck(){const K=loadK(),hide=document.getElementById('fc-hide').checked;
+  return fcOrder.map(i=>SE_CARDS[i]).filter(c=>(fcF==='all'||(fcF==='star'?c.st>0:fcF==='todo'?K[c.id]==='n':c.s===fcF))&&!(hide&&K[c.id]==='k'));}
+function fcRender(){
+  const K=loadK(),deck=fcDeck(),known=SE_CARDS.filter(c=>K[c.id]==='k').length;
+  document.getElementById('fc-count').textContent=known+' / '+SE_CARDS.length+' known';
+  document.getElementById('fc-filters').innerHTML=FC_FILTERS.map(([k,t])=>'<a href="#se-quiz" data-f="'+k+'" style="'+(fcF===k?'border-color:var(--accent);color:var(--accent)':'color:var(--ink)')+';text-decoration:none">'+t+'</a>').join('');
+  document.querySelectorAll('#fc-filters a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();fcF=a.dataset.f;fcPos=0;fcRender();}));
+  const q=document.getElementById('fc-q'),an=document.getElementById('fc-a'),meta=document.getElementById('fc-meta');an.hidden=true;document.getElementById('fc-flip').textContent='Show answer';
+  if(!deck.length){meta.textContent='';q.textContent='No cards here. Change the filter or untick "Hide the cards I already know".';an.textContent='';return;}
+  if(fcPos>=deck.length)fcPos=0;if(fcPos<0)fcPos=deck.length-1;const c=deck[fcPos];
+  meta.innerHTML='Card '+(fcPos+1)+' / '+deck.length+' · '+(c.s==='Basics'?'Basics':'Session '+c.s.slice(1))+(c.st===2?' · <b style="color:var(--bad)">★★ confirmed final exam question</b>':c.st===1?' · <b style="color:var(--credit)">★ on your Question Exam list</b>':'')+(K[c.id]==='k'?' · <span class="pill g">known</span>':K[c.id]==='n'?' · <span class="pill b">not yet</span>':'');
+  q.textContent=c.q;an.textContent=c.a;
+  document.getElementById('fc-export').value=SE_CARDS.map(x=>x.q+'\t'+x.a).join('\n');
+}
+function fcMark(v){const deck=fcDeck();if(!deck.length)return;const K=loadK();K[deck[fcPos].id]=v;saveK(K);if(!(document.getElementById('fc-hide').checked&&v==='k'))fcPos++;fcRender();renderHome();}
+document.getElementById('fc-flip').addEventListener('click',()=>{const a=document.getElementById('fc-a');a.hidden=!a.hidden;document.getElementById('fc-flip').textContent=a.hidden?'Show answer':'Hide answer';});
+document.getElementById('fc-know').addEventListener('click',()=>fcMark('k'));
+document.getElementById('fc-not').addEventListener('click',()=>fcMark('n'));
+document.getElementById('fc-next').addEventListener('click',()=>{fcPos++;fcRender();});
+document.getElementById('fc-prev').addEventListener('click',()=>{fcPos--;fcRender();});
+document.getElementById('fc-shuffle').addEventListener('click',()=>{fcOrder.sort(()=>Math.random()-.5);fcPos=0;fcRender();});
+document.getElementById('fc-hide').addEventListener('change',()=>{fcPos=0;fcRender();});
+document.getElementById('fc-copy').addEventListener('click',async()=>{const t=document.getElementById('fc-export'),m=document.getElementById('fc-copied');
+  try{await navigator.clipboard.writeText(t.value);m.textContent='Copied '+SE_CARDS.length+' cards. Paste them in Quizlet → Import.';}catch(e){t.focus();t.select();m.textContent='Copy blocked here: the text is selected, press Ctrl+C / Cmd+C.';}});
+fcRender();
+const seQroot=document.getElementById('se-quiz-root');SE_QUIZ.forEach(ch=>seQroot.append(buildChapter(ch)));
+
+/* ---- generators ---- */
+function fsSim(){
+  const root={};let path=[];const cwd=()=>path.reduce((d,n)=>d[n],root);const cmds=[];
+  const dirs=['data','src','docs','images','tests','old','reports'],files=['notes.txt','main.py','data.csv','readme.md','todo.txt','photo.jpg','config.json','draft.docx'];
+  const used=new Set();const fresh=a=>{const c=a.filter(x=>!used.has(x));const v=pick(c.length?c:a);used.add(v);return v;};
+  const n=r(7,9);
+  for(let i=0;i<n;i++){
+    const d=cwd(),subs=Object.keys(d).filter(k=>typeof d[k]==='object'),fl=Object.keys(d).filter(k=>d[k]===1);
+    const opts=['mkdir','touch'];if(subs.length)opts.push('cd','cd');if(path.length)opts.push('cdup');if(fl.length)opts.push('rm','mv','cp');
+    const o=pick(opts);
+    if(o==='mkdir'){const x=fresh(dirs);if(d[x]!==undefined){i--;continue;}d[x]={};cmds.push('mkdir '+x);}
+    else if(o==='touch'){const x=fresh(files);if(d[x]!==undefined){i--;continue;}d[x]=1;cmds.push('touch '+x);}
+    else if(o==='cd'){const x=pick(subs);path.push(x);cmds.push('cd '+x);}
+    else if(o==='cdup'){path.pop();cmds.push('cd ..');}
+    else if(o==='rm'){const x=pick(fl);delete d[x];cmds.push('rm '+x);}
+    else if(o==='mv'){const x=pick(fl),y=fresh(files);if(d[y]!==undefined){i--;continue;}delete d[x];d[y]=1;cmds.push('mv '+x+' '+y);}
+    else{const x=pick(fl),y=x.replace('.','_copy.');d[y]=1;cmds.push('cp '+x+' '+y);}
+  }
+  const tree=(d,pre)=>Object.keys(d).sort().map(k=>pre+(typeof d[k]==='object'?k+'/\n'+tree(d[k],pre+'    '):k+'\n')).join('');
+  return{cmds,pwd:'/project'+(path.length?'/'+path.join('/'):''),ls:Object.keys(cwd()).sort().join('\n')||'(empty)',tree:'project/\n'+tree(root,'    ')};
+}
+const SHT=[
+ ()=>{const n=r(2,5),w=pick(['Backup','Report','Step','Copy']);return{c:`COUNT=${n}\nfor i in $(seq 1 $COUNT); do\n  echo "${w} $i"\ndone`,o:Array.from({length:n},(_,i)=>w+' '+(i+1)).join('\n'),w:`seq 1 ${n} gives 1 to ${n}; the loop prints "${w}" followed by each number.`};},
+ ()=>{const s=r(20,95),t=pick([50,60,70]);return{c:`SCORE=${s}\nif [ $SCORE -ge ${t} ]; then\n  echo "Passed with $SCORE"\nelse\n  echo "Failed with $SCORE"\nfi`,o:(s>=t?'Passed':'Failed')+' with '+s,w:`-ge means "greater than or equal". ${s} ${s>=t?'≥':'<'} ${t}, so the ${s>=t?'then':'else'} branch runs.`};},
+ ()=>{const L=['report','summary','budget','slides','notes'].sort(()=>Math.random()-.5).slice(0,r(2,4)),e=pick(['txt','csv','md']);return{c:`for f in ${L.join(' ')}; do\n  echo "$f.${e}"\ndone`,o:L.map(x=>x+'.'+e).join('\n'),w:`The loop goes through each word and adds the extension .${e}.`};},
+ ()=>{const x=r(2,9),a=r(2,9),m=r(2,3);return{c:`X=${x}\nX=$((X + ${a}))\nX=$((X * ${m}))\necho "X is $X"`,o:'X is '+((x+a)*m),w:`$(( )) does arithmetic: (${x} + ${a}) × ${m} = ${(x+a)*m}.`};},
+ ()=>{const nm=pick(['Elena','Leo','Ana','Marc']),c=pick(['Barcelona','Paris','Madrid']);return{c:`NAME="${nm}"\nCITY="${c}"\necho "Hello $NAME from $CITY"\necho 'Hello $NAME'`,o:`Hello ${nm} from ${c}\nHello $NAME`,w:'Inside double quotes variables are replaced by their value; inside single quotes the text is printed literally.'};}
+];
+Object.assign(GEN,{
+se_shell(){const F=fsSim(),a=r(0,SHT.length-1),S=SHT[a]();
+  return{title:'Shell: follow the commands',
+  task:'<p><b>Part 1.</b> You start in an <b>empty</b> folder <span class="mono">/project</span> and type these commands (Linux/macOS):</p>'+code(F.cmds.join('\n'))+'<ol><li>In which folder are you at the end (what does <span class="mono">pwd</span> show)?</li><li>What does <span class="mono">ls</span> show at the end?</li><li>Draw the final tree of /project.</li><li>Give the Windows CMD equivalent of each command type used.</li></ol><p><b>Part 2.</b> What does this bash script print?</p>'+code(S.c),
+  sol:'<p>1. <span class="mono">'+F.pwd+'</span></p><p>2. ls shows:</p>'+code(F.ls)+'<p>3. Final tree:</p>'+code(F.tree.trimEnd())+'<p>4. mkdir → mkdir · touch f → type nul &gt; f · cd → cd · rm → del · mv → move (or ren) · cp → copy · ls → dir · pwd → cd</p><p><b>Part 2 output</b></p>'+code(S.o)+'<p>'+esc(S.w)+'</p>'};},
+se_git(){
+  const proj=pick(['budget-app','music-recommender','spotify-analysis','festival-site','churn-model']),br=pick(['feature/login','feature/charts','fix/typo-readme','feature/data-cleaning']),f=pick(['app.py','README.md','analysis.ipynb','model.py']),user=pick(['elena-d','leo-m','ana-p']),url='https://github.com/'+user+'/'+proj+'.git';
+  const S=pick([
+   {t:`You created a project folder <span class="mono">${proj}</span> on your laptop with some files. You want to put it under version control and publish it on a new, empty GitHub repository (${url}).`,c:`cd ${proj}\ngit init                          # make the folder a Git repository\ngit add .                         # stage all files\ngit commit -m "Initial commit"    # first snapshot\ngit branch -M main                # name the branch main\ngit remote add origin ${url}      # link to GitHub\ngit push -u origin main           # upload and track`},
+   {t:`A classmate gives you the repository ${url}. You must add a feature in <span class="mono">${f}</span> without touching main, then propose it to the team.`,c:`git clone ${url}                  # copy the repo to your laptop\ncd ${proj}\ngit checkout -b ${br}             # create and switch to a branch\n# … edit ${f} …\ngit status                        # check what changed\ngit add ${f}                      # stage the change\ngit commit -m "Describe the change"\ngit push -u origin ${br}          # upload the branch\n# then open a Pull Request on GitHub and ask for a review`},
+   {t:`You already cloned ${proj} last week. Your teammates have pushed changes since. You want to update your copy, change <span class="mono">${f}</span> and share it.`,c:`cd ${proj}\ngit pull                          # get teammates' new commits first\n# … edit ${f} …\ngit add ${f}\ngit commit -m "Describe the change"\ngit push                          # share your commit`},
+   {t:`Your branch <span class="mono">${br}</span> is finished and approved. You want to merge it into main locally and publish the result.`,c:`git checkout main                 # go to main\ngit pull                          # make sure main is up to date\ngit merge ${br}                   # bring the branch's commits in\n# (if there's a conflict: fix the files, git add, git commit)\ngit push                          # publish the merged main\ngit branch -d ${br}               # optional: delete the merged branch`},
+   {t:`You want to contribute to an open-source project, <span class="mono">${proj}</span>, owned by someone else. You don't have permission to push to it.`,c:`# 1. On GitHub, click "Fork": you get your own copy under your account\ngit clone https://github.com/YOUR-NAME/${proj}.git\ncd ${proj}\ngit checkout -b ${br}\n# … edit ${f} …\ngit add ${f}\ngit commit -m "Describe the change"\ngit push -u origin ${br}          # push to YOUR fork\n# 2. On GitHub, open a Pull Request from your fork to the original project`}]);
+  return{title:'Git: which commands, in which order?',
+  task:'<p>'+S.t+'</p><ol><li>Write the Git commands you would type, in order.</li><li>Explain in one line what each command does.</li></ol>',
+  sol:code(S.c)+'<p>Remember the path of a change: <b>working directory → git add → staging area → git commit → local repository → git push → GitHub</b>. git pull and git clone bring changes the other way.</p>'};},
+se_conflict(){
+  const C=pick([{f:'config.py',a:'LEARNING_RATE = 0.01',b:'LEARNING_RATE = 0.001'},{f:'README.md',a:'Run the app with: python app.py',b:'Run the app with: python main.py'},{f:'prices.py',a:'price = 10',b:'price = 12'},{f:'model.py',a:'EPOCHS = 20',b:'EPOCHS = 50'}]),br=pick(['feature/tuning','fix/readme','feature/pricing','experiment']);
+  return{title:'Resolve a merge conflict',
+  task:'<p>You run <span class="mono">git merge '+br+'</span> on main and Git says: <span class="mono">CONFLICT (content): Merge conflict in '+C.f+'</span>. The file now contains:</p>'+code(`<<<<<<< HEAD\n${C.a}\n=======\n${C.b}\n>>>>>>> ${br}`)+'<ol><li>Why did this conflict happen?</li><li>What do the three markers mean?</li><li>Your team decides to keep the version from '+br+'. Show the final file content.</li><li>Which commands finish the merge?</li><li>Give two habits that reduce conflicts in a team.</li></ol>',
+  sol:'<p>1. main and <span class="mono">'+br+'</span> both changed <b>the same line</b> of '+C.f+' since they split, so Git can\'t choose automatically.</p><p>2. Between <span class="mono">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span> and <span class="mono">=======</span>: your current branch (main). Between <span class="mono">=======</span> and <span class="mono">&gt;&gt;&gt;&gt;&gt;&gt;&gt; '+br+'</span>: the incoming branch.</p><p>3. Delete the markers and the version you don\'t want:</p>'+code(C.b)+'<p>4.</p>'+code(`git add ${C.f}\ngit commit -m "Merge ${br}, keep its version of ${C.f}"`)+'<p>5. Pull often (and before starting work), keep branches short-lived with small commits, split work so people don\'t edit the same lines, and communicate through issues and pull requests.</p>'};},
+se_units(){
+  const gb=r(2,8)*2,ph=pick([2,3,4,5,8]),kb=r(2,9),mb=r(10,90)*10,sp=pick([8,16,40,80,100]),songs=r(3,9);
+  const photos=Math.floor(gb*1024/ph),bytes=kb*1024,bits=bytes*8,t=mb*8/sp;
+  return{title:'Data units: bits, bytes, KB, MB, GB',
+  task:`<p>Use 1 KB = 1,024 bytes, 1 MB = 1,024 KB, 1 GB = 1,024 MB, and 1 byte = 8 bits.</p><ol><li>A text file is ${kb} KB. How many bytes is that? How many bits?</li><li>A USB stick has ${gb} GB free. How many ${ph} MB photos fit on it?</li><li>You download a ${mb} MB file with a ${sp} Mbit/s connection. How many seconds does it take (use 1 byte = 8 bits, ignore the 1,024)?</li><li>A song takes about 4 MB. Roughly how much space do ${songs*100} songs take, in GB?</li><li>Why do internet providers give speeds in bits but files are measured in bytes? What's the trap?</li></ol>`,
+  sol:`<p>1. ${kb} × 1,024 = <b>${f(bytes)} bytes</b>; × 8 = <b>${f(bits)} bits</b>.</p><p>2. ${gb} GB = ${gb} × 1,024 = ${f(gb*1024)} MB; ÷ ${ph} = <b>${f(photos)} photos</b> (rounded down).</p><p>3. ${mb} MB × 8 = ${f(mb*8)} Mbit; ÷ ${sp} Mbit/s = <b>${d2(t)} s</b>.</p><p>4. ${songs*100} × 4 = ${f(songs*400)} MB; ÷ 1,024 ≈ <b>${d2(songs*400/1024)} GB</b>.</p><p>5. Networks transmit bits one after another, so speed is in bits per second; storage is organized in bytes. The trap: 100 Mbit/s is only about 12.5 MB per second, 8 times less than it sounds.</p>`};},
+se_sql(){
+  const names=['Ana','Leo','Marc','Sofia','Hugo','Nora','Ivan','Lucia'].sort(()=>Math.random()-.5).slice(0,6),cities=['Madrid','Paris','Barcelona'],rows=names.map((n,i)=>({id:i+1,name:n,city:pick(cities),age:r(18,45),spent:r(5,60)*10}));
+  const c=pick(cities),a=r(22,35),t=pick([200,300,400]);
+  const q1=`SELECT name FROM customers WHERE city = '${c}';`,r1=rows.filter(x=>x.city===c).map(x=>x.name);
+  const q2=`SELECT name, spent FROM customers WHERE age > ${a} ORDER BY spent DESC;`,r2=rows.filter(x=>x.age>a).sort((x,y)=>y.spent-x.spent||x.id-y.id).map(x=>x.name+' | '+x.spent);
+  const q3=`SELECT COUNT(*) FROM customers WHERE spent >= ${t};`,r3=rows.filter(x=>x.spent>=t).length;
+  return{title:'SQL: read the queries',
+  task:'<p>Table <span class="mono">customers</span> in a database:</p><div class="tbl"><table><tr><th>id</th><th>name</th><th>city</th><th>age</th><th>spent</th></tr>'+rows.map(x=>'<tr><td>'+x.id+'</td><td>'+x.name+'</td><td>'+x.city+'</td><td class="n">'+x.age+'</td><td class="n">'+x.spent+'</td></tr>').join('')+'</table></div><p>What does each query return?</p>'+code(q1+'\n\n'+q2+'\n\n'+q3)+'<p>Then: what is SQL, and name 3 database systems.</p>',
+  sol:'<p><b>Query 1</b>: customers whose city is '+c+':</p>'+code(r1.join('\n')||'(no rows)')+'<p><b>Query 2</b>: customers older than '+a+', biggest spenders first:</p>'+code(r2.join('\n')||'(no rows)')+'<p><b>Query 3</b>: number of customers who spent '+t+' or more: <b>'+r3+'</b>.</p><p>SQL (Structured Query Language) is the formal language to create, read, update and delete data in relational databases. SELECT picks the columns, FROM the table, WHERE filters rows, ORDER BY sorts (DESC = descending), COUNT(*) counts. Systems: MySQL, PostgreSQL, SQLite, Oracle, SQL Server.</p>',
+  _rows:rows,_q:[q1,q2,q3],_r:[r1,r2,r3]};},
+se_ml(){
+  const D=pick([{f:'houses.csv',X:['size','rooms','distance_center'],y:'price',k:'regression',m:'LinearRegression',mod:'linear_model'},{f:'customers.csv',X:['age','visits','minutes_on_site'],y:'bought',k:'classification',m:'LogisticRegression',mod:'linear_model'},{f:'students.csv',X:['hours_studied','attendance','previous_grade'],y:'final_grade',k:'regression',m:'LinearRegression',mod:'linear_model'},{f:'emails.csv',X:['num_links','num_capitals','length'],y:'is_spam',k:'classification',m:'DecisionTreeClassifier',mod:'tree'}]),ts=pick([0.2,0.25,0.3]);
+  const src=`import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.${D.mod} import ${D.m}
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("${D.f}")
+print(df.head())
+
+X = df[${JSON.stringify(D.X).replace(/,/g,', ')}]
+y = df["${D.y}"]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=${ts})
+
+model = ${D.m}()
+model.fit(X_train, y_train)
+print(model.score(X_test, y_test))
+
+plt.scatter(df["${D.X[0]}"], df["${D.y}"])
+plt.show()`;
+  return{title:'Read the ML code: '+D.f,
+  task:'<p>Explain this notebook cell line by line, then answer the questions.</p>'+code(src)+'<ol><li>What does each block do (load, select, split, train, evaluate, plot)?</li><li>What is the column of interest? What are the features?</li><li>Is this supervised or unsupervised learning? Regression or classification? Why?</li><li>What percentage of the data is used for testing, and why do we keep it apart?</li><li>Which library does what here?</li></ol>',
+  sol:`<p>1. <b>pandas</b> reads the CSV into a DataFrame and head() shows the first 5 rows. X takes the feature columns, y the target. train_test_split keeps ${ts*100}% of rows for testing. ${D.m}() creates the model, fit trains it on the training set, score evaluates it on the test set (${D.k==='regression'?'R²':'accuracy'}). matplotlib draws ${D.X[0]} against ${D.y}.</p><p>2. Column of interest (target): <b>${D.y}</b>. Features: ${D.X.join(', ')}.</p><p>3. <b>Supervised</b> (we have the answer column ${D.y} to learn from), and <b>${D.k}</b>: ${D.k==='regression'?D.y+' is a continuous number.':D.y+' is a category (yes/no).'}</p><p>4. ${ts*100}%. The test set is never seen during training, so it measures how well the model works on new data (and detects overfitting).</p><p>5. pandas: data loading and handling · scikit-learn: split, model, training and evaluation · matplotlib: the chart. This would typically run in a Jupyter notebook or Google Colab.</p>`};},
+se_open(){const qs=[...SE_CARDS].sort(()=>Math.random()-.5).slice(0,3);
+  return{title:'Open questions',task:'<ol>'+qs.map(c=>'<li>'+esc(c.q)+(c.st===2?' <span class="pill b">★★ exam</span>':c.st===1?' <span class="pill c">★</span>':'')+'</li>').join('')+'</ol><p style="color:var(--muted);font-size:14px">Answer each in 5–8 lines: definition, how it works or the difference, an example.</p>',
+  sol:'<ol>'+qs.map(c=>'<li><p>'+esc(c.a)+'</p></li>').join('')+'</ol>'};}
+});
+
+const SE_EXLIST=[
+ {g:'se_open',tag:'All sessions · Open questions',pts:30},
+ {g:'se_git',tag:'Session 1 · Git scenario',pts:10},
+ {g:'se_conflict',tag:'Session 1 · Merge conflict',pts:10},
+ {g:'se_shell',tag:'Session 1 · Shell commands &amp; scripts',pts:10},
+ {g:'se_units',tag:'Basics · Data units',pts:10},
+ {g:'se_sql',tag:'Basics · SQL &amp; databases',pts:10},
+ {g:'se_ml',tag:'Session 3 · Reading ML code',pts:10}];
+const seExRoot=document.getElementById('se-ex-root');
+SE_EXLIST.forEach((x,i)=>seExRoot.append(exSection('se'+(i+1),'EX '+(i+1),x.g,x.tag,x.pts,true)));
+PROG.se={el:'se-progress',list:SE_EXLIST,anchor:'se'};
+
+let seMockNo=0;
+function buildSeMock(){
+  seMockNo++;const root=document.getElementById('se-mock-root');root.innerHTML='';
+  const fixed=SE_CARDS.filter(c=>c.st===2),star=SE_CARDS.filter(c=>c.st===1).sort(()=>Math.random()-.5),rest=SE_CARDS.filter(c=>c.st===0).sort(()=>Math.random()-.5);
+  const qs=[...fixed,...star.slice(0,4),...rest.slice(0,4)].sort(()=>Math.random()-.5);
+  const s=document.createElement('section');
+  s.innerHTML='<div class="head"><span class="num">MOCK '+seMockNo+'</span><h2>Software Engineering mock '+seMockNo+'</h2><span class="score" id="se-mock-score">0 / 10</span><p class="oneline">10 open questions, 1 point each. Grade yourself after reading each model answer: ✓ = 1, ~ = 0.5, ✗ = 0.</p></div>';
+  const list=document.createElement('div');list.className='qlist';const sc={};
+  const upd=()=>{const v=Object.values(sc).reduce((a,b)=>a+b,0);document.getElementById('se-mock-score').textContent=v+' / 10'+(Object.keys(sc).length===10?' · done':'');};
+  qs.forEach((c,i)=>{const d=document.createElement('div');d.className='q';
+    d.innerHTML='<p><b>'+(i+1)+'.</b> '+esc(c.q)+(c.st===2?' <span class="pill b">★★ confirmed</span>':'')+'</p><details><summary>Show model answer</summary><p>'+esc(c.a)+'</p></details><div class="rate"><span class="tag">My answer</span><button type="button" class="rbtn ok" data-v="1">✓ Got it</button><button type="button" class="rbtn mid" data-v="0.5">~ Partly</button><button type="button" class="rbtn ko" data-v="0">✗ Not yet</button></div>';
+    d.querySelectorAll('.rbtn').forEach(b=>b.addEventListener('click',()=>{sc[i]=+b.dataset.v;d.querySelectorAll('.rbtn').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));const K=loadK();K[c.id]=b.dataset.v==='1'?'k':'n';saveK(K);upd();}));
+    list.append(d);});
+  s.append(list);root.append(s);
+}
+buildSeMock();makeTimer('se-',7200);
+document.getElementById('se-new-mock').addEventListener('click',()=>{buildSeMock();document.getElementById('se-mock-root').scrollIntoView();});
+SUBJECTS.find(x=>x.id==='se').ready=true;SUBJECTS.find(x=>x.id==='se').what='Shell, Git & GitHub, vibe coding, ML, teamwork · exam = 10 open questions';
+
+/* ===================== CALCULUS ===================== */
+const gcdI=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b];}return a||1;};
+class Fr{constructor(n,d=1){if(d<0){n=-n;d=-d;}const g=gcdI(n,d);this.n=n/g;this.d=d/g;}
+  add(o){return new Fr(this.n*o.d+o.n*this.d,this.d*o.d);}sub(o){return new Fr(this.n*o.d-o.n*this.d,this.d*o.d);}
+  mul(o){return new Fr(this.n*o.n,this.d*o.d);}div(o){return new Fr(this.n*o.d,this.d*o.n);}
+  z(){return this.n===0;}one(){return this.n===this.d;}neg(){return new Fr(-this.n,this.d);}v(){return this.n/this.d;}
+  toString(){if(this.d===1)return String(this.n).replace('-','−');let d=this.d;while(d%2===0)d/=2;while(d%5===0)d/=5;
+    if(d===1){return String(+(this.n/this.d).toFixed(6)).replace('-','−');}return (this.n<0?'−':'')+Math.abs(this.n)+'/'+this.d;}}
+const F=x=>{if(x instanceof Fr)return x;if(Number.isInteger(x))return new Fr(x);let k=1;while(!Number.isInteger(+(x*k).toFixed(9))&&k<1e6)k*=10;return new Fr(Math.round(x*k),k);};
+const mtx=(M,aug)=>'<table class="mat">'+M.map(r=>'<tr>'+r.map((v,j)=>'<td'+(aug&&j===r.length-1?' style="border-left:2px solid var(--ink)"':'')+'>'+v+'</td>').join('')+'</tr>').join('')+'</table>';
+const nm=v=>String(v).replace(/^-/,'−');
+const r4=x=>+x.toFixed(4);
+const sgn=(c,first)=>c<0?(first?'−':' − '):(first?'':' + ');
+function term(c,pw,first,v='x'){if(c===0)return '';const a=Math.abs(c);const cs=(a===1&&pw!==0)?'':String(+a.toFixed(6));
+  const xs=pw===0?'':pw===1?v:v+'<sup>'+nm(pw)+'</sup>';return sgn(c,first)+cs+xs;}
+function poly(ts,v='x'){let s='',f=true;for(const [c,p] of ts){if(!c)continue;s+=term(c,p,f,v);f=false;}return s||'0';}
+
+/* Gauss-Jordan with steps */
+function gaussJordan(A){
+  const M=A.map(r=>r.map(F)),n=M.length,steps=[];
+  const snap=ops=>steps.push({ops,m:M.map(r=>r.map(x=>x.toString()))});
+  snap([]);
+  for(let c=0;c<n;c++){const ops=[];
+    let p=c;while(p<n&&M[p][c].z())p++;if(p===n)return{steps,ok:false};
+    if(p!==c){[M[p],M[c]]=[M[c],M[p]];ops.push('R'+(c+1)+' ↔ R'+(p+1));}
+    const pv=M[c][c];if(!pv.one()){M[c]=M[c].map(x=>x.div(pv));ops.push('R'+(c+1)+' → R'+(c+1)+' ÷ ('+pv+')');}
+    for(let i=0;i<n;i++){if(i===c)continue;const f=M[i][c];if(f.z())continue;M[i]=M[i].map((x,j)=>x.sub(f.mul(M[c][j])));
+      const fa=f.n<0?f.neg():f;ops.push('R'+(i+1)+' → R'+(i+1)+(f.n<0?' + ':' − ')+(fa.one()?'':fa+'·')+'R'+(c+1));}
+    if(ops.length)snap(ops);}
+  return{steps,ok:true,sol:M.map(r=>r[r.length-1])};
+}
+const gjHtml=G=>G.steps.map((s,i)=>(i?'<p class="mono" style="font-size:13px;margin-top:6px">'+s.ops.join(' ;  ')+'</p>':'')+mtx(s.m,true)).join('');
+const det3=C=>C[0][0]*(C[1][1]*C[2][2]-C[1][2]*C[2][1])-C[0][1]*(C[1][0]*C[2][2]-C[1][2]*C[2][0])+C[0][2]*(C[1][0]*C[2][1]-C[1][1]*C[2][0]);
+const mmul=(A,B)=>A.map(r=>B[0].map((_,j)=>r.reduce((s,v,k)=>s+v*B[k][j],0)));
+const tr=A=>A[0].map((_,j)=>A.map(r=>r[j]));
+
+const CALC_QUIZ=[
+{ch:"CH 1",t:"Matrices",qs:[
+ {q:"A is 2×3 and B is 3×4. What is the dimension of AB?",o:["3×3","2×4","4×2","Not possible"],a:1,e:"Inner dimensions match (3 = 3); the result takes the outer ones: 2×4."},
+ {q:"A is 2×3 and B is 2×3. Which operation is possible?",o:["AB","A + B","BA","None"],a:1,e:"Same dimension → addition works. AB needs cols(A) = rows(B): 3 ≠ 2."},
+ {q:"det [4 2; 3 5] = ?",o:["14","26","20","−14"],a:0,e:"ad − bc = 4·5 − 2·3 = 14."},
+ {q:"A square matrix M has an inverse if and only if…",o:["M is symmetric","det(M) ≠ 0","det(M) = 1","M has no zeros"],a:1,e:"det = 0 → singular, no inverse."},
+ {q:"In Leontief analysis, which equation gives total output X?",o:["X = M + D","(I − M)X = D","MX = D","X = (I + M)D"],a:1,e:"X = MX + D, so X − MX = D, so (I − M)X = D."},
+ {q:"In a Markov transition matrix, each row…",o:["Sums to 0","Sums to 1","Has a 1 on the diagonal","Is the same"],a:1,e:"Row = current state; the probabilities of where it goes next add up to 1."},
+ {q:"S₀ = [0.1 0.9], P = [0.8 0.2; 0.6 0.4]. S₁ = ?",o:["[0.62 0.38]","[0.8 0.2]","[0.1 0.9]","[0.54 0.46]"],a:0,e:"0.1·0.8 + 0.9·0.6 = 0.62 and 0.1·0.2 + 0.9·0.4 = 0.38."},
+ {q:"A matrix is symmetric when…",o:["All entries are equal","A = Aᵀ","det(A) = 0","It is 2×2"],a:1,e:"Entry (i, j) equals entry (j, i)."}]},
+{ch:"CH 2",t:"Derivatives & business",qs:[
+ {q:"d/dx (5x⁴ − 3x + 7) = ?",o:["20x³ − 3","20x³ − 3 + 7","5x³ − 3","20x⁴ − 3"],a:0,e:"Power rule; the constant's derivative is 0."},
+ {q:"The derivative of 1/x³ is…",o:["1/(3x²)","−3x⁻⁴","3x⁻²","−1/x²"],a:1,e:"Rewrite x⁻³ → −3x⁻⁴ = −3/x⁴."},
+ {q:"(uv)′ = ?",o:["u′v′","u′v + v′u","(u′v − v′u)/v²","u′ + v′"],a:1,e:"Product rule."},
+ {q:"The marginal profit P′(x) at x = 1000 is −4. This means…",o:["Profit is −4","Producing one more unit lowers profit by about $4","Cost increases by 4","Revenue is maximal"],a:1,e:"Marginal = approximate change for one more unit."},
+ {q:"At a critical point c, f″(c) = −3. The point is…",o:["A relative minimum","A relative maximum","Neither","An inflection point for sure"],a:1,e:"f″ < 0 → concave down → maximum."},
+ {q:"Demand is elastic when…",o:["|η| < 1","|η| = 1","|η| > 1","η = 0"],a:2,e:"Elastic: a price cut raises revenue. Unit elastic (|η| = 1) = revenue max."},
+ {q:"p = 500 − 10x. Revenue R(x) = ?",o:["500 − 10x","500x − 10x²","500x − 10x","−10x"],a:1,e:"R = x·p."},
+ {q:"In implicit differentiation, d/dx(y³) = ?",o:["3y²","3y²·dy/dx","3x²","y³·dy/dx"],a:1,e:"Chain rule: y is a function of x."}]},
+{ch:"CH 3",t:"Exponentials & logs",qs:[
+ {q:"d/dx e^(3x²) = ?",o:["e^(3x²)","6x·e^(3x²)","3x²·e^(3x²−1)","6x"],a:1,e:"(eᵘ)′ = u′eᵘ with u = 3x²."},
+ {q:"d/dx ln(x² + 1) = ?",o:["1/(x² + 1)","2x/(x² + 1)","2x·ln(x² + 1)","ln(2x)"],a:1,e:"(ln u)′ = u′/u."},
+ {q:"ln(e⁵) = ?",o:["e⁵","5","1","ln 5"],a:1,e:"ln and e cancel."},
+ {q:"$1,000 at 6% compounded monthly for 2 years: which formula?",o:["1000(1.06)²","1000(1 + 0.06/12)²⁴","1000e^(0.06·2)","1000(1 + 0.06·2)"],a:1,e:"A = P(1 + r/n)^(nt) with n = 12, t = 2."},
+ {q:"Continuous compounding formula:",o:["A = P(1 + r)^t","A = Pe^(rt)","A = P + rt","A = P·ln(rt)"],a:1,e:"Then t = ln(A/P)/r."},
+ {q:"In N(t) = N₀e^(kt), k < 0 means…",o:["Growth","Decay","Constant","N₀ is negative"],a:1,e:"Exponential decay."},
+ {q:"ln(a·b) = ?",o:["ln a · ln b","ln a + ln b","ln(a) − ln(b)","a·ln b"],a:1,e:"Log of a product = sum of logs."}]},
+{ch:"CH 4",t:"Optimization & Lagrange",qs:[
+ {q:"∂/∂x of f(x, y) = 3x²y + 5y² is…",o:["6xy","3x² + 10y","6xy + 10y","6x"],a:0,e:"Treat y as a constant: 5y² disappears."},
+ {q:"∂/∂y of f(x, y) = 3x²y + 5y² is…",o:["6xy","3x² + 10y","10y","3x²"],a:1,e:"Treat x as a constant."},
+ {q:"For max f(x, y) subject to g(x, y) = 0, the Lagrange function is…",o:["F = f − g","F = f + λg","F = λf + g","F = f·g"],a:1,e:"Then solve F_x = 0, F_y = 0, F_λ = 0."},
+ {q:"In Cobb-Douglas f = kxᵐyⁿ, ∂f/∂x is called…",o:["Marginal cost","Marginal productivity of labor","Elasticity","Average productivity"],a:1,e:"Extra output from one more unit of labor, capital fixed."},
+ {q:"Maximize A = xy subject to 8x + 4y = 320 by substitution. First step:",o:["Set A = 0","Isolate y = 80 − 2x and substitute","Compute ∂A/∂λ","Draw a Markov diagram"],a:1,e:"A becomes 80x − 2x², a one-variable problem."},
+ {q:"In a Cobb-Douglas function, m + n equals…",o:["0","1","k","2"],a:1,e:"e.g. 10x^0.2·y^0.8."}]},
+{ch:"CH 5",t:"Integrals",qs:[
+ {q:"∫x⁴dx = ?",o:["4x³ + C","x⁵/5 + C","x⁵ + C","5x⁵ + C"],a:1,e:"Add 1 to the exponent, divide by the new exponent."},
+ {q:"∫e^(4x)dx = ?",o:["e^(4x) + C","4e^(4x) + C","¼e^(4x) + C","e^(4x)/x + C"],a:2,e:"Missing factor 4: ¼∫4e^(4x)dx."},
+ {q:"∫ 5/(5x + 2) dx = ?",o:["ln|5x + 2| + C","5ln|5x + 2| + C","1/(5x+2)² + C","(5x+2)ln5 + C"],a:0,e:"u′/u with u = 5x + 2, u′ = 5."},
+ {q:"∫₁² x³dx = ?",o:["15/4","4","8","7"],a:0,e:"[x⁴/4] from 1 to 2 = 16/4 − 1/4."},
+ {q:"Why do we need an initial condition like S(0) = 0?",o:["To find the constant C","To find the derivative","To check the domain","It is never needed"],a:0,e:"Integrating gives a family of functions + C; the condition picks one."},
+ {q:"A Gini index closer to 0 means…",o:["More inequality","More equal income distribution","Higher GDP","A negative Lorenz curve"],a:1,e:"0 = perfect equality, 1 = total inequality."},
+ {q:"Gini index formula for Lorenz curve f:",o:["∫₀¹ f(x)dx","2∫₀¹ (x − f(x))dx","2∫₀¹ f′(x)dx","∫₀¹ (f(x) − x)dx"],a:1,e:"Twice the area between the equality line and the Lorenz curve."}]}
+];
+
+Object.assign(GEN,{
+c_matrix(){
+  const A=[rl(3,-2,4),rl(3,-2,4)],B=[rl(2,-3,4),rl(2,-3,4),rl(2,-3,4)];let C;do{C=[rl(3,-2,4),rl(3,-2,4),rl(3,-2,4)];}while(det3(C)===0&&Math.random()<.85);
+  const AB=mmul(A,B),ABt=tr(AB),dC=det3(C);
+  const down=[[C[0][0],C[1][1],C[2][2]],[C[0][1],C[1][2],C[2][0]],[C[0][2],C[1][0],C[2][1]]],up=[[C[0][2],C[1][1],C[2][0]],[C[0][0],C[1][2],C[2][1]],[C[0][1],C[1][0],C[2][2]]];
+  const pr=a=>a.reduce((s,v)=>s*v,1),dS=down.map(pr),uS=up.map(pr);
+  const ops=[['AB','2×3 · 3×2',true,'2×2'],['BA','3×2 · 2×3',true,'3×3'],['CA','3×3 · 2×3',false],['AC','2×3 · 3×3',true,'2×3'],['A + B','2×3 and 3×2',false],['Aᵀ + B','3×2 and 3×2',true,'3×2'],['CB','3×3 · 3×2',true,'3×2']].sort(()=>Math.random()-.5).slice(0,4);
+  const M=mtx;
+  return{title:'Matrices: product, transpose, determinant',
+  task:'<p>Consider:</p><div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center"><span>A =</span>'+M(A.map(r=>r.map(nm)))+'<span>B =</span>'+M(B.map(r=>r.map(nm)))+'<span>C =</span>'+M(C.map(r=>r.map(nm)))+'</div><ol><li>Calculate AB, then (AB)<sup>T</sup>.</li><li>Calculate det(C) showing all steps. Does C<sup>−1</sup> exist? (Don\'t compute it.)</li><li>Which of these operations are possible? Justify with dimensions: '+ops.map(o=>o[0]).join(', ')+'.</li></ol>',
+  sol:'<p>1. A is 2×3 and B is 3×2, so AB is <b>2×2</b>. Row i of A · column j of B:</p><p class="mono" style="font-size:13px">'+[0,1].flatMap(i=>[0,1].map(j=>'(AB)<sub>'+(i+1)+(j+1)+'</sub> = '+A[i].map((v,k)=>'('+nm(v)+')('+nm(B[k][j])+')').join(' + ')+' = '+nm(AB[i][j]))).join('<br>')+'</p><div style="display:flex;gap:16px;align-items:center"><span>AB =</span>'+M(AB.map(r=>r.map(nm)))+'<span>(AB)<sup>T</sup> =</span>'+M(ABt.map(r=>r.map(nm)))+'</div>'+
+  '<p>2. Sarrus: downward diagonals '+down.map((d,i)=>d.map(nm).join('×')+' = '+nm(dS[i])).join(' ; ')+' → sum '+nm(dS.reduce((a,b)=>a+b))+'. Upward diagonals '+up.map((d,i)=>d.map(nm).join('×')+' = '+nm(uS[i])).join(' ; ')+' → sum '+nm(uS.reduce((a,b)=>a+b))+'.</p><p>det(C) = '+nm(dS.reduce((a,b)=>a+b))+' − ('+nm(uS.reduce((a,b)=>a+b))+') = <b>'+nm(dC)+'</b>. '+(dC!==0?'Since det(C) ≠ 0, <b>C<sup>−1</sup> exists</b>.':'Since det(C) = 0, C is singular: <b>C<sup>−1</sup> does not exist</b>.')+'</p>'+
+  '<p>3. '+ops.map(o=>'<b>'+o[0]+'</b>: '+o[1]+' → '+(o[2]?'possible, result '+o[3]:'not possible')).join(' · ')+'.</p><p style="font-size:14px">Product rule: columns of the first = rows of the second. Sum: same dimension.</p>',
+  _chk:{A,B,C,AB,dC}};},
+
+c_system(){
+  const S=pick(['tickets','prod','invest']);let A,b,names,story,q,sol,unit;
+  for(let t=0;t<200;t++){
+    if(S==='tickets'){const pr=pick([[30,20,10],[50,35,20],[25,15,10],[40,25,15]]),x=r(4,20)*10,z=r(2,12)*10,y=x+z;sol=[x,y,z];
+      A=[[1,1,1],[pr[0],pr[1],pr[2]],[1,-1,1]];b=[x+y+z,pr[0]*x+pr[1]*y+pr[2]*z,0];names=['orchestra','mezzanine','balcony'];unit='tickets';
+      story=`A theater sold three types of tickets: orchestra at $${pr[0]}, mezzanine at $${pr[1]} and balcony at $${pr[2]}. It sold ${b[0]} tickets for a total revenue of $${f(b[1])}. The number of mezzanine tickets equals the number of orchestra and balcony tickets combined.`;q='How many tickets of each type were sold?';}
+    else if(S==='prod'){const pn=pick([['tables','chairs','desks'],['jackets','shirts','trousers'],['phones','tablets','laptops']]);sol=[r(2,12)*5,r(2,12)*5,r(2,12)*5];
+      A=[rl(3,1,4),rl(3,1,4),rl(3,1,3)];b=A.map(rw=>rw.reduce((s,v,i)=>s+v*sol[i],0));names=pn;unit='units';
+      const dep=['cutting','assembly','finishing'];story=`A factory makes ${pn.join(', ')}. Hours needed per unit:</p><div class="tbl"><table><tr><th></th>${pn.map(p=>'<th class="n">'+p+'</th>').join('')}<th class="n">hours available</th></tr>${dep.map((d,i)=>'<tr><td>'+d+'</td>'+A[i].map(v=>'<td class="n">'+v+'</td>').join('')+'<td class="n">'+b[i]+'</td></tr>').join('')}</table></div><p>All available hours must be used.`;q='How many of each product should be made?';}
+    else{const rt=pick([[4,6,8],[3,5,7],[2,4,6]]),k=pick([2,3]),x=r(2,10)*5,y=k*x,z=r(2,10)*5;sol=[x,y,z];
+      A=[[1,1,1],rt,[k,-1,0]];b=[x+y+z,rt[0]*x+rt[1]*y+rt[2]*z,0];names=['bonds','funds','stocks'];unit='thousand €';
+      story=`An investor puts €${b[0]},000 in bonds (${rt[0]}% return), funds (${rt[1]}%) and stocks (${rt[2]}%). The total annual return is €${f(b[1]*10)}. The amount in funds is ${k} times the amount in bonds. (Work in thousands of euros; ${rt[0]}% of x thousand = ${rt[0]}x/100, so multiply the return equation by 100.)`;q='How much is invested in each?';}
+    const dt=det3(A);if(dt!==0&&gaussJordan(A.map((rw,i)=>[...rw,b[i]])).ok)break;}
+  const G=gaussJordan(A.map((rw,i)=>[...rw,b[i]])),eq=A.map((rw,i)=>poly([[rw[0],1],[rw[1],1],[rw[2],1]].map(([c],j)=>[c,1])).replace(/x/g,'§')).map((s,i)=>{let k=0;return s.replace(/§/g,()=>['x','y','z'][k++]);});
+  const eqs=A.map((rw,i)=>{let s='',first=true;rw.forEach((c,j)=>{if(c){s+=term(c,1,first,['x','y','z'][j]);first=false;}});return s+' = '+nm(b[i]);});
+  return{title:'System of equations with an augmented matrix',
+  task:'<p>'+story+'</p><p><b>'+q+'</b></p><ol><li>Define the unknowns.</li><li>Write the system of 3 equations.</li><li>Solve it with an augmented matrix, writing every row operation.</li><li>Answer the question in a sentence.</li></ol>',
+  sol:'<p>1. x = '+names[0]+', y = '+names[1]+', z = '+names[2]+'.</p><p>2.</p>'+code(eqs.join('\n').replace(/<[^>]+>/g,''))+'<p>3. Augmented matrix and Gauss-Jordan steps:</p>'+gjHtml(G)+'<p>So x = '+G.sol[0]+', y = '+G.sol[1]+', z = '+G.sol[2]+'.</p><p>4. <b>'+sol[0]+' '+names[0]+', '+sol[1]+' '+names[1]+' and '+sol[2]+' '+names[2]+'</b> ('+unit+'). Check by plugging into each equation.</p><p style="font-size:14px;color:var(--muted)">Your sequence of operations can differ: any correct sequence that reaches the identity is fine, as long as each operation is written.</p>',
+  _chk:{A,b,sol}};},
+
+c_inverse(){let M;do{M=[rl(2,-4,6),rl(2,-4,6)];}while(M[0][0]*M[1][1]-M[0][1]*M[1][0]===0||M[0][0]===0);
+  const d=M[0][0]*M[1][1]-M[0][1]*M[1][0],G=gaussJordan2(M),inv=[[F(M[1][1]).div(F(d)),F(-M[0][1]).div(F(d))],[F(-M[1][0]).div(F(d)),F(M[0][0]).div(F(d))]];
+  return{title:'Inverse of a 2×2 matrix',
+  task:'<p>M = </p>'+mtx(M.map(r=>r.map(nm)))+'<ol><li>Compute det(M). Does M<sup>−1</sup> exist?</li><li>Find M<sup>−1</sup> using the augmented matrix [M | I].</li><li>Check that M·M<sup>−1</sup> = I.</li></ol>',
+  sol:'<p>1. det(M) = ('+nm(M[0][0])+')('+nm(M[1][1])+') − ('+nm(M[0][1])+')('+nm(M[1][0])+') = <b>'+nm(d)+'</b> ≠ 0, so M<sup>−1</sup> exists.</p><p>2.</p>'+G+'<p>M<sup>−1</sup> = </p>'+mtx(inv.map(r=>r.map(String)))+'<p>Shortcut check: M<sup>−1</sup> = (1/det)·[d −b; −c a] = (1/'+nm(d)+')·['+nm(M[1][1])+' '+nm(-M[0][1])+'; '+nm(-M[1][0])+' '+nm(M[0][0])+'].</p><p>3. Multiply: each row of M times each column of M<sup>−1</sup> gives [1 0; 0 1] ✓</p>',_chk:{M,inv:inv.map(r=>r.map(x=>x.v()))}};},
+
+c_leontief(){let M,X,D;for(let t=0;t<500;t++){M=[[r(1,4)/10,r(1,9)/10],[r(1,6)/10,r(0,3)/10]];X=[r(2,12)*10,r(2,12)*10];D=[X[0]-M[0][0]*X[0]-M[0][1]*X[1],X[1]-M[1][0]*X[0]-M[1][1]*X[1]].map(v=>+v.toFixed(6));if(D[0]>0&&D[1]>0)break;}
+  const sec=pick([['fish','fish feed'],['energy','manufacturing'],['agriculture','transport'],['steel','machinery']]),IM=[[1-M[0][0],-M[0][1]],[-M[1][0],1-M[1][1]]].map(r=>r.map(v=>+v.toFixed(6)));
+  const G=gaussJordan(IM.map((rw,i)=>[...rw,D[i]]));
+  return{title:'Leontief input-output: '+sec[0]+' and '+sec[1],
+  task:`<p>An economy has two sectors, ${sec[0]} (A) and ${sec[1]} (B). Producing 1 unit of ${sec[0]} requires ${M[0][0]} units of ${sec[0]} and ${M[1][0]} units of ${sec[1]}. Producing 1 unit of ${sec[1]} requires ${M[0][1]} units of ${sec[0]} and ${M[1][1]} units of ${sec[1]}. The external demand is ${D[0]} units of ${sec[0]} and ${D[1]} units of ${sec[1]}.</p><ol><li>Write the final demand matrix D and the technology matrix M.</li><li>Show that X = MX + D is equivalent to (I − M)X = D.</li><li>Find I − M.</li><li>Find the total production X using an augmented matrix.</li></ol>`,
+  sol:'<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><span>1. D =</span>'+mtx([[D[0]],[D[1]]])+'<span>M =</span>'+mtx(M)+'<span style="font-size:13px;color:var(--muted)">(column = what one unit of that sector needs)</span></div><p>2. X = MX + D ⇒ X − MX = D ⇒ IX − MX = D ⇒ (I − M)X = D.</p><div style="display:flex;gap:16px;align-items:center"><span>3. I − M =</span>'+mtx(IM)+'</div><p>4. Solve [I − M | D]:</p>'+gjHtml(G)+'<p>Total production: <b>'+G.sol[0]+' units of '+sec[0]+'</b> and <b>'+G.sol[1]+' units of '+sec[1]+'</b>.</p>',_chk:{M,D,X}};},
+
+c_markov(){
+  const three=Math.random()<.55,kind=three?pick(['p2','s2']):pick(['s2','p2']);let P,st,story,names;
+  if(!three){const sc=pick([{s:['B','B̄'],n:'brand B',o:'other brands',ctx:'toothpaste buyers'},{s:['L','L̄'],n:'low-risk',o:'not low-risk',ctx:'insured drivers'},{s:['S','S̄'],n:'subscribers',o:'non-subscribers',ctx:'streaming users'}]);
+    const a=r(60,95)/100,bq=r(10,60)/100;P=[[a,+(1-a).toFixed(2)],[bq,+(1-bq).toFixed(2)]];st=sc.s;names=[sc.n,sc.o];
+    story=`Among ${sc.ctx}, ${Math.round(a*100)}% of ${sc.n} (${st[0]}) stay ${sc.n} the next period, and ${Math.round(bq*100)}% of ${sc.o} (${st[1]}) become ${sc.n} the next period.`;}
+  else{const sc=pick([{s:['F','Q','L'],n:['FreshMart','QuickBuy','LocalGoods']},{s:['N','S','P'],n:['Netflix','Spotify-Video','Prime']},{s:['B','T','C'],n:['bus','train','car']}]);st=sc.s;names=sc.n;
+    P=[0,1,2].map(i=>{const stay=r(50,80),o=r(5,100-stay-5),rest=100-stay-o;const row=[0,0,0];row[i]=stay;const others=[0,1,2].filter(j=>j!==i);row[others[0]]=o;row[others[1]]=rest;return row.map(v=>v/100);});
+    story='Each month: '+[0,1,2].map(i=>{const o=[0,1,2].filter(j=>j!==i)[0];return names[i]+' keeps '+Math.round(P[i][i]*100)+'% of its customers and loses '+Math.round(P[i][o]*100)+'% to '+names[o];}).join('; ')+'. The rest of each go to the remaining option.';}
+  const n=P.length,P2=mmul(P,P).map(r=>r.map(r4)),S0=n===2?[pick([0.1,0.2,0.3,0.4,0.5,0.6,0.9]),0]:[0.5,0.3,0.2];if(n===2)S0[1]=+(1-S0[0]).toFixed(2);
+  const S1=mmul([S0],P)[0].map(r4),S2=mmul([S1],P)[0].map(r4),i0=r(0,n-1),j0=r(0,n-1);
+  const Pm=mtx([['',...st],...P.map((rw,i)=>[st[i],...rw])]);
+  const askS=kind==='s2';
+  return{title:'Markov chain: '+names.slice(0,n===2?1:3).join(', '),
+  task:'<p>'+story+'</p><ol><li>Draw the transition diagram.</li><li>Write the transition matrix P (check each row sums to 1).</li>'+(askS?'<li>Today the distribution is S<sub>0</sub> = ['+S0.join(', ')+'] (order '+st.join(', ')+'). Find S<sub>1</sub> and S<sub>2</sub>.</li>':'<li>If someone is in state '+st[i0]+' now, what is the probability they are in state '+st[j0]+' in two periods?</li>')+'</ol>',
+  sol:'<p>1. Draw one circle per state, an arrow for every non-zero probability (including loops for "stays"):</p><p class="mono" style="font-size:13px">'+P.flatMap((rw,i)=>rw.map((v,j)=>v?st[i]+' → '+st[j]+': '+v:'').filter(Boolean)).join(' · ')+'</p><p>2. P = (rows = from, columns = to)</p>'+Pm+'<p class="mono" style="font-size:13px">'+P.map((rw,i)=>st[i]+': '+rw.join(' + ')+' = 1').join(' · ')+'</p>'+
+   (askS?'<p>3. S<sub>1</sub> = S<sub>0</sub>P = ['+S1.join(', ')+'] ; S<sub>2</sub> = S<sub>1</sub>P = ['+S2.join(', ')+'].</p><p class="mono" style="font-size:13px">e.g. first entry of S<sub>1</sub> = '+S0.map((v,k)=>v+'×'+P[k][0]).join(' + ')+' = '+S1[0]+'</p>'
+   :'<p>3. We need (P²)<sub>'+(i0+1)+','+(j0+1)+'</sub> = row '+st[i0]+' of P · column '+st[j0]+' of P:</p><p class="mono" style="font-size:13px">'+P[i0].map((v,k)=>'('+v+')('+P[k][j0]+')').join(' + ')+' = <b>'+P2[i0][j0]+'</b></p><p>The probability is <b>'+(P2[i0][j0]*100).toFixed(2).replace(/\.?0+$/,'')+'%</b>.</p>'),
+  _chk:{P,S0,S1,S2,P2,i0,j0}};},
+
+c_deriv(){
+  const T=[
+   ()=>{const a=r(2,9),n=r(3,6),b=r(1,8),m=r(2,4),c=pick([2,4,6,8]);return{f:`f(x) = ${a}x<sup>${n}</sup> − ${b}/x<sup>${m}</sup> + ${c}√x`,d:`f′(x) = ${a*n}x<sup>${n-1}</sup> + ${b*m}/x<sup>${m+1}</sup> + ${c/2}/√x`,h:`Rewrite: ${a}x<sup>${n}</sup> − ${b===1?'':b}x<sup>−${m}</sup> + ${c}x<sup>1/2</sup>, then power rule.`,fn:x=>a*x**n-b/x**m+c*Math.sqrt(x),dn:x=>a*n*x**(n-1)+b*m/x**(m+1)+c/2/Math.sqrt(x)};},
+   ()=>{const a=r(1,6),n=r(2,3),b=r(1,9),c=r(1,5),m=r(1,2),d=r(1,9);return{f:`f(x) = (${poly([[a,n],[b,0]])})(${poly([[c,m],[-d,0]])})`,d:`f′(x) = ${a*n}x${n-1>1?'<sup>'+(n-1)+'</sup>':''}(${poly([[c,m],[-d,0]])}) + ${c*m===1?'':c*m}${m-1>0?'x':''}(${poly([[a,n],[b,0]])}) = ${poly([[a*c*(n+m),n+m-1],[-a*d*n,n-1],[b*c*m,m-1]])}`,h:'Product rule: (uv)′ = u′v + v′u.',fn:x=>(a*x**n+b)*(c*x**m-d),dn:x=>a*c*(n+m)*x**(n+m-1)-a*d*n*x**(n-1)+b*c*m*x**(m-1)};},
+   ()=>{const a=r(1,6),b=r(1,9),c=r(1,4),d=r(1,9);return{f:`f(x) = (${poly([[a,1],[b,0]])}) / (${poly([[c,2],[d,0]])})`,d:`f′(x) = [${a}(${poly([[c,2],[d,0]])}) − ${2*c}x(${poly([[a,1],[b,0]])})] / (${poly([[c,2],[d,0]])})² = (${poly([[-a*c,2],[-2*b*c,1],[a*d,0]])}) / (${poly([[c,2],[d,0]])})²`,h:'Quotient rule: (u/v)′ = (u′v − v′u)/v².',fn:x=>(a*x+b)/(c*x*x+d),dn:x=>(-a*c*x*x-2*b*c*x+a*d)/(c*x*x+d)**2};},
+   ()=>{const a=r(1,5),n=r(2,3),b=r(1,7),c=r(1,9),k=r(3,7),inner=poly([[a,n],[b,1],[c,0]]),di=poly([[a*n,n-1],[b,0]]);return{f:`f(x) = (${inner})<sup>${k}</sup>`,d:`f′(x) = ${k}(${di})(${inner})<sup>${k-1}</sup>`,h:'Second power rule: (uⁿ)′ = n·u′·uⁿ⁻¹.',fn:x=>(a*x**n+b*x+c)**k,dn:x=>k*(a*n*x**(n-1)+b)*(a*x**n+b*x+c)**(k-1)};},
+   ()=>{const a=r(1,4),b=r(1,6),q=Math.random()<.5;if(q)return{f:`f(x) = e<sup>${poly([[a,2],[b,1]])}</sup>`,d:`f′(x) = (${poly([[2*a,1],[b,0]])})e<sup>${poly([[a,2],[b,1]])}</sup>`,h:'(eᵘ)′ = u′eᵘ.',fn:x=>Math.exp(a*x*x+b*x),dn:x=>(2*a*x+b)*Math.exp(a*x*x+b*x)};
+     const n=r(2,4);return{f:`f(x) = x<sup>${n}</sup>e<sup>${a}x</sup>`,d:`f′(x) = ${n}x<sup>${n-1}</sup>e<sup>${a}x</sup> + ${a}x<sup>${n}</sup>e<sup>${a}x</sup> = x<sup>${n-1}</sup>e<sup>${a}x</sup>(${n} + ${a}x)`,h:'Product rule, with (e<sup>ax</sup>)′ = ae<sup>ax</sup>.',fn:x=>x**n*Math.exp(a*x),dn:x=>x**(n-1)*Math.exp(a*x)*(n+a*x)};},
+   ()=>{const a=r(1,5),b=r(0,6),c=r(1,9),q=Math.random()<.6;if(q)return{f:`f(x) = ln(${poly([[a,2],[b,1],[c,0]])})`,d:`f′(x) = (${poly([[2*a,1],[b,0]])}) / (${poly([[a,2],[b,1],[c,0]])})`,h:'(ln u)′ = u′/u.',fn:x=>Math.log(a*x*x+b*x+c),dn:x=>(2*a*x+b)/(a*x*x+b*x+c)};
+     const n=r(2,3);return{f:`f(x) = ${a===1?'':a}x<sup>${n}</sup>·ln x`,d:`f′(x) = ${a*n}x${n-1>1?'<sup>'+(n-1)+'</sup>':''}·ln x + ${a===1?'':a}x${n-1>1?'<sup>'+(n-1)+'</sup>':''} = ${a===1?'':a}x${n-1>1?'<sup>'+(n-1)+'</sup>':''}(${n}ln x + 1)`,h:'Product rule with (ln x)′ = 1/x.',fn:x=>a*x**n*Math.log(x),dn:x=>a*x**(n-1)*(n*Math.log(x)+1)};},
+   ()=>{const p=r(2,4),c=r(1,4),q=r(2,3),s=r(3,5),K=r(5,30);return{f:`${poly([[1,p]])} + ${c===1?'':c}xy<sup>${q}</sup> − y<sup>${s}</sup> = ${K}   (find dy/dx implicitly)`,d:`${p}x<sup>${p-1}</sup> + ${c===1?'':c}y<sup>${q}</sup> + ${c*q}xy${q-1>1?'<sup>'+(q-1)+'</sup>':''}·dy/dx − ${s}y<sup>${s-1}</sup>·dy/dx = 0  ⇒  dy/dx = (−${p}x<sup>${p-1}</sup> − ${c===1?'':c}y<sup>${q}</sup>) / (${c*q}xy${q-1>1?'<sup>'+(q-1)+'</sup>':''} − ${s}y<sup>${s-1}</sup>)`,h:'Differentiate both sides; each y-term gets ·dy/dx; group and isolate dy/dx.',imp:{p,c,q,s}};}
+  ];
+  const idx=[0,1,2,3,4,5,6].sort(()=>Math.random()-.5).slice(0,4).sort((a,b)=>a-b);if(!idx.includes(6)&&Math.random()<.5)idx[3]=6;
+  const items=[...new Set(idx)].map(i=>T[i]());
+  return{title:'Derivatives',task:'<p>Find the derivative of each function. Show the rule you use.</p><ol type="a">'+items.map(it=>'<li>'+it.f+'</li>').join('')+'</ol>',
+   sol:'<ol type="a">'+items.map(it=>'<li><p>'+it.h+'</p><p class="mono" style="font-size:14px">'+it.d+'</p></li>').join('')+'</ol>',_chk:items};},
+
+c_business(){let a,b,v,Fc;for(let t=0;t<300;t++){b=pick([1,2,4,5,10]);a=b*r(20,90);v=r(2,Math.floor(a*0.6));if((a-v)%(2*b)===0&&(a-v)>0)break;}
+  const gross=(a-v)*(a-v)/(4*b);Fc=Math.max(100,Math.round(gross*(Math.random()<.15?r(105,130):r(30,85))/100/100)*100);const bx=(b===1?'':b)+'x',mp=v0=>v0<0?'−$'+f(-v0):'$'+f(v0);
+  const xm=a/b,xu=a/(2*b),xs=(a-v)/(2*b),Pmax=-b*xs*xs+(a-v)*xs-Fc,ps=a-b*xs,x0=r(1,Math.floor(xm*0.4)),x1=r(Math.ceil(xm*0.6),xm-1),prod=pick(['pairs of headphones','smartwatches','bikes','coffee machines']);
+  return{title:'Business application & price elasticity',
+  task:`<p>A company sells ${prod}. Variable cost: $${v} per unit; fixed costs: $${f(Fc)}. The price-demand function is <b>p = ${a} − ${b===1?'':b}x</b>.</p><ol type="a"><li>Determine the feasible domain (p ≥ 0, x ≥ 0).</li><li>Find C(x), R(x) and P(x).</li><li>Find the marginal profit at x = ${x0} and at x = ${x1}. Interpret.</li><li>Find the price elasticity of demand |η|.</li><li>When is demand elastic, inelastic, unit elastic? What does this say about revenue?</li><li>How many units maximize profit? Prove it is a maximum. Give the price and the maximum profit.</li><li>Find the average cost C̄(x) and the marginal average cost at x = ${x0}.</li></ol>`,
+  sol:`<p>a) ${a} − ${bx} ≥ 0 ⇔ x ≤ ${xm}. Domain: <b>0 ≤ x ≤ ${xm}</b>.</p><p>b) C(x) = ${f(Fc)} + ${v}x · R(x) = x·p = <b>${poly([[a,1],[-b,2]])}</b> · P(x) = R − C = <b>${poly([[-b,2],[a-v,1],[-Fc,0]])}</b></p>`+
+   `<p>c) P′(x) = ${poly([[-2*b,1],[a-v,0]])}. P′(${x0}) = ${nm(-2*b*x0+a-v)}: ${-2*b*x0+a-v>=0?'one more unit increases':'one more unit decreases'} profit by about $${Math.abs(-2*b*x0+a-v)}. P′(${x1}) = ${nm(-2*b*x1+a-v)}: ${-2*b*x1+a-v>=0?'increases':'decreases'} profit by about $${Math.abs(-2*b*x1+a-v)}.</p>`+
+   `<p>d) p′ = −${b}. η = p/(x·p′) = (${a} − ${bx})/(−${bx}) ⇒ <b>|η| = (${a} − ${bx})/(${bx})</b>${b>1?' = ('+xm+' − x)/x':''}.</p>`+
+   `<p>e) |η| = 1 ⇔ ${a} − ${bx} = ${bx} ⇔ x = ${xu}. Elastic (|η| &gt; 1) on [0, ${xu}); unit elastic at x = ${xu}; inelastic on (${xu}, ${xm}]. Revenue is maximum at unit elasticity: R′(x) = ${a} − ${2*b===1?'':2*b}x = 0 ⇔ x = ${xu} ✓.</p>`+
+   `<p>f) P′(x) = 0 ⇔ ${nm(-2*b)}x + ${a-v} = 0 ⇔ <b>x = ${xs}</b>. P″(x) = −${2*b} &lt; 0 → concave down → maximum. Price p = ${a} − ${b===1?'':b+'·'}${xs} = <b>$${ps}</b>. P(${xs}) = <b>${mp(Pmax)}</b>${Pmax<0?' (a loss: the best possible result is still negative, like in the midterm)':''}.</p>`+
+   `<p>g) C̄(x) = C(x)/x = ${f(Fc)}/x + ${v}. C̄′(x) = −${f(Fc)}/x². At x = ${x0}: −${f(Fc)}/${x0*x0} ≈ ${d2(-Fc/(x0*x0))}: the average cost decreases by about $${d2(Fc/(x0*x0))} per extra unit.</p>`,
+  _chk:{a,b,v,Fc,xs,Pmax,xu}};},
+
+c_curve(){let r1,r2;do{r1=r(-4,2);r2=r(r1+1,5);}while((r1+r2)%2!==0);const B=-1.5*(r1+r2),Cc=3*r1*r2,D=r(-5,5),fv=x=>x**3+B*x*x+Cc*x+D;
+  const tp=[r1-1,(r1+r2)/2,r2+1].map(x=>Math.round(x*2)/2);
+  return{title:'Increasing, decreasing, relative extrema',
+  task:`<p>f(x) = ${poly([[1,3],[B,2],[Cc,1],[D,0]])}</p><ol><li>Find f′(x) and the critical points.</li><li>Build the sign table of f′ and give the intervals where f increases or decreases.</li><li>Use the second derivative to classify each critical point, and give its coordinates.</li></ol>`,
+  sol:`<p>1. f′(x) = ${poly([[3,2],[2*B,1],[Cc,0]])} = 3${[r1,r2].map(rv=>rv===0?'x':'(x '+(rv<0?'+ '+(-rv):'− '+rv)+')').join('')}. f′ = 0 ⇔ <b>x = ${r1} or x = ${r2}</b>.</p>`+
+   `<div class="tbl"><table><tr><th>Interval</th><th>(−∞, ${r1})</th><th>(${r1}, ${r2})</th><th>(${r2}, ∞)</th></tr><tr><td>test value</td>${tp.map(x=>'<td>f′('+x+') = '+d2(3*x*x+2*B*x+Cc)+'</td>').join('')}</tr><tr><td>sign of f′</td><td>+</td><td>−</td><td>+</td></tr><tr><td>f</td><td>increasing</td><td>decreasing</td><td>increasing</td></tr></table></div>`+
+   `<p>3. f″(x) = ${poly([[6,1],[2*B,0]])}. f″(${r1}) = ${6*r1+2*B} &lt; 0 → <b>relative maximum (${r1}, ${d2(fv(r1))})</b>. f″(${r2}) = ${6*r2+2*B} &gt; 0 → <b>relative minimum (${r2}, ${d2(fv(r2))})</b>.</p>`,_chk:{B,Cc,D,r1,r2}};},
+
+c_expo(){const P=r(5,50)*1000,rp=pick([2.5,3,3.5,4,4.5,5,5.5,6,6.5]),rr=rp/100,t=r(3,10),A=n=>P*(1+rr/n)**(n*t),Ac=P*Math.exp(rr*t),mult=pick([1.5,2,3]),tt=Math.log(mult)/rr;
+  const N0=r(10,90)*1000,T=r(3,8),grow=Math.random()<.65,N1=grow?Math.round(N0*(1+r(10,60)/100)):Math.round(N0*(1-r(10,40)/100)),k=Math.log(N1/N0)/T,t2=T+r(3,8),Nt2=N0*Math.exp(k*t2),cityc=pick(['A city','A town','A region']);
+  const m2=x=>x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  return{title:'Exponential models: interest and growth',
+  task:`<ol><li>$${f(P)} is invested at ${rp}% per year for ${t} years. Find the final amount if interest is compounded annually, quarterly, monthly, and continuously.</li><li>With continuous compounding at ${rp}%, how many years does it take for the investment to be multiplied by ${mult}? Round to the nearest tenth.</li><li>${cityc} had ${f(N0)} inhabitants in 2020 and ${f(N1)} in ${2020+T}. Using N(t) = N₀e<sup>kt</sup> (t = years since 2020), find k (5 decimals). Is it growth or decay?</li><li>Predict the population in ${2020+t2}, and the rate of change N′(t) at that time.</li></ol>`,
+  sol:`<p>1. A = P(1 + r/n)<sup>nt</sup> with r = ${rr}:</p><div class="tbl"><table><tr><td>annually (n = 1)</td><td class="mono">${f(P)}(1 + ${rr})<sup>${t}</sup></td><td class="n">$${m2(A(1))}</td></tr><tr><td>quarterly (n = 4)</td><td class="mono">${f(P)}(1 + ${rr}/4)<sup>${4*t}</sup></td><td class="n">$${m2(A(4))}</td></tr><tr><td>monthly (n = 12)</td><td class="mono">${f(P)}(1 + ${rr}/12)<sup>${12*t}</sup></td><td class="n">$${m2(A(12))}</td></tr><tr><td>continuously</td><td class="mono">${f(P)}e<sup>${rr}·${t}</sup></td><td class="n">$${m2(Ac)}</td></tr></table></div>`+
+   `<p>2. ${mult}P = Pe<sup>${rr}t</sup> ⇔ e<sup>${rr}t</sup> = ${mult} ⇔ ${rr}t = ln ${mult} ⇔ t = ln ${mult}/${rr} ≈ <b>${tt.toFixed(1)} years</b>.</p>`+
+   `<p>3. ${f(N1)} = ${f(N0)}e<sup>${T}k</sup> ⇔ e<sup>${T}k</sup> = ${f(N1)}/${f(N0)} ⇔ k = ln(${f(N1)}/${f(N0)})/${T} ≈ <b>${k.toFixed(5)}</b> → ${k>0?'growth (k &gt; 0)':'decay (k &lt; 0)'}.</p>`+
+   `<p>4. N(${t2}) = ${f(N0)}e<sup>${k.toFixed(5)}·${t2}</sup> ≈ <b>${f(Math.round(Nt2))} inhabitants</b>. N′(t) = k·N₀e<sup>kt</sup> = k·N(t) ≈ ${k.toFixed(5)} × ${f(Math.round(Nt2))} ≈ <b>${f(Math.round(k*Nt2))} inhabitants per year</b>.</p>`,
+  _chk:{P,rr,t,A1:A(1),A4:A(4),A12:A(12),Ac,mult,tt,N0,N1,T,k,t2,Nt2}};},
+
+c_lagrange(){let a,b,c;for(let t=0;t<200;t++){a=r(1,9);b=r(1,9);c=r(10,90)*10;if(c%(2*a)===0&&c%(2*b)===0&&a!==b)break;}
+  const x=c/(2*a),y=c/(2*b),lam=-y/a,fmax=x*y;
+  const story=pick([`A homeowner has $${c} to fence a rectangular garden. The cost is $${a} per foot for the two sides of length y… (the total cost simplifies to ${a===1?'':a}x + ${b===1?'':b}y = ${c}).`,`A store sells two products. Profit is modelled as f(x, y) = xy, and the budget constraint is ${a===1?'':a}x + ${b===1?'':b}y = ${c}.`,`A firm's output is f(x, y) = xy, where x and y are units of two inputs costing $${a} and $${b}. The budget is $${c}.`]);
+  const k=pick([10,20,30]),m=pick([0.2,0.3,0.4,0.6]),L=r(10,50)*100,K=r(10,50)*100,fCD=k*L**m*K**(1-m),fx=k*m*L**(m-1)*K**(1-m),fy=k*(1-m)*L**m*K**(-m);
+  return{title:'Optimization with constraint: Lagrange & Cobb-Douglas',
+  task:`<p><b>Part 1.</b> ${story.replace(/A homeowner.*?\)\./,'Maximize f(x, y) = xy subject to '+a+'x + '+b+'y = '+c+'.')}</p><ol><li>Write the constraint as g(x, y) = 0 and form F(x, y, λ).</li><li>Find the partial derivatives and solve the system.</li><li>Give the maximum value. Check with the substitution method.</li></ol><p><b>Part 2.</b> A company's production is f(x, y) = ${k}x<sup>${m}</sup>y<sup>${+(1-m).toFixed(1)}</sup> (x = labor, y = capital).</p><ol start="4"><li>Find the production for x = ${f(L)} and y = ${f(K)}.</li><li>Find the marginal productivity of labor and of capital at that point, and interpret.</li></ol>`,
+  sol:`<p>1. g(x, y) = ${a===1?'':a}x + ${b===1?'':b}y − ${c} = 0. F(x, y, λ) = xy + λ(${a===1?'':a}x + ${b===1?'':b}y − ${c}).</p><p>2. F<sub>x</sub> = y + ${a}λ = 0 · F<sub>y</sub> = x + ${b}λ = 0 · F<sub>λ</sub> = ${a===1?'':a}x + ${b===1?'':b}y − ${c} = 0. From the first two: y = −${a}λ, x = −${b}λ. Substitute: ${a}(−${b}λ) + ${b}(−${a}λ) = ${c} ⇒ −${2*a*b}λ = ${c} ⇒ <b>λ = ${d2(lam)}</b>, so <b>x = ${x}, y = ${y}</b>.</p><p>3. Maximum f = ${x} × ${y} = <b>${f(fmax)}</b>. Substitution: y = (${c} − ${a===1?'':a}x)/${b}, f = x(${c} − ${a===1?'':a}x)/${b}; f′ = (${c} − ${2*a}x)/${b} = 0 ⇒ x = ${x} ✓, f″ = −${2*a}/${b} &lt; 0 → max.</p>`+
+   `<p>4. f(${f(L)}, ${f(K)}) = ${k}(${f(L)})<sup>${m}</sup>(${f(K)})<sup>${+(1-m).toFixed(1)}</sup> ≈ <b>${f(Math.round(fCD))} units</b>.</p><p>5. ∂f/∂x = ${d2(k*m)}x<sup>${+(m-1).toFixed(1)}</sup>y<sup>${+(1-m).toFixed(1)}</sup> ≈ <b>${d2(fx)}</b>: one more unit of labor (capital fixed) adds about ${d2(fx)} units. ∂f/∂y = ${d2(k*(1-m))}x<sup>${m}</sup>y<sup>${-m}</sup> ≈ <b>${d2(fy)}</b>: one more unit of capital (labor fixed) adds about ${d2(fy)} units.</p>`,
+  _chk:{a,b,c,x,y,lam,k,m,L,K,fCD,fx,fy}};},
+
+c_integral(){
+  const ea=r(2,5),en=r(1,3),ek=r(1,12),cf=new Fr(ek,ea*(en+1)),la=r(1,4),ln=r(1,3),lb=r(1,9),lk=r(1,12),cl=new Fr(lk,la*(ln+1));
+  const p=r(1,3),q=r(-4,6),s=r(-5,5),lo=r(0,2),hi=lo+r(1,3),Fp=x=>new Fr(p*x**3,3).add(new Fr(q*x*x,2)).add(new Fr(s*x)),defv=Fp(hi).sub(Fp(lo));
+  const mc=r(1,6)/10,mv=r(2,20),Fc=r(5,50)*100,x0=r(20,120);
+  const g1=pick([1.4,1.6,1.8,2.2,2.4,2.6,3]),aa=pick([0.2,0.3,0.4,0.5,0.6]),gi1=(g1-1)/(g1+1),gi2=(1-aa)/3;
+  const cfs=x=>x.one()?'':x.toString()+'·';
+  return{title:'Integrals',
+  task:`<ol><li>Find ∫ ${ek}x${en>1?'<sup>'+en+'</sup>':en===1?'':''}e<sup>${ea}x<sup>${en+1}</sup></sup> dx.</li><li>Find ∫ ${lk}x${ln>1?'<sup>'+ln+'</sup>':''} / (${la===1?'':la}x<sup>${ln+1}</sup> + ${lb}) dx.</li><li>Evaluate ∫<sub>${lo}</sub><sup>${hi}</sup> (${poly([[p,2],[q,1],[s,0]])}) dx.</li><li>The marginal cost is C′(x) = ${mc}x + ${mv} and fixed costs are $${f(Fc)}. Find C(x) and the cost of producing ${x0} units.</li><li>The Lorenz curves of a country are f(x) = x<sup>${g1}</sup> today and g(x) = ${aa}x + ${+(1-aa).toFixed(1)}x² after a tax reform. Compute both Gini indexes and interpret.</li></ol>`,
+  sol:`<p>1. u = ${ea}x<sup>${en+1}</sup>, u′ = ${ea*(en+1)}x${en>1?'<sup>'+en+'</sup>':''}. Missing factor: ∫ = (${ek}/${ea*(en+1)})∫u′eᵘdx = <b>${cfs(cf)}e<sup>${ea}x<sup>${en+1}</sup></sup> + C</b>.</p>`+
+   `<p>2. u = ${la===1?'':la}x<sup>${ln+1}</sup> + ${lb}, u′ = ${la*(ln+1)}x${ln>1?'<sup>'+ln+'</sup>':''}. ∫ = (${lk}/${la*(ln+1)})∫u′/u dx = <b>${cfs(cl)}ln|${la===1?'':la}x<sup>${ln+1}</sup> + ${lb}| + C</b>.</p>`+
+   `<p>3. Antiderivative F(x) = ${poly([[p/3,3],[q/2,2],[s,1]]).replace(/(\d)\.(\d{5,})/g,(m)=>(+m).toFixed(3))} → F(${hi}) − F(${lo}) = ${Fp(hi)} − (${Fp(lo)}) = <b>${defv}</b>${defv.d!==1?' ≈ '+d2(defv.v()):''}.</p>`+
+   `<p>4. C(x) = ∫(${mc}x + ${mv})dx = ${+(mc/2).toFixed(3)}x² + ${mv}x + K. C(0) = ${f(Fc)} ⇒ K = ${f(Fc)}. C(x) = <b>${+(mc/2).toFixed(3)}x² + ${mv}x + ${f(Fc)}</b>; C(${x0}) = <b>$${f(+(mc/2*x0*x0+mv*x0+Fc).toFixed(2))}</b>.</p>`+
+   `<p>5. Gini<sub>f</sub> = 2∫₀¹(x − x<sup>${g1}</sup>)dx = 2(1/2 − 1/${+(g1+1).toFixed(1)}) ≈ <b>${gi1.toFixed(3)}</b>. Gini<sub>g</sub> = 2∫₀¹(x − ${aa}x − ${+(1-aa).toFixed(1)}x²)dx = 2(${+(1-aa).toFixed(1)}/2 − ${+(1-aa).toFixed(1)}/3) ≈ <b>${gi2.toFixed(3)}</b>. ${gi2<gi1?'The Gini index decreases: income would be <b>more equally</b> distributed after the reform.':'The Gini index increases: income would be <b>less equally</b> distributed after the reform.'}</p>`,
+  _chk:{ea,en,ek,cf:cf.v(),la,ln,lb,lk,cl:cl.v(),p,q,s,lo,hi,defv:defv.v(),g1,aa,gi1,gi2,mc,mv,Fc,x0}};}
+});
+function gaussJordan2(M){const G=gaussJordan([[M[0][0],M[0][1],1,0],[M[1][0],M[1][1],0,1]].map(r=>r));return gjHtmlI(G);}
+function gjHtmlI(G){return G.steps.map((s,i)=>(i?'<p class="mono" style="font-size:13px;margin-top:6px">'+s.ops.join(' ;  ')+'</p>':'')+'<table class="mat">'+s.m.map(r=>'<tr>'+r.map((v,j)=>'<td'+(j===2?' style="border-left:2px solid var(--ink)"':'')+'>'+v+'</td>').join('')+'</tr>').join('')+'</table>').join('');}
+
+const CALC_EXLIST=[
+ {g:'c_matrix',tag:'Ch 1 · Matrices &amp; determinant',pts:12},
+ {g:'c_system',tag:'Ch 1 · System with augmented matrix',pts:20},
+ {g:'c_inverse',tag:'Ch 1 · Inverse matrix',pts:10},
+ {g:'c_leontief',tag:'Ch 1 · Leontief',pts:20},
+ {g:'c_markov',tag:'Ch 1 · Markov chains',pts:20},
+ {g:'c_deriv',tag:'Ch 2–3 · Derivatives',pts:16},
+ {g:'c_business',tag:'Ch 2 · Business &amp; elasticity',pts:32},
+ {g:'c_curve',tag:'Ch 2 · Increasing / max / min',pts:12},
+ {g:'c_expo',tag:'Ch 3 · Interest &amp; growth',pts:15},
+ {g:'c_lagrange',tag:'Ch 4 · Lagrange &amp; Cobb-Douglas',pts:20},
+ {g:'c_integral',tag:'Ch 5 · Integrals &amp; Gini',pts:20}];
+const cQroot=document.getElementById('calc-quiz-root');CALC_QUIZ.forEach(ch=>cQroot.append(buildChapter(ch)));
+const cExRoot=document.getElementById('calc-ex-root');CALC_EXLIST.forEach((x,i)=>cExRoot.append(exSection('cx'+(i+1),'EX '+(i+1),x.g,x.tag,x.pts,true)));
+PROG.calc={el:'calc-progress',list:CALC_EXLIST,anchor:'cx'};
+let calcMockNo=0;
+function buildCalcMock(){calcMockNo++;const root=document.getElementById('calc-mock-root');root.innerHTML='';
+  const top=document.createElement('section');top.innerHTML='<div class="head"><span class="num">MOCK '+calcMockNo+'</span><h2>Calculus mock final '+calcMockNo+'</h2><p class="oneline">7 exercises, 100 points, 2 hours. Casio fx-82MS only, no notes. Show every step, then open each solution and grade yourself.</p></div>';root.append(top);
+  [{g:pick(['c_system','c_leontief']),tag:'Matrices',pts:15},{g:pick(['c_markov','c_matrix']),tag:'Matrices',pts:10},{g:'c_deriv',tag:'Derivatives',pts:15},{g:'c_business',tag:'Business &amp; elasticity',pts:20},{g:'c_expo',tag:'Exponential models',pts:10},{g:'c_lagrange',tag:'Optimization',pts:15},{g:'c_integral',tag:'Integrals',pts:15}]
+   .forEach((p,i)=>root.append(exSection('cmx'+(i+1),'EX '+(i+1),p.g,p.tag,p.pts,false)));}
+buildCalcMock();makeTimer('calc-',7200);
+document.getElementById('calc-new-mock').addEventListener('click',()=>{buildCalcMock();document.getElementById('calc-mock-root').scrollIntoView();});
+{const s=SUBJECTS.find(x=>x.id==='calc');s.ready=true;s.what='Matrices, Markov, Leontief, derivatives, elasticity, exp/log, Lagrange, integrals';}
 
 /* routing */
 const VIEWS=['recap','quiz','exercises','mock'];
@@ -1948,7 +3018,7 @@ function route(){
   let h=location.hash.slice(1)||'home';
   if(VIEWS.includes(h))h='acc-'+h;
   let view=null,target=null;
-  const m=h.match(/^(acc|soi)(?:-(recap|quiz|exercises|mock))?$/);
+  const m=h.match(/^(acc|soi|se|calc)(?:-(recap|quiz|exercises|mock))?$/);
   if(h==='home')view=document.getElementById('view-home');
   else if(m)view=document.querySelector('.wrap > .view[data-subj="'+m[1]+'"][data-view="'+(m[2]||'recap')+'"]');
   else{target=document.getElementById(h);if(target)view=target.closest('.wrap > .view');}
