@@ -13,6 +13,7 @@
   --bg:#f3f5f8; --paper:#ffffff; --ink:#18212f; --muted:#5b6678; --line:#d9dee7;
   --accent:#2446a8; --debit:#2a62d6; --debit-soft:#e6eeff; --credit:#c26a10; --credit-soft:#fdf0e1;
   --good:#1f8a4c; --good-soft:#e3f5ea; --bad:#c23a3a; --bad-soft:#fbe7e7;
+  --soi-acc:#0d7a72; --soi-soft:#e1f4f1;
   --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
   --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
@@ -22,13 +23,13 @@
   :root:not([data-theme="light"]){
     --bg:#0f141c; --paper:#171e29; --ink:#e7ecf3; --muted:#9aa6b8; --line:#2b3545;
     --accent:#8fa9ff; --debit:#7ea6ff; --debit-soft:#1b2a48; --credit:#f0a65a; --credit-soft:#3a2915;
-    --good:#5fd08f; --good-soft:#163323; --bad:#ff8585; --bad-soft:#3d1c1c; color-scheme:dark;
+    --good:#5fd08f; --good-soft:#163323; --bad:#ff8585; --bad-soft:#3d1c1c; --soi-acc:#4fd1c5; --soi-soft:#12332f; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#0f141c; --paper:#171e29; --ink:#e7ecf3; --muted:#9aa6b8; --line:#2b3545;
   --accent:#8fa9ff; --debit:#7ea6ff; --debit-soft:#1b2a48; --credit:#f0a65a; --credit-soft:#3a2915;
-  --good:#5fd08f; --good-soft:#163323; --bad:#ff8585; --bad-soft:#3d1c1c; color-scheme:dark;
+  --good:#5fd08f; --good-soft:#163323; --bad:#ff8585; --bad-soft:#3d1c1c; --soi-acc:#4fd1c5; --soi-soft:#12332f; color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -108,7 +109,7 @@ footer{color:var(--muted);font-size:13px;text-align:center}
 /* views & tabs */
 .view{display:grid;gap:22px}
 .view[hidden]{display:none}
-section{scroll-margin-top:110px}
+section{scroll-margin-top:180px}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;flex-basis:100%}
 .tab{font:600 15px var(--display);color:var(--ink);text-decoration:none;padding:7px 14px;border-radius:8px;border:1px solid var(--line);background:var(--paper)}
 .tab[aria-current="page"]{background:var(--accent);color:var(--paper);border-color:var(--accent)}
@@ -157,6 +158,42 @@ summary{cursor:pointer;font-weight:600;color:var(--accent)}
 .t-card small{color:var(--muted);font-size:11px}
 .fmt{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
 .fmt table td{padding:5px 8px}
+.sbar{display:flex;gap:6px;flex-wrap:wrap;flex-basis:100%}
+.sbtn{font:600 13px var(--body);color:var(--muted);text-decoration:none;padding:5px 12px;border-radius:999px;border:1px dashed var(--line)}
+.sbtn[aria-current="page"]{color:var(--accent);border:1px solid var(--accent);background:var(--paper)}
+.sbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tabs[hidden]{display:none}
+body[data-subj="soi"]{--accent:var(--soi-acc);--debit-soft:var(--soi-soft)}
+.hcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.hcard{border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:8px;align-content:start;background:var(--paper)}
+.hcard.off{background:var(--bg);border-style:dashed}
+.hc-top{display:flex;justify-content:space-between;gap:10px;align-items:start}
+.hc-top b{font-family:var(--display);font-size:18px;line-height:1.2}
+.hc-when{font:600 14px var(--mono);color:var(--muted)}
+.hc-what,.hc-prog{font-size:14px;color:var(--muted)}
+.hc-links{display:flex;gap:6px;flex-wrap:wrap}
+.hc-links .btn{text-decoration:none;font-size:13px;padding:6px 12px}
+pre.code{font:13px/1.5 var(--mono);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:0;overflow-x:auto;white-space:pre}
+.tl{display:grid;gap:6px}
+.tl-row{display:grid;grid-template-columns:100px 130px 1fr;gap:12px;align-items:start;padding:10px 12px;border-radius:8px;border-left:5px solid}
+.tl-row.sum{background:var(--credit-soft);border-color:var(--credit)}
+.tl-row.win{background:var(--debit-soft);border-color:var(--debit)}
+.tl-row b{font-family:var(--mono)}
+.tl-row span{font-weight:600}
+.tl-row p{font-size:14px}
+@media (max-width:640px){.tl-row{grid-template-columns:1fr}}
+.cm{display:grid;grid-template-columns:auto 1fr 1fr;gap:4px;align-content:start}
+.cmh{font:600 12px var(--body);color:var(--muted);padding:8px;display:flex;align-items:center;justify-content:center;text-align:center}
+.cmc{font:600 16px var(--mono);padding:16px 8px;text-align:center;border-radius:8px}
+.cmc.g{background:var(--good-soft);color:var(--good)}
+.cmc.b{background:var(--bad-soft);color:var(--bad)}
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.acts div{display:grid;gap:2px;text-align:center;font-size:13px}
+.acts svg{width:100%;height:50px;border:1px solid var(--line);border-radius:6px;background:var(--bg)}
+.acts small{color:var(--muted);font-size:11px}
+@media (max-width:560px){.acts{grid-template-columns:repeat(2,1fr)}}
+table.mat{width:auto;border-collapse:collapse}
+table.mat td{border:1px solid var(--line);padding:4px 9px;text-align:center;font-family:var(--mono)}
 .rate{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .rbtn{font:600 14px var(--body);border-radius:999px;padding:6px 14px;cursor:pointer;background:var(--paper);border:1px solid var(--line);color:var(--ink)}
 .rbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -176,23 +213,31 @@ summary{cursor:pointer;font-weight:600;color:var(--accent)}
 <div class="wrap">
 
 <header>
-  <h1>Accounting for Business Decisions: Recap</h1>
-  <p class="lede">Four tabs: the <b>Recap</b> of chapters 1 to 9, <b>Quizzes</b> by chapter, <b>Exercises</b> with full solutions, and two timed <b>Mock exams</b>. Each chapter has the big idea, a visual, the course example with its numbers, and the trap to avoid in the exam. Colour code everywhere: <span class="pill d">Debit</span> blue, <span class="pill c">Credit</span> amber.</p>
+  <h1>Fall 2026 Finals: Revision Hub</h1>
+  <p class="lede">One space per subject, each with a visual recap, quizzes, exercises you can regenerate, and mock exams.</p>
 </header>
 
 <nav aria-label="Sections">
-  <div class="tabs">
-    <a class="tab" href="#recap" data-view="recap">Recap</a>
-    <a class="tab" href="#quiz" data-view="quiz">Quizzes</a>
-    <a class="tab" href="#exercises" data-view="exercises">Exercises</a>
-    <a class="tab" href="#mock" data-view="mock">Mock exams</a>
+  <div class="sbar"><a class="sbtn" href="#home" data-subj="home">⌂ All subjects</a><a class="sbtn" href="#acc" data-subj="acc">Accounting</a><a class="sbtn" href="#soi" data-subj="soi">Science of Intelligence</a></div>
+  <div class="tabs" id="tabs">
+    <a class="tab" href="#acc-recap" data-view="recap">Recap</a>
+    <a class="tab" href="#acc-quiz" data-view="quiz">Quizzes</a>
+    <a class="tab" href="#acc-exercises" data-view="exercises">Exercises</a>
+    <a class="tab" href="#acc-mock" data-view="mock">Mock exams</a>
   </div>
-  <div class="chips" id="chips">
+  <div class="chips" data-subj="acc">
   <a href="#ch1">1 · Intro</a><a href="#ch2">2 · Statements</a><a href="#ch3">3 · Debit &amp; credit</a><a href="#ch4">4 · Adjusting</a><a href="#ch5">5 · Closing</a><a href="#ch6">6 · Merchandising</a><a href="#ch7">7 · Financial assets</a><a href="#ch8">8 · Inventories</a><a href="#ch9">9 · Plant assets</a><a href="#formulas">Formula sheet</a>
+  </div>
+  <div class="chips" data-subj="soi" hidden>
+  <a href="#soi-c1">1 · Intro to AI</a><a href="#soi-c2">2 · Supervised</a><a href="#soi-c3">3 · Deep learning</a><a href="#soi-c4">4 · Python</a><a href="#soi-c5">5 · Unsupervised</a><a href="#soi-c6">6 · Vision</a><a href="#soi-c7">7 · Reinforcement</a><a href="#soi-c8">8 · Generative AI</a>
   </div>
 </nav>
 
-<div class="view" id="view-recap">
+<div class="view" id="view-recap" data-subj="acc" data-view="recap" hidden>
+<section>
+  <div class="head"><span class="num">ACC</span><h2>Accounting for Business Decisions: recap</h2>
+  <p class="oneline">Chapters 1 to 9. Each chapter has the big idea, a visual, the course example with its numbers, and the trap to avoid in the exam. Colour code everywhere: <span class="pill d">Debit</span> blue, <span class="pill c">Credit</span> amber. Final exam: <b>Tuesday 1 December, 12–14h</b>.</p></div>
+</section>
 
 <!-- CH1 -->
 <section id="ch1">
@@ -671,7 +716,7 @@ summary{cursor:pointer;font-weight:600;color:var(--accent)}
 </div><!-- /view-recap -->
 
 <!-- ============ QUIZ VIEW ============ -->
-<div class="view" id="view-quiz" hidden>
+<div class="view" id="view-quiz" data-subj="acc" data-view="quiz" hidden>
   <section>
     <div class="head"><span class="num">QUIZ</span><h2>Quick quizzes by chapter</h2>
     <p class="oneline">Click an answer: you see right away if it's correct, with the explanation. Use "Restart" to try a chapter again.</p></div>
@@ -680,7 +725,7 @@ summary{cursor:pointer;font-weight:600;color:var(--accent)}
 </div>
 
 <!-- ============ EXERCISES VIEW ============ -->
-<div class="view" id="view-exercises" hidden>
+<div class="view" id="view-exercises" data-subj="acc" data-view="exercises" hidden>
   <section>
     <div class="head"><span class="num">EX</span><h2>Exam-style exercises</h2>
     <p class="oneline">Built on the format of your Fall 2025 midterm: journal entries with T-accounts and a trial balance, adjusting entries, merchandising, and financial statements from a list of accounts. Then the same style for chapters 7, 8 and 9, which the final adds. Do each one on paper, then open the solution. <b>↻ New version</b> gives you new numbers and new cases.</p></div>
@@ -691,7 +736,7 @@ summary{cursor:pointer;font-weight:600;color:var(--accent)}
 </div>
 
 <!-- ============ MOCK VIEW ============ -->
-<div class="view" id="view-mock" hidden>
+<div class="view" id="view-mock" data-subj="acc" data-view="mock" hidden>
   <section>
     <div class="head"><span class="num">MOCK</span><h2>Mock final exams</h2>
     <p class="oneline">Each click on "New mock exam" builds a full exam with new numbers, in the format of your midterm, extended with chapters 7 to 9. This is a guess at the final's format, not the real one.</p></div>
@@ -718,7 +763,421 @@ summary{cursor:pointer;font-weight:600;color:var(--accent)}
   <div id="mock-root" class="view"></div>
 </div>
 
-<footer>Based on the course slides (Williams, Haka, Bettner &amp; Carcello, Financial and Managerial Accounting, 18th ed.). The Chapter 4 summary and the exam format come from the Fall 2025 midterm; the Chapter 4 slides were not uploaded.</footer>
+<div class="view" id="view-soi-recap" data-subj="soi" data-view="recap" hidden>
+<section>
+  <div class="head"><span class="num">SoI</span><h2>Science of Intelligence: recap</h2>
+  <p class="oneline">The 8 classes of Pablo Martin Torres, one card per class: the key ideas, a visual, and what is likely to come up. Final exam: <b>Friday 4 December, 9–11h</b> (50% of the grade). Class 4 says the exam includes Python "what is the output?" questions.</p></div>
+  <div class="key"><b>Mental tattoos</b> from the slides, worth knowing by heart:
+    <ul style="margin:6px 0 0;padding-left:18px">
+      <li>"Correlation does not imply causation." (Class 2)</li>
+      <li>"All models are overfitted; some are usefully overfitted." (Class 2)</li>
+      <li>"Simple perceptrons are linear classifiers." (Class 3)</li>
+      <li>"Neural networks are universal function approximators." (Class 3)</li>
+      <li>"Learning is a geometric problem." (Class 3)</li>
+      <li>"The more data we have, the better our model is going to perform" and "Small variations resemble the real world better." (Class 6)</li>
+    </ul></div>
+</section>
+
+<!-- C1 -->
+<section id="soi-c1">
+  <div class="head"><span class="num">CLASS 1</span><h2>Introduction to AI</h2>
+  <p class="oneline">What intelligence is, the history of AI in summers and winters, the two paradigms, and how humans and machines learn from data.</p></div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Definition attempt 1</span><p>Technologies that, by <b>imitating beings considered intelligent</b>, attempt to deal with computationally intractable problems.</p></div>
+    <div class="box"><span class="tag">Definition attempt 2</span><p>Systems that exhibit intelligent behaviour by <b>analysing their environment and executing actions</b>, with some <b>autonomy</b>, to achieve given objectives.</p></div>
+  </div>
+  <p style="color:var(--muted)">Intelligence is "a semantic mess": awareness, intentionality, creativity, understanding, learning. Searle's <b>Chinese Room</b> (1980): a system can manipulate symbols correctly without understanding them.</p>
+
+  <div>
+    <h3>Timeline: AI summers and winters</h3>
+    <div class="tl">
+      <div class="tl-row sum"><b>1940–1956</b><span>Birth of AI</span><p>1943 McCulloch-Pitts neuron · 1950 Von Neumann &amp; Turing move to binary logic · 1951 SNARC (Minsky &amp; Edmonds), first analog neural network · <b>1956 Dartmouth Conference: AI is born</b> (symbolic only, no neural networks)</p></div>
+      <div class="tl-row sum"><b>1956–1974</b><span>Golden age ☀</span><p>Over-optimistic predictions (Simon, Minsky) · 1957 <b>Mark I Perceptron</b> (man vs woman images, first computer vision) · 1960 <b>MADALINE</b>, first NN on a real problem · weights set by hand</p></div>
+      <div class="tl-row win"><b>1974–1980</b><span>First winter ❄</span><p>1966 ALPAC report on machine translation · <b>1969 "Perceptrons" book: perceptrons cannot learn XOR</b>, NN funding cut · 1973 Lighthill report (combinatorial explosion) · DARPA frustration</p></div>
+      <div class="tl-row sum"><b>1980–1987</b><span>Renaissance ☀</span><p><b>Expert systems</b> (inference engine mimicking a human expert): DENDRAL (chemistry), MYCIN (blood diseases) · backpropagation described in 1970, first efficient NN use ~1982</p></div>
+      <div class="tl-row win"><b>1987–1993</b><span>Second winter ❄</span><p>Expert systems costly, depend on human experts, can't generalize · 1987 LISP machine market collapses · Deep Blue beats Kasparov (1997) but funding doesn't return</p></div>
+      <div class="tl-row sum"><b>2010–today</b><span>AI boom ☀</span><p>Big data + deep learning (subsymbolic) + GPUs (Moore's law, NVIDIA, AMD) · LLMs, diffusion, self-driving, AlphaFold, robotics…</p></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">Symbolic AI (GOFAI, 1950s–80s)</span>
+      <p>Explicit knowledge: <b>symbols + rules + logic</b>. Predicate logic, semantic networks (knowledge graphs), rule-based systems ("if it rains then WetFloor"), theorem provers (Isabelle).</p>
+      <p><span class="pill b">Weak</span> handling uncertainty, learning from experience · combinatorial explosion</p></div>
+    <div class="box"><span class="tag">Subsymbolic AI (today)</span>
+      <p><b>Raw data + neural networks</b>. Knowledge is learned, not written by hand.</p>
+      <p><span class="pill g">Strong</span> perception, patterns, learning from data</p></div>
+  </div>
+  <div class="key"><b>Moravec's paradox (1988):</b> what is easy for a human (seeing a cup, walking) is hard for a computer, and what is hard for a human (chess, theorems) is easy.</div>
+
+  <div class="grid3">
+    <div class="box"><span class="tag">Deduction</span><p>Rule + fact → certain conclusion. <b>Infallible</b> if the rules are true.</p></div>
+    <div class="box"><span class="tag">Induction</span><p>Many observations → general rule. <b>Fallible</b>.</p></div>
+    <div class="box"><span class="tag">Abduction</span><p>Best explanation of what you see (the scientific method). <b>Can fail</b>. This is what ML does.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Probabilities</span>
+      <p>Independent events: <span class="mono">P(X and Y) = P(X) × P(Y)</span>. Two sixes: 1/6 × 1/6 = 1/36.</p>
+      <p>In general: <span class="mono">P(X and Y) = P(X) × P(Y|X)</span>. Knowing only P(rain) and P(wet floor) is <b>not enough</b>: you need more data.</p></div>
+    <div class="box"><span class="tag">Machine learning in one line</span>
+      <p>Collect representative data, then find the model that makes your data most likely: <b>maximize P(data | model)</b>, the likelihood.</p>
+      <p><b>Confirmation bias</b> (the 3-number game): we look for examples that confirm our rule. To test a hypothesis you need cases for <i>and</i> against.</p></div>
+  </div>
+</section>
+
+<!-- C2 -->
+<section id="soi-c2">
+  <div class="head"><span class="num">CLASS 2</span><h2>Supervised learning</h2>
+  <p class="oneline">The data comes with labels and the model learns to predict them. Everything is turned into vectors first.</p></div>
+  <div class="flow">
+    <div class="step"><b>Data → vectors</b>images flattened, table rows, even text and audio</div><div class="arrow">→</div>
+    <div class="step"><b>Train set</b>70–90%, labelled, used to learn</div><div class="arrow">+</div>
+    <div class="step"><b>Test set</b>10–30%, never seen in training, to check generalization</div>
+  </div>
+  <p style="font-size:14px;color:var(--muted)">A validation set (part of the training data) is used to tune hyperparameters. No sample from train may appear in test.</p>
+  <div class="tbl"><table>
+    <tr><th></th><th>Regression</th><th>Classification</th></tr>
+    <tr><td><b>Predicts</b></td><td>a continuous number</td><td>a category (label)</td></tr>
+    <tr><td><b>Examples</b></td><td>stock price, temperature, reactor core temperature</td><td>cat/dog, spam/not spam, favourite band</td></tr>
+    <tr><td><b>Loss</b></td><td>Mean squared error (MSE)</td><td>Cross-entropy (binary cross-entropy for 2 classes)</td></tr>
+  </table></div>
+
+  <div class="grid2">
+    <div class="box"><span class="tag">Linear regression</span>
+      <p class="mono">y = b0 + b1·x</p>
+      <p>Example: T<sub>core</sub> = 2 × T<sub>outside</sub> + 350. Learning = finding b0 and b1 that <b>minimize the MSE</b> (set the partial derivatives to 0).</p>
+      <p class="mono" style="font-size:13px">MSE = average of (y − ŷ)²</p>
+      <p>With more inputs the line becomes a plane, then a hyperplane. Polynomial regression fits curves, but don't overdo it.</p></div>
+    <div class="box"><span class="tag">Over- and underfitting</span>
+      <svg viewBox="0 0 330 110" width="100%" role="img" aria-label="Three fits of the same points: underfit straight line, good curve, overfit wiggly line">
+        <g fill="var(--ink)">
+          <circle cx="15" cy="80" r="3"/><circle cx="30" cy="60" r="3"/><circle cx="45" cy="50" r="3"/><circle cx="60" cy="48" r="3"/><circle cx="75" cy="55" r="3"/><circle cx="90" cy="72" r="3"/>
+          <circle cx="125" cy="80" r="3"/><circle cx="140" cy="60" r="3"/><circle cx="155" cy="50" r="3"/><circle cx="170" cy="48" r="3"/><circle cx="185" cy="55" r="3"/><circle cx="200" cy="72" r="3"/>
+          <circle cx="235" cy="80" r="3"/><circle cx="250" cy="60" r="3"/><circle cx="265" cy="50" r="3"/><circle cx="280" cy="48" r="3"/><circle cx="295" cy="55" r="3"/><circle cx="310" cy="72" r="3"/></g>
+        <line x1="10" y1="66" x2="95" y2="58" stroke="var(--bad)" stroke-width="2.5"/>
+        <path d="M120 86 Q160 20 205 80" fill="none" stroke="var(--good)" stroke-width="2.5"/>
+        <path d="M232 82 L250 58 L258 75 L265 48 L272 62 L280 46 L288 70 L295 53 L310 74" fill="none" stroke="var(--credit)" stroke-width="2.5"/>
+        <text x="52" y="105" text-anchor="middle">Underfit</text><text x="162" y="105" text-anchor="middle">Good fit</text><text x="272" y="105" text-anchor="middle">Overfit</text>
+      </svg>
+      <p><b>Underfitting</b> = you didn't study: bad on train and test. <b>Overfitting</b> = you memorised last year's exam: perfect on train, fails on new data.</p></div>
+  </div>
+
+  <div class="tbl"><table>
+    <tr><th>Algorithm</th><th>How it works</th><th>Pro</th><th>Con</th></tr>
+    <tr><td><b>Linear regression</b></td><td>best line, minimize MSE</td><td>simple, interpretable</td><td>assumes linearity</td></tr>
+    <tr><td><b>Logistic regression</b></td><td>line + logistic (sigmoid) function → probability of class 1. Despite the name, it <b>classifies</b> (binary only). Loss: binary cross-entropy</td><td>efficient, interpretable</td><td>linear decision boundary</td></tr>
+    <tr><td><b>K-nearest neighbours</b></td><td>"lazy": memorises the data. Takes the k closest points (Euclidean distance): <b>majority vote</b> (classification) or <b>average</b> (regression)</td><td>no training phase</td><td>slow on big data, sensitive to irrelevant features</td></tr>
+    <tr><td><b>Decision tree</b></td><td>splits recursively on the most informative feature until leaves are pure</td><td>easy to interpret, numeric + categorical</td><td>prone to overfitting</td></tr>
+    <tr><td><b>Random forest</b></td><td>many trees on <b>bootstrapped samples</b> (with replacement) + random features per split → vote or average</td><td>less overfitting, feature importance</td><td>computationally expensive</td></tr>
+    <tr><td><b>SVM</b></td><td><b>kernel trick</b>: lift data to a higher dimension where it becomes linearly separable</td><td>versatile, faster to train than NNs</td><td>sensitive to kernel choice</td></tr>
+  </table></div>
+
+  <div>
+    <h3>Evaluation metrics (binary classification)</h3>
+    <div class="grid2">
+      <div class="cm" role="img" aria-label="Confusion matrix">
+        <div></div><div class="cmh">Predicted positive</div><div class="cmh">Predicted negative</div>
+        <div class="cmh">Actually positive</div><div class="cmc g">TP</div><div class="cmc b">FN</div>
+        <div class="cmh">Actually negative</div><div class="cmc b">FP</div><div class="cmc g">TN</div>
+      </div>
+      <div class="box">
+        <p><b>Accuracy</b> = (TP + TN) ÷ total: share of all predictions that are right.</p>
+        <p><b>Precision</b> = TP ÷ (TP + FP): of what I called positive, how much really is?</p>
+        <p><b>Recall</b> = TP ÷ (TP + FN): of the real positives, how many did I find?</p>
+        <p><b>F1</b> = 2 × P × R ÷ (P + R): the balance between the two.</p></div>
+    </div>
+    <div class="trap" style="margin-top:10px"><b>Watch the cat example in the slides.</b> 50 cats and 50 dogs; 42 cats are found, 8 cats are called "dog", 35 dogs are right and 15 dogs are called "cat". With "cat" as the positive class, the standard definitions give <b>TP 42, FN 8, FP 15, TN 35</b>. The slide prints FP = 8 and FN = 15, which looks swapped, so check with your professor. With the standard reading: accuracy 77%, precision 42/57 = 73.7%, recall 42/50 = 84%.</div>
+  </div>
+</section>
+
+<!-- C3 -->
+<section id="soi-c3">
+  <div class="head"><span class="num">CLASS 3</span><h2>Deep learning</h2>
+  <p class="oneline">From one neuron to deep networks: why activation functions matter, and how networks learn with backpropagation and gradient descent.</p></div>
+  <div class="grid2">
+    <div class="box"><span class="tag">The perceptron (neuron)</span>
+      <svg viewBox="0 0 320 150" width="100%" role="img" aria-label="Perceptron: inputs x1 x2 x3 multiplied by weights, summed with bias, passed through activation to output">
+        <g font-size="13"><circle cx="30" cy="30" r="16" fill="var(--debit-soft)" stroke="var(--debit)"/><text x="30" y="35" text-anchor="middle" style="fill:var(--debit)">x1</text>
+        <circle cx="30" cy="75" r="16" fill="var(--debit-soft)" stroke="var(--debit)"/><text x="30" y="80" text-anchor="middle" style="fill:var(--debit)">x2</text>
+        <circle cx="30" cy="120" r="16" fill="var(--debit-soft)" stroke="var(--debit)"/><text x="30" y="125" text-anchor="middle" style="fill:var(--debit)">x3</text></g>
+        <g stroke="var(--muted)" stroke-width="1.5"><line x1="46" y1="32" x2="140" y2="70"/><line x1="46" y1="75" x2="140" y2="75"/><line x1="46" y1="118" x2="140" y2="80"/><line x1="190" y1="75" x2="230" y2="75"/><line x1="270" y1="75" x2="305" y2="75"/></g>
+        <text x="85" y="42">w1</text><text x="85" y="70">w2</text><text x="85" y="112">w3</text>
+        <circle cx="165" cy="75" r="25" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/><text x="165" y="80" text-anchor="middle" font-size="15" style="fill:var(--ink)">Σ + b</text>
+        <rect x="230" y="58" width="40" height="34" rx="6" fill="var(--credit-soft)" stroke="var(--credit)"/><text x="250" y="80" text-anchor="middle" style="fill:var(--credit)">f</text>
+        <text x="308" y="80">a</text>
+      </svg>
+      <p class="mono" style="font-size:13px">a = f(w1·x1 + w2·x2 + w3·x3 + b)</p>
+      <p>Without f, a neuron is a <b>linear classifier</b>: it can do AND and OR, but <b>never XOR</b>.</p></div>
+    <div class="box"><span class="tag">Why activation functions?</span>
+      <p>Stacking linear neurons still gives a <b>linear</b> function, however many you add. The activation function makes the network <b>non-linear</b>, so it can learn any boundary: neural networks are universal function approximators.</p>
+      <div class="acts">
+        <div><svg viewBox="0 0 80 50"><line x1="0" y1="25" x2="80" y2="25" class="gl"/><path d="M2 42 H40 V8 H78" fill="none" stroke="var(--accent)" stroke-width="2.5"/></svg><b>Step</b><small>0 or 1</small></div>
+        <div><svg viewBox="0 0 80 50"><line x1="0" y1="42" x2="80" y2="42" class="gl"/><path d="M2 42 H40 L78 8" fill="none" stroke="var(--accent)" stroke-width="2.5"/></svg><b>ReLU</b><small>max(0, z), hidden layers</small></div>
+        <div><svg viewBox="0 0 80 50"><path d="M2 44 C30 44 32 6 78 6" fill="none" stroke="var(--accent)" stroke-width="2.5"/></svg><b>Sigmoid</b><small>0 to 1: binary output</small></div>
+        <div><svg viewBox="0 0 80 50"><rect x="8" y="30" width="14" height="14" fill="var(--accent)"/><rect x="28" y="10" width="14" height="34" fill="var(--accent)"/><rect x="48" y="36" width="14" height="8" fill="var(--accent)"/></svg><b>Softmax</b><small>probabilities summing to 1: multi-class output</small></div>
+      </div></div>
+  </div>
+
+  <div class="flow">
+    <div class="step"><b>1. Forward pass</b>input goes through the network to an output</div><div class="arrow">→</div>
+    <div class="step"><b>2. Loss</b>compare with the label: MSE (regression), binary cross-entropy, cross-entropy</div><div class="arrow">→</div>
+    <div class="step"><b>3. Backpropagation</b>partial derivative of the loss for every weight (chain rule)</div><div class="arrow">→</div>
+    <div class="step"><b>4. Gradient descent</b>move all weights a small step downhill, then repeat</div>
+  </div>
+  <div class="grid3">
+    <div class="box"><span class="tag">Learning rate</span><p>Size of each step in the loss landscape. Too big: you jump over the minimum. Too small: very slow.</p></div>
+    <div class="box"><span class="tag">Epoch · batch · step</span><p><b>Epoch</b> = all the data used once. <b>Batch</b> = subset used for one update. <b>Step</b> = one batch → gradient → update.</p></div>
+    <div class="box"><span class="tag">SGD</span><p>Stochastic gradient descent estimates the gradient on a random batch: less memory, and it helps against overfitting.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Spotting overfitting</span><p>A gap between <b>training</b> and <b>validation</b> curves. More neurons and layers = more expressive = easier to overfit.</p></div>
+    <div class="box"><span class="tag">Fixing overfitting</span>
+      <p><b>Regularization</b>: penalty on large weights in the loss (L2). <b>Dropout</b>: randomly switch off neurons. <b>Batch normalization</b>: normalize each layer's inputs per mini-batch, then scale (γ) and shift (β); nobody fully knows why it works. <b>Convolutional layers</b> (Class 6).</p></div>
+  </div>
+  <p style="font-size:14px;color:var(--muted)">A <b>tensor</b> is a multi-dimensional array (a generalized matrix). Tools: Keras/TensorFlow and PyTorch. MNIST: 60,000 training and 10,000 test images of handwritten digits.</p>
+</section>
+
+<!-- C4 -->
+<section id="soi-c4">
+  <div class="head"><span class="num">CLASS 4</span><h2>Python crash course + genetic algorithms</h2>
+  <p class="oneline">Expect "what is the output?" and "complete the missing comment" questions on loops, if/else, functions and classes.</p></div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Data types</span>
+<pre class="code">"Hello" + 'world!'   → 'Helloworld!'
+message[5]           → 'w'  (index starts at 0)
+L = [1,2,3,4,5]; L[-1] → 5
+list(range(10))      → [0, 1, ..., 9]
+True + False         → 1
+int(5.3) * int(2.1)  → 10
+set(['a','a','b'])   → {'a','b'}  (no duplicates)
+d = {"client2": 20132137}; d["client2"]</pre></div>
+    <div class="box"><span class="tag">Control flow</span>
+<pre class="code">for x in range(2, 6):   # 2,3,4,5 (6 excluded)
+    print(x)
+
+if x == 10:
+    x += 1
+elif x < 3:
+    x = x + 10
+else:
+    x = x - 1
+
+i = 1
+while i < 6:
+    if i == 3:
+        break
+    i += 1</pre></div>
+    <div class="box"><span class="tag">Functions</span>
+<pre class="code">def add_three(x):
+    return x + 3
+
+print(add_three(10))   # 13
+# A function only runs when it is CALLED.
+# Calling it without a required argument
+# → TypeError (missing argument).</pre></div>
+    <div class="box"><span class="tag">Classes (OOP)</span>
+<pre class="code">class Phone:
+    def __init__(self, brand, model):
+        # Store brand and model on the object
+        self.brand = brand
+        self.model = model
+
+my_phone = Phone("Apple", "iPhone 9")
+my_phone.brand        # 'Apple'</pre>
+      <p style="font-size:14px">Class = blueprint, object = instance. <b>Encapsulation</b>: data and methods together.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="box"><span class="tag">List comprehension</span>
+<pre class="code">[x**2 for x in range(5)]               → [0, 1, 4, 9, 16]
+[x**2 for x in range(5) if x%2==0]     → [0, 4, 16]</pre></div>
+    <div class="box"><span class="tag">Good practice</span><p>Descriptive lowercase names with underscores (<span class="mono">height_list</span>, not <span class="mono">x</span>). Comments explain <b>why</b> (or what), not how. Script: imports at the top, functions, <span class="mono">main()</span>, then <span class="mono">if __name__ == "__main__": main()</span>.</p></div>
+  </div>
+  <div>
+    <h3>Genetic algorithms: AI that is not machine learning</h3>
+    <div class="flow">
+      <div class="step"><b>Initialize</b>random population</div><div class="arrow">→</div>
+      <div class="step"><b>Evaluate</b>fitness of each</div><div class="arrow">→</div>
+      <div class="step"><b>Select</b>fitter = more likely parent</div><div class="arrow">→</div>
+      <div class="step"><b>Crossover</b>mix parents' genes</div><div class="arrow">→</div>
+      <div class="step"><b>Mutate</b>random changes</div><div class="arrow">→</div>
+      <div class="step"><b>Replace</b>new generation, repeat</div>
+    </div>
+    <p style="margin-top:8px">Chromosome = a candidate solution, gene = part of it, population = all candidates. <b>Travelling salesman</b>: chromosome = order of cities, fitness = total distance, mutation = swap two cities.</p>
+  </div>
+</section>
+
+<!-- C5 -->
+<section id="soi-c5">
+  <div class="head"><span class="num">CLASS 5</span><h2>Unsupervised learning</h2>
+  <p class="oneline">No labels: the algorithm finds structure by itself. Two families: clustering and dimensionality reduction.</p></div>
+  <div class="grid2">
+    <div class="box"><span class="tag">K-means</span>
+      <ol style="margin:0;padding-left:18px"><li>Choose k.</li><li>Place k centroids.</li><li>Assign each point to the nearest centroid.</li><li>Move each centroid to the <b>mean</b> of its points.</li><li>Repeat until nothing changes.</li></ol>
+      <p>Minimizes <b>inertia</b> = sum of squared distances to the assigned centroid.</p>
+      <p><span class="pill g">Pro</span> simple, fast · <span class="pill b">Con</span> sensitive to the starting centroids, you must choose k</p></div>
+    <div class="box"><span class="tag">DBSCAN</span>
+      <p>Clusters = <b>dense regions</b>. Two parameters: <b>Eps</b> (radius) and <b>MinPts</b>. Points are <b>core</b> (dense region), <b>border</b>, or <b>noise</b> (outliers).</p>
+      <p><span class="pill g">Pro</span> robust to outliers, finds the number of clusters itself · <span class="pill b">Con</span> sensitive to its parameters, expensive</p></div>
+  </div>
+  <div class="box"><span class="tag">Mall customers example (k = 5)</span><p>Clusters by annual income × spending score: low/high, medium/medium, high/low, high/high, low/low. Age did not form distinct groups. Uses: customer segmentation, image segmentation, anomaly detection.</p></div>
+  <div class="grid2">
+    <div class="box"><span class="tag">PCA (linear)</span>
+      <ol style="margin:0;padding-left:18px"><li>Standardize features (mean 0, variance 1).</li><li>Covariance matrix.</li><li>Eigenvalues and eigenvectors = directions of highest variance.</li><li>Keep the top k = principal components.</li></ol></div>
+    <div class="box"><span class="tag">t-SNE (non-linear, for visualizing)</span>
+      <p>Keeps <b>local</b> neighbourhoods. Similarities in high dimension (Gaussian) vs low dimension (Student's t), then gradient descent moves points: similar ones attract, different ones repel. Great for showing MNIST clusters in 2D.</p></div>
+  </div>
+</section>
+
+<!-- C6 -->
+<section id="soi-c6">
+  <div class="head"><span class="num">CLASS 6</span><h2>Computer vision</h2>
+  <p class="oneline">Dense networks flatten the image and lose local patterns, so they fail on CIFAR-10. Convolutional neural networks (CNNs) fix that.</p></div>
+  <div class="flow">
+    <div class="step"><b>Image</b>28×28×1 or 32×32×3</div><div class="arrow">→</div>
+    <div class="step"><b>Conv</b>kernels (3×3, 5×5) slide over the image and detect patterns</div><div class="arrow">→</div>
+    <div class="step"><b>Pool</b>max pooling 2×2 halves the size</div><div class="arrow">→</div>
+    <div class="step"><b>Conv + Pool</b>more abstract features</div><div class="arrow">→</div>
+    <div class="step"><b>Flatten + Dense</b>then softmax over the classes</div>
+  </div>
+  <div class="grid3">
+    <div class="box"><span class="tag">Kernel</span><p>A 2D neuron whose weights are learned by backprop. A 3×3 kernel turns each 3×3 patch into 1 value. <b>Padding</b> (a border of zeros) keeps the output the same size.</p></div>
+    <div class="box"><span class="tag">Pooling (subsampling)</span><p>1. Reduces dimensions and overfitting. 2. <b>Translation invariance</b>. 3. <b>Hierarchical features</b>, from edges to objects.</p></div>
+    <div class="box"><span class="tag">Data augmentation</span><p>Rotations, shifts, zoom, flips… more and more varied data, closer to the real world.</p></div>
+  </div>
+  <div class="tbl"><table>
+    <tr><th>Milestone</th><th>Why it matters</th></tr>
+    <tr><td><b>ImageNet</b> (ILSVRC 2010–2017)</td><td>1.2 million images, 1,000 categories; the benchmark that pushed image recognition</td></tr>
+    <tr><td><b>AlexNet</b> (2012)</td><td>won ImageNet with a CNN: the start of the deep learning boom</td></tr>
+    <tr><td><b>VGGNet · ResNet</b></td><td>very deep networks; ResNet uses residual (skip) connections</td></tr>
+    <tr><td><b>U-Net · YOLO</b></td><td>other tasks: segmentation (U-Net), real-time object detection (YOLO)</td></tr>
+  </table></div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Fine-tuning</span><p>Start from a network already trained on a big dataset (ImageNet) and adapt it to your small dataset: more efficient and more accurate than training from scratch.</p></div>
+    <div class="box"><span class="tag">Explainability &amp; bias</span><p><b>Grad-CAM</b>, Grad-CAM++ and <b>LRP</b> show which pixels drove a decision, which can reveal a model using the wrong clue (bias).</p></div>
+  </div>
+</section>
+
+<!-- C7 -->
+<section id="soi-c7">
+  <div class="head"><span class="num">CLASS 7</span><h2>Reinforcement learning</h2>
+  <p class="oneline">An agent learns by trial and error from rewards, with no labels.</p></div>
+  <div class="grid2">
+    <svg viewBox="0 0 340 170" width="100%" role="img" aria-label="RL loop: agent sends action to environment, environment returns new state and reward">
+      <rect x="20" y="60" width="100" height="50" rx="10" fill="var(--debit-soft)" stroke="var(--debit)"/><text x="70" y="90" text-anchor="middle" font-size="15" style="fill:var(--debit)">Agent (policy π)</text>
+      <rect x="220" y="60" width="110" height="50" rx="10" fill="var(--good-soft)" stroke="var(--good)"/><text x="275" y="90" text-anchor="middle" font-size="15" style="fill:var(--good)">Environment</text>
+      <path d="M70 58 C70 15 275 15 275 56" fill="none" stroke="var(--ink)" stroke-width="1.8" marker-end="url(#ar)"/>
+      <path d="M275 112 C275 160 70 160 70 114" fill="none" stroke="var(--ink)" stroke-width="1.8" marker-end="url(#ar)"/>
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--ink)"/></marker></defs>
+      <text x="172" y="26" text-anchor="middle" font-size="14" style="fill:var(--ink)">action A<tspan dy="3" font-size="10">t</tspan></text>
+      <text x="172" y="160" text-anchor="middle" font-size="14" style="fill:var(--ink)">new state S<tspan dy="3" font-size="10">t+1</tspan><tspan dy="-3"> + reward R</tspan><tspan dy="3" font-size="10">t+1</tspan></text>
+    </svg>
+    <div class="box"><span class="tag">The elements</span>
+      <p><b>State</b> = full description of the world; <b>observation</b> = the partial part the agent sees. <b>Action space</b>: discrete or continuous. <b>Reward</b>: the only feedback. <b>Policy π</b>: the agent's brain, state → action.</p>
+      <p><b>Reward hypothesis</b>: every goal can be described as maximizing the expected cumulative reward (the expected return).</p></div>
+  </div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Discounted return</span>
+      <p class="mono">G = R1 + γ·R2 + γ²·R3 + …</p>
+      <p>γ (gamma, between 0 and 1) makes far-away, uncertain rewards count less.</p></div>
+    <div class="box"><span class="tag">Exploration vs exploitation</span><p>Take the small, sure reward you know (exploit) or try new actions that might lead to bigger rewards (explore)?</p></div>
+  </div>
+  <div class="tbl"><table>
+    <tr><th></th><th>Policy-based</th><th>Value-based (Q-learning)</th></tr>
+    <tr><td><b>Learns</b></td><td>the policy directly: state → action, or a probability over actions (e.g. rock 50%, paper 30%, scissors 20%)</td><td>a value function; the policy is "go to the highest-value state"</td></tr>
+    <tr><td><b>How</b></td><td><b>Gradient ascent</b> on the expected reward: make good actions more likely</td><td><b>Bellman equation</b>: V(S<sub>t</sub>) = R<sub>t+1</sub> + γ·V(S<sub>t+1</sub>). Q(s, a) = value of action a in state s</td></tr>
+    <tr><td><b>Exploration</b></td><td>implicit, through the stochastic policy</td><td>sometimes try actions with uncertain or lower Q-values</td></tr>
+  </table></div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Monte Carlo tree search</span><p><b>Selection</b> → <b>Expansion</b> → <b>Simulation</b> (random playout to the end) → <b>Backpropagation</b> of the result up the path. Problem: Go has ~2.1×10¹⁷⁰ positions (vs ~10⁸⁰ atoms in the universe).</p></div>
+    <div class="box"><span class="tag">AlphaGo = deep RL</span>
+      <p>3 networks: a <b>fast policy</b> network, a <b>strong policy</b> network (13-layer CNN), and a <b>value</b> network.</p>
+      <p>Human games → policy network → <b>self-play</b> with rewards ±1 → policy optimization → value network from self-play games → tree search guided by the policy and value networks.</p></div>
+  </div>
+  <p style="font-size:14px;color:var(--muted)">Multi-agent systems: <b>decentralized</b> (other agents are part of the environment) or <b>centralized</b> (one policy for all). <b>Self-play</b> uses past copies of the agent as opponents; skill is tracked with an <b>ELO</b> rating. Also: MuZero (plans without knowing the rules), RLHF, agentic frameworks.</p>
+</section>
+
+<!-- C8 -->
+<section id="soi-c8">
+  <div class="head"><span class="num">CLASS 8</span><h2>Generative AI</h2>
+  <p class="oneline">Models that learn the patterns of existing data and generate new examples that resemble it.</p></div>
+  <div class="grid3">
+    <div class="box"><span class="tag">GANs</span><p>First breakthrough in image generation.</p></div>
+    <div class="box"><span class="tag">Diffusion models</span><p>State of the art for images, video and audio: DALL-E, Stable Diffusion, Midjourney, Sora, MovieGen.</p></div>
+    <div class="box"><span class="tag">Transformers</span><p>State of the art for text: ChatGPT, Claude, PaLM.</p></div>
+  </div>
+  <div>
+    <h3>GAN: two networks against each other</h3>
+    <div class="flow">
+      <div class="step"><b>Random noise</b></div><div class="arrow">→</div>
+      <div class="step"><b>Generator</b>makes fake examples</div><div class="arrow">→</div>
+      <div class="step"><b>Discriminator</b>sees real + fake, guesses which is which</div><div class="arrow">→</div>
+      <div class="step"><b>Both improve</b>until the discriminator is stuck at <b>50%</b> (chance)</div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Encoder–decoder</span><p>The <b>encoder</b> compresses a big input (MNIST: 784 dimensions) into a small vector, the <b>embedding</b>. The <b>decoder</b> rebuilds the input from it. They are trained together: if the reconstruction is good, the embedding kept the information.</p></div>
+    <div class="box"><span class="tag">Diffusion</span>
+      <p><b>Forward</b>: add Gaussian noise step by step. <b>Reverse</b>: a noise predictor (a <b>U-Net</b>) learns to remove it, so you can generate from pure noise.</p>
+      <p><b>Latent diffusion</b> (Stable Diffusion) works in the small latent space: much faster. <b>Conditioning</b> steers the result: text encoded (CLIP, transformer) and injected with attention, or an image added to the noise.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="box"><span class="tag">Transformers (2017, "Attention is all you need")</span>
+      <p><b>Attention</b> tells the model which parts of the input matter most, based on similarity (dot product) between tokens.</p>
+      <p><b>Query</b> (what I'm looking for) · <b>Key</b> (what I'm compared with) · <b>Value</b> (the context information). Q, K and V are learned.</p></div>
+    <div class="box"><span class="tag">Why they won</span>
+      <p>Blocks can be stacked without limit (1 trillion+ parameters, <b>scaling laws</b>: bigger is better). Trained on one task, <b>predicting the next token</b>, yet they solve any text task. Also works for images and video. Open question: are they just memory machines?</p>
+      <p>Applications of diffusion: <b>synthetic data</b> (e.g. medical images), audio generation.</p></div>
+  </div>
+</section>
+</div>
+
+<div class="view" id="view-soi-quiz" data-subj="soi" data-view="quiz" hidden>
+  <section>
+    <div class="head"><span class="num">QUIZ</span><h2>Science of Intelligence: quizzes by class</h2>
+    <p class="oneline">Click an answer: you see right away if it's correct, with the explanation.</p></div>
+  </section>
+  <div id="soi-quiz-root" class="view"></div>
+</div>
+
+<div class="view" id="view-soi-exercises" data-subj="soi" data-view="exercises" hidden>
+  <section>
+    <div class="head"><span class="num">EX</span><h2>Science of Intelligence: exercises</h2>
+    <p class="oneline">Calculation exercises (metrics, k-NN, k-means, neurons, CNN sizes, Bellman), Python "what is the output?" questions like the ones in Class 4, and open questions with model answers. <b>↻ New version</b> gives a new one each time.</p></div>
+    <div id="soi-progress" class="fmt"></div>
+  </section>
+  <div id="soi-ex-root" class="view"></div>
+</div>
+
+<div class="view" id="view-soi-mock" data-subj="soi" data-view="mock" hidden>
+  <section>
+    <div class="head"><span class="num">MOCK</span><h2>Science of Intelligence: mock final</h2>
+    <p class="oneline">A guess at the format, built from the slides: Class 4 announces Python output questions, so they're in. 2 hours, like the real exam (Fri 4 Dec, 9–11h).</p></div>
+    <div class="fmt"><table>
+      <tr><td>Part A · 15 multiple-choice questions</td><td class="n">30 pts</td></tr>
+      <tr><td>Part B · 2 Python "what is the output?" questions</td><td class="n">20 pts</td></tr>
+      <tr><td>Part C · 2 calculation exercises</td><td class="n">30 pts</td></tr>
+      <tr><td>Part D · 3 open questions</td><td class="n">20 pts</td></tr>
+    </table></div>
+    <div class="timer-box">
+      <span class="timer" id="soi-timer" aria-live="polite">120:00</span>
+      <button class="btn" type="button" id="soi-t-start">Start 2 h</button>
+      <button class="btn ghost" type="button" id="soi-t-pause">Pause</button>
+      <button class="btn ghost" type="button" id="soi-t-reset">Reset</button>
+      <button class="btn" type="button" id="soi-new-mock">↻ New mock exam</button>
+    </div>
+  </section>
+  <div id="soi-mock-root" class="view"></div>
+</div>
+
+<div class="view" id="view-home" data-view="home" hidden>
+  <section>
+    <div class="head"><h2>Your subjects</h2>
+    <p class="oneline">Pick a subject to revise. Each one has a recap, quizzes, exercises you can regenerate, and mock exams. The countdown is to each final exam.</p></div>
+    <div id="home-cards" class="hcards"></div>
+  </section>
+</div>
+
+<footer>Accounting: based on the course slides (Williams, Haka, Bettner &amp; Carcello, 18th ed.); the Chapter 4 summary and the exam format come from the Fall 2025 midterm. Science of Intelligence: based on the Class 1–8 slides by Pablo A. Martin Torres. Mock exam formats are guesses.</footer>
 </div>
 <script>
 const QUIZ=[
@@ -1131,26 +1590,29 @@ function exSection(id,num,gk,tag,pts,withBtn){
 const PKEY='acct-progress-v1';
 function loadP(){try{return JSON.parse(localStorage.getItem(PKEY))||{};}catch(e){return {};}}
 function saveP(P){try{localStorage.setItem(PKEY,JSON.stringify(P));}catch(e){}}
-let resetArmed=false;
-function renderProgress(){
-  const el=document.getElementById('progress');if(!el)return;const P=loadP();let tOk=0,tN=0;
-  const rows=EXLIST.map((x,i)=>{const d=P[x.g]||{ok:0,mid:0,ko:0,last:''},n=d.ok+d.mid+d.ko;tOk+=d.ok;tN+=n;
+const PROG={};
+function subjStats(cfg){const P=loadP();let ok=0,n=0;if(cfg)cfg.list.forEach(x=>{const d=P[x.g];if(d){ok+=d.ok;n+=d.ok+d.mid+d.ko;}});return{ok,n};}
+function renderProgress(){Object.values(PROG).forEach(renderProgressFor);renderHome();}
+function renderProgressFor(cfg){
+  const el=document.getElementById(cfg.el);if(!el)return;const P=loadP();let tOk=0,tN=0;
+  const rows=cfg.list.map((x,i)=>{const d=P[x.g]||{ok:0,mid:0,ko:0,last:''},n=d.ok+d.mid+d.ko;tOk+=d.ok;tN+=n;
     const pill=!n?'<span class="pill n">Not tried</span>':d.last==='ok'?'<span class="pill g">✓ Got it</span>':d.last==='mid'?'<span class="pill c">~ Partly</span>':'<span class="pill b">✗ Not yet</span>';
     const bar=n?'<span class="pbar"><i style="width:'+(d.ok/n*100)+'%;background:var(--good)"></i><i style="width:'+(d.mid/n*100)+'%;background:var(--credit)"></i><i style="width:'+(d.ko/n*100)+'%;background:var(--bad)"></i></span>':'<span class="pbar"></span>';
-    return {i,x,n,d,html:'<tr><td><a href="#ex'+(i+1)+'">EX '+(i+1)+'</a> · '+x.tag+'</td><td class="n">'+n+'</td><td>'+bar+'</td><td>'+pill+'</td></tr>'};});
+    return {i,x,n,d,html:'<tr><td><a href="#'+cfg.anchor+(i+1)+'">EX '+(i+1)+'</a> · '+x.tag+'</td><td class="n">'+n+'</td><td>'+bar+'</td><td>'+pill+'</td></tr>'};});
   const focus=rows.filter(r=>r.n&&r.d.last!=='ok'),untried=rows.filter(r=>!r.n);
-  const chip=r=>'<a href="#ex'+(r.i+1)+'">EX '+(r.i+1)+' · '+r.x.tag.replace(/^Ch [^·]*· /,'')+'</a>';
-  el.innerHTML='<div class="head" style="gap:10px"><h3 style="margin:0">Your progress</h3><span class="score">'+(tN?Math.round(tOk/tN*100)+'% got it · '+tN+' attempts':'No attempts yet')+'</span></div>'+
+  const chip=r=>'<a href="#'+cfg.anchor+(r.i+1)+'">EX '+(r.i+1)+' · '+r.x.tag.replace(/^(Ch|Class|All)[^·]*· /,'')+'</a>';
+  el.innerHTML='<div class="head" style="gap:10px"><h3 style="margin:0">Your progress</h3><span class="score">'+(tN?Math.round(tOk/tN*100)+'% got it · '+tN+(tN===1?' attempt':' attempts'):'No attempts yet')+'</span></div>'+
    '<p style="font-size:14px;color:var(--muted)">After each exercise, and each mock exam exercise, click ✓ Got it, ~ Partly or ✗ Not yet. Results are saved in this browser only.</p>'+
    (focus.length?'<div><b style="font-size:14px">Practice again:</b><div class="chips2">'+focus.map(chip).join('')+'</div></div>':'')+
    (untried.length?'<div><b style="font-size:14px">Not tried yet:</b><div class="chips2">'+untried.map(chip).join('')+'</div></div>':'')+
    '<details><summary>Details by exercise</summary><div class="tbl"><table><tr><th>Exercise</th><th class="n">Tries</th><th>✓ / ~ / ✗</th><th>Last result</th></tr>'+rows.map(r=>r.html).join('')+'</table></div>'+
-   '<div class="bar"><button type="button" class="btn ghost" id="p-reset">'+(resetArmed?'Click again to erase everything':'Reset my progress')+'</button></div></details>';
-  document.getElementById('p-reset').addEventListener('click',()=>{if(!resetArmed){resetArmed=true;renderProgress();document.querySelector('#progress details').open=true;return;}resetArmed=false;saveP({});renderProgress();});
+   '<div class="bar"><button type="button" class="btn ghost" id="'+cfg.el+'-reset">'+(cfg.armed?'Click again to erase this subject\'s results':'Reset my progress')+'</button></div></details>';
+  document.getElementById(cfg.el+'-reset').addEventListener('click',()=>{if(!cfg.armed){cfg.armed=true;renderProgressFor(cfg);el.querySelector('details').open=true;return;}cfg.armed=false;const P2=loadP();cfg.list.forEach(x=>delete P2[x.g]);saveP(P2);renderProgress();});
 }
+
 const exRoot=document.getElementById('ex-root');
 EXLIST.forEach((x,i)=>exRoot.append(exSection('ex'+(i+1),'EX '+(i+1),x.g,x.tag,x.pts,true)));
-renderProgress();
+PROG.acc={el:'progress',list:EXLIST,anchor:'ex'};
 
 /* ===== mock exams ===== */
 const EXTRA_MCQ=[
@@ -1183,19 +1645,326 @@ function buildMockExam(){
 buildMockExam();
 document.getElementById('new-mock').addEventListener('click',()=>{buildMockExam();document.getElementById('mock-root').scrollIntoView();});
 
+/* ===================== SCIENCE OF INTELLIGENCE ===================== */
+const SOI_QUIZ=[
+{ch:"CLASS 1",t:"Introduction to AI",qs:[
+ {q:"In which year was AI born as a science, at the Dartmouth Conference?",o:["1943","1956","1969","1997"],a:1,e:"1956. The Dartmouth workshop set the roadmap; 1943 is the McCulloch-Pitts neuron."},
+ {q:"What caused neural network funding to be cut in 1969?",o:["Deep Blue lost to Kasparov","The 'Perceptrons' book showed perceptrons cannot learn XOR","The Lighthill report on machine translation","The collapse of LISP machines"],a:1,e:"The book proved single perceptrons can't learn XOR, killing NN research for over a decade."},
+ {q:"Moravec's paradox says that…",o:["Computers will soon beat humans at everything","What is easy for humans (walking, seeing) is hard for computers, and vice versa","Symbolic AI is better than neural networks","More data always gives better models"],a:1,e:"Chess and theorems turned out easy for machines; seeing a cup or walking turned out hard."},
+ {q:"Symbolic AI (GOFAI) represents knowledge with…",o:["Raw data and neural networks","Explicit symbols and logical rules","Random sampling","Rewards and penalties"],a:1,e:"Predicate logic, semantic networks, rule-based systems. Its weakness: uncertainty and learning from experience."},
+ {q:"MYCIN and DENDRAL are examples of…",o:["Expert systems","Neural networks","GANs","Genetic algorithms"],a:0,e:"1980s expert systems: an inference engine that mimics a human expert (MYCIN: blood diseases, DENDRAL: chemistry)."},
+ {q:"\"Every time I saw rain, the ground was wet, so rain wets the ground.\" This reasoning is…",o:["Deduction","Induction","Abduction","Moravec's paradox"],a:1,e:"Induction: a general rule from repeated observations. Fallible."},
+ {q:"You throw two dice. P(two sixes) = ?",o:["1/6","1/12","1/36","2/6"],a:2,e:"Independent events: 1/6 × 1/6 = 1/36."},
+ {q:"How does the course formalize machine learning?",o:["Minimize P(model)","Maximize P(my data | my model), the likelihood","Maximize the number of rules","Minimize the amount of data"],a:1,e:"Find the most likely explanation that fits the data (abduction)."}]},
+{ch:"CLASS 2",t:"Supervised learning",qs:[
+ {q:"Predicting tomorrow's temperature in °C is a…",o:["Classification problem","Regression problem","Clustering problem","Reinforcement learning problem"],a:1,e:"A continuous number = regression."},
+ {q:"Despite its name, logistic regression is used for…",o:["Regression","Binary classification","Clustering","Dimensionality reduction"],a:1,e:"It applies a logistic function to output the probability of class 1."},
+ {q:"Why is k-NN called a 'lazy' algorithm?",o:["It is slow to predict","It has no explicit training: it just memorises the data","It only uses k = 1","It ignores the labels"],a:1,e:"It stores the training set and looks for the k closest points at prediction time."},
+ {q:"How does a random forest reduce overfitting?",o:["By using one very deep tree","By training many trees on bootstrapped samples with random features, then voting","By removing all features","By using the kernel trick"],a:1,e:"Diversity among trees + voting/averaging reduces the overfitting of single trees."},
+ {q:"The kernel trick of SVMs…",o:["Removes outliers","Lifts the data to a higher dimension where it becomes linearly separable","Reduces the number of dimensions","Adds noise to the data"],a:1,e:"That's how an SVM can solve non-linear problems like XOR."},
+ {q:"A model scores 99% on the training set and 60% on the test set. This is…",o:["Underfitting","Overfitting","A good fit","Data augmentation"],a:1,e:"It memorised the training data and doesn't generalize."},
+ {q:"Precision is…",o:["TP ÷ (TP + FN)","TP ÷ (TP + FP)","(TP + TN) ÷ total","2PR ÷ (P + R)"],a:1,e:"Of everything predicted positive, the share that really is positive."},
+ {q:"Which loss is used for regression?",o:["Cross-entropy","Mean squared error","Accuracy","Binary cross-entropy"],a:1,e:"MSE for regression; cross-entropy for classification."}]},
+{ch:"CLASS 3",t:"Deep learning",qs:[
+ {q:"Why can't a single perceptron learn XOR?",o:["It has too many weights","It is a linear classifier and XOR is not linearly separable","XOR needs a decision tree","It uses ReLU"],a:1,e:"Mental tattoo: simple perceptrons are linear classifiers."},
+ {q:"If you stack many neurons WITHOUT activation functions, the network…",o:["Becomes non-linear","Is still a linear function","Overfits immediately","Cannot be trained"],a:1,e:"A composition of linear functions is linear. Activation functions add the non-linearity."},
+ {q:"Which activation function is used in the output layer for multi-class classification?",o:["Step","ReLU","Softmax","Linear"],a:2,e:"Softmax turns the outputs into probabilities that sum to 1. Sigmoid is for binary."},
+ {q:"An epoch is…",o:["One weight update","One pass over ALL the training data","One batch of data","One neuron"],a:1,e:"Batch = subset for one update; step = one update; epoch = all the data once."},
+ {q:"With a learning rate that is too large…",o:["Training is very slow but precise","You can jump over the minimum of the loss","The network has fewer weights","Overfitting disappears"],a:1,e:"Big steps overshoot the minimum in the loss landscape."},
+ {q:"Dropout consists of…",o:["Removing bad training samples","Randomly switching off neurons during training","Lowering the learning rate","Dropping the test set"],a:1,e:"The rest of the network must compensate, which reduces overfitting."},
+ {q:"Training accuracy keeps rising while validation accuracy falls. This means…",o:["Underfitting","Overfitting","The learning rate is perfect","The data is unlabelled"],a:1,e:"A growing gap between train and validation is the sign of overfitting."},
+ {q:"Backpropagation computes…",o:["The output of the network","The partial derivative of the loss for every weight","The number of epochs","The test accuracy"],a:1,e:"Then gradient descent moves each weight a small step in the direction that lowers the loss."}]},
+{ch:"CLASS 4",t:"Python",qs:[
+ {q:"message = \"Hello\" + 'world!'. What is message[5]?",o:["'o'","'w'","' '","'H'"],a:1,e:"'Helloworld!': index 0 is H, so index 5 is w."},
+ {q:"L = [1, 2, 3, 4, 5]. What is L[-1]?",o:["1","-1","5","Error"],a:2,e:"Negative indexes count from the end: -1 is the last element."},
+ {q:"What does list(range(2, 6)) give?",o:["[2, 3, 4, 5, 6]","[2, 3, 4, 5]","[0, 1, 2, 3, 4, 5]","[3, 4, 5, 6]"],a:1,e:"range stops BEFORE the end value."},
+ {q:"What is True + False in Python?",o:["True","False","1","Error"],a:2,e:"True counts as 1 and False as 0."},
+ {q:"def my_function(x): print(x + 3)  — then my_function(10). Output?",o:["10","13","x + 3","Nothing"],a:1,e:"x = 10, so it prints 13."},
+ {q:"def my_function(): x = 5; print(x)  — and the function is never called. Output?",o:["5","x","Nothing","Error"],a:2,e:"A function only runs when it is called."},
+ {q:"In object-oriented programming, a class is…",o:["An instance of an object","A blueprint for creating objects","A list of numbers","A loop"],a:1,e:"The object (my_phone) is an instance of the class (Phone)."},
+ {q:"In a genetic algorithm, which step introduces random changes to a chromosome?",o:["Selection","Crossover","Mutation","Evaluation"],a:2,e:"Crossover mixes two parents; mutation adds random changes."}]},
+{ch:"CLASS 5",t:"Unsupervised learning",qs:[
+ {q:"What makes learning 'unsupervised'?",o:["There is no test set","The data has no labels","There is no loss","It uses rewards"],a:1,e:"The algorithm finds patterns in raw, unlabelled data."},
+ {q:"In k-means, the new centroid of a cluster is…",o:["The point furthest away","The mean of the points assigned to it","A random point","The median of all data"],a:1,e:"Assign to the nearest centroid, then move the centroid to the mean, and repeat."},
+ {q:"Which clustering method needs the number of clusters in advance?",o:["DBSCAN","K-means","t-SNE","PCA"],a:1,e:"K-means needs k; DBSCAN finds the number itself."},
+ {q:"The two parameters of DBSCAN are…",o:["k and the learning rate","Eps and MinPts","Gamma and epsilon","The number of trees and the depth"],a:1,e:"Eps = neighbourhood radius, MinPts = minimum points for a dense region."},
+ {q:"In DBSCAN, points that belong to no dense region are…",o:["Core points","Border points","Noise (outliers)","Centroids"],a:2,e:"That's why DBSCAN is robust to outliers."},
+ {q:"What is the first step of PCA?",o:["Compute the eigenvalues","Standardize the features (mean 0, variance 1)","Pick k","Apply t-SNE"],a:1,e:"Then covariance matrix → eigenvectors → keep the top k components."},
+ {q:"t-SNE is mainly used to…",o:["Classify images","Visualize high-dimensional data in 2D/3D, keeping local neighbourhoods","Train neural networks faster","Detect fraud with labels"],a:1,e:"It's a non-linear dimensionality reduction for visualization."}]},
+{ch:"CLASS 6",t:"Computer vision",qs:[
+ {q:"Why does a plain dense network do badly on CIFAR-10?",o:["Too few images","Flattening the image loses local spatial patterns","It has no loss function","Colour images can't be used"],a:1,e:"We need a new type of neuron that looks at 2D patches: the convolutional kernel."},
+ {q:"What is padding used for in a convolution?",o:["To make the image brighter","To keep the output the same size by adding a border of zeros","To reduce overfitting","To add colour channels"],a:1,e:"Without padding, a 3×3 kernel shrinks the image."},
+ {q:"2×2 max pooling on a 28×28 feature map gives…",o:["28×28","26×26","14×14","7×7"],a:2,e:"Pooling 2×2 halves each dimension."},
+ {q:"Which benefit of pooling makes the network recognize a pattern wherever it is in the image?",o:["Translation invariance","Data augmentation","Fine-tuning","Dropout"],a:0,e:"The other benefits: dimensionality reduction and hierarchical features."},
+ {q:"Which architecture won ImageNet in 2012?",o:["ResNet","AlexNet","YOLO","U-Net"],a:1,e:"AlexNet's win launched the deep learning boom."},
+ {q:"Fine-tuning means…",o:["Training from scratch with more epochs","Adapting a network already trained on a big dataset to your smaller task","Removing layers","Adding noise to images"],a:1,e:"More efficient and accurate than training from scratch."},
+ {q:"Grad-CAM is used for…",o:["Generating images","Explaining which parts of the image drove the decision","Data augmentation","Clustering"],a:1,e:"Explainability, which also helps detect bias."},
+ {q:"Data augmentation means…",o:["Collecting a new dataset","Creating varied copies of images (rotations, flips, zoom)","Adding layers","Normalizing pixels"],a:1,e:"More data and small variations resemble the real world better."}]},
+{ch:"CLASS 7",t:"Reinforcement learning",qs:[
+ {q:"In reinforcement learning, the only feedback the agent gets is…",o:["The label","The reward","The loss","The test accuracy"],a:1,e:"Trial and error with positive or negative rewards."},
+ {q:"What is the discount factor γ (gamma) for?",o:["To make future rewards count less than immediate ones","To speed up training","To choose the action","To count the states"],a:0,e:"G = R1 + γR2 + γ²R3 + …, with 0 ≤ γ ≤ 1."},
+ {q:"Q(s, a) represents…",o:["The quality of the data","The expected return of taking action a in state s","The number of actions","The reward of the last step"],a:1,e:"Q-learning learns these values with the Bellman equation."},
+ {q:"The Bellman equation says the value of a state is…",o:["The sum of all past rewards","The immediate reward + γ × the value of the next state","Always 0","The highest Q-value ever seen"],a:1,e:"V(St) = Rt+1 + γ·V(St+1). It avoids recomputing every path."},
+ {q:"Policy optimization updates the policy using…",o:["Gradient descent on the error","Gradient ascent on the expected reward","K-means","Random search only"],a:1,e:"Make actions that led to high rewards more likely."},
+ {q:"The 4 steps of Monte Carlo tree search, in order:",o:["Expansion, selection, simulation, backpropagation","Selection, expansion, simulation, backpropagation","Simulation, selection, backpropagation, expansion","Selection, simulation, expansion, evaluation"],a:1,e:"Select down to a leaf, expand it, simulate a random playout, propagate the result back."},
+ {q:"How did AlphaGo become superhuman after learning from human games?",o:["By reading more books","By playing against itself (self-play) with rewards for winning","By using k-means","By memorising every position"],a:1,e:"Self-play + policy optimization, then a value network trained on those games."},
+ {q:"In a decentralized multi-agent system…",o:["One single policy controls all agents","Each agent treats the others as part of the environment","There is no reward","Agents share their weights"],a:1,e:"Centralized = one policy learned from all agents."}]},
+{ch:"CLASS 8",t:"Generative AI",qs:[
+ {q:"When is a GAN considered trained?",o:["When the generator copies the training images","When the discriminator can't do better than 50% (chance)","After exactly one epoch","When the discriminator is 100% right"],a:1,e:"Then the fakes are indistinguishable from real examples."},
+ {q:"In a diffusion model, the reverse process…",o:["Adds Gaussian noise to the image","Learns to remove the noise step by step (noise predictor, a U-Net)","Classifies the image","Compresses text"],a:1,e:"Forward = add noise; reverse = remove it, so you can generate from pure noise."},
+ {q:"Why does Stable Diffusion work in the latent space?",o:["To get more colours","Because it is much faster than working on full-size images","Because it has no encoder","To avoid conditioning"],a:1,e:"Latent diffusion adds and removes noise in a low-dimensional space."},
+ {q:"In which year were transformers introduced (\"Attention is all you need\")?",o:["2012","2014","2017","2022"],a:2,e:"They immediately revolutionized natural language processing."},
+ {q:"What single task are transformer language models trained on?",o:["Translation","Predicting the next token","Classifying images","Answering exams"],a:1,e:"Yet this lets them solve almost any text task."},
+ {q:"In attention, Q, K and V stand for…",o:["Quality, Kernel, Variance","Query, Key, Value","Quick, Keep, Vector","Question, Knowledge, Validation"],a:1,e:"All three matrices are learned by the network."},
+ {q:"An embedding is…",o:["A picture","A vector representation where similar meanings are close together","A type of loss","A random noise image"],a:1,e:"Words or images mapped into a lower-dimensional vector space."},
+ {q:"In an encoder-decoder, why train the decoder?",o:["To make predictions faster","If it can rebuild the input from the embedding, the encoder kept the information","To add noise","To label the data"],a:1,e:"Encoder and decoder are trained together."}]}
+];
+
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const code=s=>'<pre class="code">'+esc(s)+'</pre>';
+const pyl=a=>'['+a.join(', ')+']';
+const rl=(n,lo,hi)=>Array.from({length:n},()=>r(lo,hi));
+const p1=x=>(Math.round(x*1000)/10).toFixed(1)+'%';
+const d2=x=>(Math.round(x*100)/100).toString();
+
+const PYT=[
+ ()=>{const L=rl(r(4,6),1,9),k=r(1,5);return{c:`my_list = ${pyl(L)}\nfor i in my_list:\n    i = i + ${k}\n    print(i)`,o:L.map(x=>x+k).join('\n'),w:`Each element is taken in turn, ${k} is added, and the result is printed on its own line. The list itself does not change.`};},
+ ()=>{const L=rl(r(5,6),1,12),t=r(5,9),small=L.filter(x=>x<=t),e=small.length?pick(small):r(1,t),v=r(10,30);
+   return{c:`my_list = ${pyl(L)}\nfor i in my_list:\n    if i > ${t}:\n        print(i)\n    elif i == ${e}:\n        print(${v})\n    else:\n        print(0)`,o:L.map(i=>i>t?i:(i===e?v:0)).join('\n'),w:`For each number: bigger than ${t} → print it; equal to ${e} → print ${v}; otherwise → print 0. The order of the tests matters: the first true condition wins.`};},
+ ()=>{const a=r(0,5),n=r(3,6),s=r(1,4),inside=Math.random()<.4;let x=a;const outs=[];for(let i=0;i<n;i++){x+=s;outs.push(x);}
+   return{c:`x = ${a}\nfor i in range(${n}):\n    x = x + ${s}\n${inside?'    ':''}print(x)`,o:inside?outs.join('\n'):String(x),w:inside?`print is inside the loop (indented), so it runs ${n} times.`:`The loop runs ${n} times (range(${n}) = 0 to ${n-1}), adding ${s} each time: ${a} + ${n} × ${s} = ${x}. print is outside the loop, so it runs once.`};},
+ ()=>{const a=r(0,4),b=r(a+3,a+6),m=r(2,5);const o=[];for(let x=a;x<b;x++)o.push(x*m);
+   return{c:`for x in range(${a}, ${b}):\n    print(x * ${m})`,o:o.join('\n'),w:`range(${a}, ${b}) gives ${a} to ${b-1} (${b} is excluded). Each is multiplied by ${m}.`};},
+ ()=>{const a=r(2,5),b=r(1,9),v=r(2,9),v2=r(2,9),c=r(1,5),noCall=Math.random()<.2;
+   if(noCall)return{c:`def my_function(x):\n    y = x * ${a} + ${b}\n    print(y)`,o:'(nothing)',w:'The function is defined but never called, so nothing runs and nothing is printed.'};
+   const f=x=>x*a+b;return{c:`def compute(x):\n    return x * ${a} + ${b}\n\nprint(compute(${v}))\nresult = compute(${v2}) - ${c}\nprint(result)`,o:f(v)+'\n'+(f(v2)-c),w:`compute(${v}) = ${v} × ${a} + ${b} = ${f(v)}. Then compute(${v2}) = ${f(v2)}, minus ${c} = ${f(v2)-c}.`};},
+ ()=>{const L=rl(r(4,6),1,300).map(x=>Math.random()<.4?x*r(2,9):x),t=pick([50,100,150]),n=L.filter(x=>x>t).length;
+   return{c:`def is_x_large(x):\n    if x > ${t}:\n        return True\n    else:\n        return False\n\ndef find_large_numbers(input_list):\n    count = 0\n    for item in input_list:\n        if is_x_large(item):\n            count = count + 1\n    print("Large numbers", count)\n\nfind_large_numbers(${pyl(L)})`,o:'Large numbers '+n,w:`It counts how many numbers are greater than ${t}: ${L.filter(x=>x>t).join(', ')||'none'} → ${n}. print with a comma puts a space between the two values. A good comment for is_x_large: "# Return True if x is greater than ${t}".`};},
+ ()=>{const n=r(5,9),m=r(1,3),par=Math.random()<.6;const res=[];for(let x=0;x<n;x++)if(x%2===(par?0:1))res.push(m===1?x*x:x*m);
+   const ex=m===1?'x**2':'x * '+m;return{c:`numbers = [${ex} for x in range(${n}) if x % 2 == ${par?0:1}]\nprint(numbers)`,o:pyl(res),w:`range(${n}) = 0…${n-1}; keep only the ${par?'even':'odd'} ones (x % 2 == ${par?0:1}), then compute ${ex}.`};},
+ ()=>{const a=r(1,3),n=r(a+3,a+7),brk=Math.random()<.6,b=brk?r(a,n-2):n+5;const o=[];let i=a;while(i<n){o.push(i);if(i===b)break;i++;}
+   return{c:`i = ${a}\nwhile i < ${n}:\n    print(i)\n    if i == ${b}:\n        break\n    i += 1`,o:o.join('\n'),w:brk?`It prints ${a}, ${a+1}, … and stops with break as soon as i == ${b} (after printing it).`:`i never equals ${b}, so the loop stops when i reaches ${n} (i < ${n} becomes false).`};},
+ ()=>{const brands=[['Apple','iPhone 15'],['Samsung','Galaxy S24'],['Google','Pixel 9'],['Xiaomi','Redmi 13']],[br,mo]=pick(brands),apps=['Maps','Spotify','WhatsApp','Instagram','Duolingo'].sort(()=>Math.random()-.5).slice(0,r(1,3)),wh=pick(['brand','model','apps','len']);
+   const last=wh==='len'?'print(len(my_phone.apps))':wh==='apps'?'print(my_phone.apps)':'print(my_phone.'+wh+')';
+   const o=wh==='brand'?br:wh==='model'?mo:wh==='len'?String(apps.length):"["+apps.map(a=>"'"+a+"'").join(', ')+"]";
+   return{c:`class Smartphone:\n    def __init__(self, brand, model):\n        self.brand = brand\n        self.model = model\n        self.apps = []\n\n    def install_app(self, app_name):\n        self.apps.append(app_name)\n\nmy_phone = Smartphone("${br}", "${mo}")\n${apps.map(a=>`my_phone.install_app("${a}")`).join('\n')}\n${last}`,o,w:`my_phone is an object (instance) of the Smartphone class. __init__ stores brand and model and starts an empty apps list; each install_app call appends one app. Missing comment above __init__: "# Create a phone with its brand, model and an empty list of apps".`};},
+ ()=>{const w=pick(['Barcelona','Python','Learning','Network','Gradient','Science']),k=r(0,w.length-1);
+   return{c:`word = "${w}"\nprint(word[${k}])\nprint(word[-1])\nprint(len(word))`,o:w[k]+'\n'+w[w.length-1]+'\n'+w.length,w:`Indexing starts at 0, so word[${k}] is the ${k+1}${k===0?'st':k===1?'nd':k===2?'rd':'th'} letter. word[-1] is the last letter. len counts the characters. print shows strings without quotes.`};},
+ ()=>{const L=[...new Set(rl(r(4,5),0,20))],x=r(0,25),S=[...L,x].sort((a,b)=>a-b);
+   return{c:`L = ${pyl(L)}\nL.append(${x})\nL.sort()\nprint(L)\nprint(L[0], L[-1])`,o:pyl(S)+'\n'+S[0]+' '+S[S.length-1],w:`append adds ${x} at the end, sort orders the list from smallest to largest. L[0] is the first (smallest) and L[-1] the last (largest).`};}
+];
+
+Object.assign(GEN,{
+s_py(){const a=r(0,PYT.length-1);let b=r(0,PYT.length-1);while(b===a)b=r(0,PYT.length-1);const A=PYT[a](),B=PYT[b]();
+  return{title:'Python: what is the output?',
+  task:'<p>For each program, write exactly what is printed and explain in one sentence what the code does.</p><p><b>Program 1</b></p>'+code(A.c)+'<p><b>Program 2</b></p>'+code(B.c),
+  sol:'<p><b>Program 1 output</b></p>'+code(A.o)+'<p>'+esc(A.w)+'</p><p><b>Program 2 output</b></p>'+code(B.o)+'<p>'+esc(B.w)+'</p>'};},
+
+s_metrics(){
+  const sc=pick([{pos:'cat',neg:'dog',ctx:'a model that detects whether an image contains a cat',best:'Both mistakes cost about the same here, so accuracy or F1 are good summaries.'},
+   {pos:'spam',neg:'normal email',ctx:'a spam filter',best:'<b>Precision</b> matters most: a false positive sends a real email to the spam folder.'},
+   {pos:'sick',neg:'healthy',ctx:'a medical test for a disease',best:'<b>Recall</b> matters most: a false negative is a sick patient sent home.'},
+   {pos:'fraud',neg:'legit',ctx:'a bank fraud detector',best:'<b>Recall</b> matters most: a missed fraud costs more than checking a legit transaction.'},
+   {pos:'defective',neg:'OK',ctx:'a camera that checks products on a factory line',best:'<b>Recall</b> matters most: a defective product sold to a customer costs more than re-checking a good one.'}]);
+  const P=r(4,12)*10,N=r(4,12)*10,TP=r(Math.ceil(P*.6),P-2),TN=r(Math.ceil(N*.6),N-2),FN=P-TP,FP=N-TN,acc=(TP+TN)/(P+N),pr=TP/(TP+FP),rc=TP/(TP+FN),f1=2*pr*rc/(pr+rc);
+  return{title:'Evaluation metrics: '+sc.ctx,
+  task:`<p>We test ${sc.ctx} on ${P} <b>${sc.pos}</b> cases and ${N} <b>${sc.neg}</b> cases ("${sc.pos}" is the positive class).</p><ul><li>Of the ${P} ${sc.pos} cases, the model correctly finds ${TP} and outputs "${sc.neg}" for the other ${FN}.</li><li>Of the ${N} ${sc.neg} cases, it is right for ${TN} and outputs "${sc.pos}" for the other ${FP}.</li></ul><ol><li>Give TP, TN, FP, FN and draw the confusion matrix.</li><li>Compute accuracy, precision, recall and F1-score.</li><li>Which metric matters most for this use case, and why?</li></ol>`,
+  sol:`<div class="cm" style="max-width:420px"><div></div><div class="cmh">Predicted ${sc.pos}</div><div class="cmh">Predicted ${sc.neg}</div><div class="cmh">Actual ${sc.pos}</div><div class="cmc g">TP ${TP}</div><div class="cmc b">FN ${FN}</div><div class="cmh">Actual ${sc.neg}</div><div class="cmc b">FP ${FP}</div><div class="cmc g">TN ${TN}</div></div>`+
+   `<p>Accuracy = (${TP} + ${TN}) ÷ ${P+N} = <b>${p1(acc)}</b></p><p>Precision = ${TP} ÷ (${TP} + ${FP}) = <b>${p1(pr)}</b></p><p>Recall = ${TP} ÷ (${TP} + ${FN}) = <b>${p1(rc)}</b></p><p>F1 = 2 × ${d2(pr)} × ${d2(rc)} ÷ (${d2(pr)} + ${d2(rc)}) = <b>${p1(f1)}</b></p><p>3. ${sc.best}</p>`};},
+
+s_linreg(){
+  const b1=r(1,4),b0=r(0,20)*5,xs=[...new Set(rl(5,1,12))].slice(0,4).sort((a,b)=>a-b);while(xs.length<4)xs.push(xs[xs.length-1]+1);
+  const ys=xs.map(x=>b0+b1*x+r(-4,4)),c0=b0+pick([-10,-5,5,10]),c1=b1+pick([-1,1])||b1+1;
+  const fa=x=>b0+b1*x,fb=x=>c0+c1*x,mse=f=>xs.reduce((s,x,i)=>s+(ys[i]-f(x))**2,0)/xs.length,ma=mse(fa),mb=mse(fb),xn=r(13,20);
+  const rows=f=>xs.map((x,i)=>'<tr><td class="n">'+x+'</td><td class="n">'+ys[i]+'</td><td class="n">'+f(x)+'</td><td class="n">'+(ys[i]-f(x))+'</td><td class="n">'+(ys[i]-f(x))**2+'</td></tr>').join('');
+  const th='<tr><th class="n">x</th><th class="n">y (real)</th><th class="n">ŷ</th><th class="n">error</th><th class="n">error²</th></tr>';
+  return{title:'Linear regression: which line fits best?',
+  task:`<p>A company wants to predict y (e.g. weekly sales, in units) from x (advertising spend, in k€). It measured:</p><div class="tbl"><table><tr><th>x</th>${xs.map(x=>'<td class="n">'+x+'</td>').join('')}</tr><tr><th>y</th>${ys.map(y=>'<td class="n">'+y+'</td>').join('')}</tr></table></div><p>Two candidate models: <b>A: ŷ = ${b0} + ${b1}x</b> and <b>B: ŷ = ${c0} + ${c1}x</b>.</p><ol><li>Compute the MSE of each model.</li><li>Which model is better, and why?</li><li>Use the best model to predict y for x = ${xn}.</li><li>In ŷ = b0 + b1·x, what are b0 and b1 called, and how does linear regression find them?</li></ol>`,
+  sol:`<p><b>Model A</b></p><div class="tbl"><table>${th}${rows(fa)}</table></div><p>MSE A = ${d2(ma)}</p><p><b>Model B</b></p><div class="tbl"><table>${th}${rows(fb)}</table></div><p>MSE B = ${d2(mb)}</p>`+
+   `<p>2. Model <b>${ma<=mb?'A':'B'}</b> has the lower MSE, so its line is closer to the points on average.</p><p>3. ŷ = ${ma<=mb?b0+' + '+b1+' × '+xn+' = '+fa(xn):c0+' + '+c1+' × '+xn+' = '+fb(xn)}</p><p>4. They are the <b>parameters</b> (intercept and slope). Linear regression picks the values that <b>minimize the MSE</b>, by setting the partial derivatives of the loss to 0.</p>`};},
+
+s_knn(){
+  for(let tries=0;tries<200;tries++){
+    const reg=Math.random()<.3,k=pick([3,5]),q=[r(2,8),r(2,8)],n=8,pts=[];
+    while(pts.length<n){const p=[r(0,10),r(0,10)];if((p[0]!==q[0]||p[1]!==q[1])&&!pts.some(z=>z[0]===p[0]&&z[1]===p[1]))pts.push(p);}
+    const d=pts.map(p=>(p[0]-q[0])**2+(p[1]-q[1])**2),sorted=[...d].sort((a,b)=>a-b);if(sorted[k-1]===sorted[k])continue;
+    const lab=reg?pts.map(()=>r(15,40)*10):pts.map(()=>pick(['Buys','Doesn\'t buy']));
+    const idx=d.map((v,i)=>i).sort((a,b)=>d[a]-d[b]).slice(0,k);
+    let ans,expl;
+    if(reg){const avg=idx.reduce((s,i)=>s+lab[i],0)/k;ans=d2(avg)+' k€';expl='Average of the '+k+' neighbours: ('+idx.map(i=>lab[i]).join(' + ')+') ÷ '+k+' = '+d2(avg);}
+    else{const c={};idx.forEach(i=>c[lab[i]]=(c[lab[i]]||0)+1);const w=Object.keys(c).sort((a,b)=>c[b]-c[a])[0];ans=w;expl='Majority vote among the '+k+' neighbours: '+Object.keys(c).map(z=>z+' '+c[z]).join(', ')+' → <b>'+w+'</b>';}
+    const names='ABCDEFGH';
+    return{title:'k-nearest neighbours ('+(reg?'regression':'classification')+', k = '+k+')',
+    task:`<p>${reg?'Each point is an apartment (x = distance to centre, y = age of the building), with its price in k€.':'Each point is a customer (x = visits per month, y = minutes on the website), labelled "Buys" or "Doesn\'t buy".'} New point Q = (${q[0]}, ${q[1]}).</p><div class="tbl"><table><tr><th>Point</th>${pts.map((p,i)=>'<td>'+names[i]+'</td>').join('')}</tr><tr><th>(x, y)</th>${pts.map(p=>'<td class="n">('+p[0]+', '+p[1]+')</td>').join('')}</tr><tr><th>${reg?'Price':'Label'}</th>${lab.map(l=>'<td>'+l+'</td>').join('')}</tr></table></div><ol><li>Compute the Euclidean distance from Q to every point.</li><li>Find the ${k} nearest neighbours.</li><li>Predict ${reg?'the price':'the label'} of Q with k = ${k}.</li></ol>`,
+    sol:`<div class="tbl"><table><tr><th>Point</th><th>Computation</th><th class="n">Distance</th></tr>${pts.map((p,i)=>'<tr'+(idx.includes(i)?' style="background:var(--good-soft)"':'')+'><td>'+names[i]+'</td><td class="mono" style="font-size:13px">√((' +p[0]+'−'+q[0]+')² + ('+p[1]+'−'+q[1]+')²) = √'+d[i]+'</td><td class="n">'+d2(Math.sqrt(d[i]))+'</td></tr>').join('')}</table></div><p>Nearest ${k}: <b>${idx.map(i=>names[i]).join(', ')}</b> (highlighted).</p><p>${expl}. Prediction: <b>${ans}</b>.</p><p>Tip: to rank, you can compare the numbers under the √ directly.</p>`};
+  }},
+
+s_kmeans(){
+  for(let t=0;t<500;t++){
+    const pts=[];while(pts.length<6){const p=[r(0,10),r(0,10)];if(!pts.some(z=>z[0]===p[0]&&z[1]===p[1]))pts.push(p);}
+    const c=[[r(0,10),r(0,10)],[r(0,10),r(0,10)]];if(c[0][0]===c[1][0]&&c[0][1]===c[1][1])continue;
+    const dd=(p,cc)=>(p[0]-cc[0])**2+(p[1]-cc[1])**2;
+    const asg=cs=>pts.map(p=>{const a=dd(p,cs[0]),b=dd(p,cs[1]);return a===b?-1:(a<b?0:1);});
+    const a1=asg(c);if(a1.includes(-1)||!a1.includes(0)||!a1.includes(1))continue;
+    const mean=k=>{const m=pts.filter((p,i)=>a1[i]===k);return[m.reduce((s,p)=>s+p[0],0)/m.length,m.reduce((s,p)=>s+p[1],0)/m.length];};
+    const c2=[mean(0),mean(1)],a2=asg(c2);if(a2.includes(-1))continue;
+    const inertia=pts.reduce((s,p,i)=>s+dd(p,c2[a2[i]]),0),changed=a2.some((v,i)=>v!==a1[i]),N='ABCDEF',fc=x=>'('+d2(x[0])+', '+d2(x[1])+')';
+    return{title:'K-means: one iteration by hand (k = 2)',
+    task:`<p>Six customers (x = annual income, y = spending score, in tens):</p><div class="tbl"><table><tr><th>Point</th>${pts.map((p,i)=>'<td>'+N[i]+'</td>').join('')}</tr><tr><th>(x, y)</th>${pts.map(p=>'<td class="n">('+p[0]+', '+p[1]+')</td>').join('')}</tr></table></div><p>Initial centroids: <b>C1 = (${c[0][0]}, ${c[0][1]})</b>, <b>C2 = (${c[1][0]}, ${c[1][1]})</b>.</p><ol><li>Assign each point to the nearest centroid (squared Euclidean distance is enough).</li><li>Compute the new centroids.</li><li>Re-assign the points with the new centroids. Has the algorithm converged?</li><li>Compute the inertia with the new centroids.</li></ol>`,
+    sol:`<div class="tbl"><table><tr><th>Point</th><th class="n">d² to C1</th><th class="n">d² to C2</th><th>Cluster</th></tr>${pts.map((p,i)=>'<tr><td>'+N[i]+'</td><td class="n">'+dd(p,c[0])+'</td><td class="n">'+dd(p,c[1])+'</td><td>C'+(a1[i]+1)+'</td></tr>').join('')}</table></div>`+
+     `<p>2. New C1 = mean of ${pts.filter((p,i)=>a1[i]===0).map((p,i)=>'('+p+')').join(', ')} = <b>${fc(c2[0])}</b>. New C2 = mean of ${pts.filter((p,i)=>a1[i]===1).map(p=>'('+p+')').join(', ')} = <b>${fc(c2[1])}</b>.</p>`+
+     `<p>3. New assignment: ${pts.map((p,i)=>N[i]+'→C'+(a2[i]+1)).join(', ')}. ${changed?'Some points changed cluster, so it has <b>not converged</b>: you would repeat steps 2 and 3.':'No point changed cluster, so the algorithm has <b>converged</b>.'}</p>`+
+     `<p>4. Inertia = sum of squared distances of each point to its centroid = <b>${d2(inertia)}</b>.</p>`};
+  }},
+
+s_neuron(){
+  const act=pick(['step','relu','sigmoid']),n=3,x=rl(n,-3,3),w=rl(n,-4,4).map(v=>v/2),b=r(-4,4)/2,z=x.reduce((s,v,i)=>s+v*w[i],b);
+  const out=act==='step'?(z>=0?1:0):act==='relu'?Math.max(0,z):1/(1+Math.exp(-z));
+  const gate=Math.random()<.5?'AND':'OR',s=pick([1,2]),gb=(gate==='AND'?-1.5:-0.5)*s,tt=[[0,0],[0,1],[1,0],[1,1]].map(([a,c])=>[a,c,(s*a+s*c+gb)>=0?1:0]);
+  const an={step:'step (1 if z ≥ 0, else 0)',relu:'ReLU, max(0, z)',sigmoid:'sigmoid, σ(z) = 1 ÷ (1 + e^(−z))'}[act];
+  return{title:'The perceptron: compute the output',
+  task:`<p><b>Part 1.</b> A neuron has inputs x = (${x.join(', ')}), weights w = (${w.join(', ')}), bias b = ${b}, and the <b>${an}</b> activation.</p><ol><li>Compute z = w·x + b.</li><li>Compute the output a.</li></ol><p><b>Part 2.</b> A perceptron with 2 binary inputs has weights w1 = w2 = ${s}, bias ${gb} and a step activation.</p><ol start="3"><li>Fill in its truth table for (0,0), (0,1), (1,0), (1,1). Which logic gate is it?</li><li>Could a single perceptron implement XOR? Why?</li></ol>`,
+  sol:`<p>1. z = ${x.map((v,i)=>'('+w[i]+' × '+v+')').join(' + ')} + (${b}) = <b>${d2(z)}</b></p><p>2. a = ${act==='step'?'step('+d2(z)+') = <b>'+out+'</b>':act==='relu'?'max(0, '+d2(z)+') = <b>'+d2(out)+'</b>':'1 ÷ (1 + e^('+d2(-z)+')) ≈ <b>'+d2(out)+'</b>'}</p>`+
+   `<div class="tbl"><table><tr><th>x1</th><th>x2</th><th>z = ${s}x1 + ${s}x2 ${gb}</th><th>output</th></tr>${tt.map(([a,c,o])=>'<tr><td>'+a+'</td><td>'+c+'</td><td class="n">'+d2(s*a+s*c+gb)+'</td><td>'+o+'</td></tr>').join('')}</table></div>`+
+   `<p>3. It outputs 1 ${gate==='AND'?'only when both inputs are 1':'when at least one input is 1'}: an <b>${gate}</b> gate.</p><p>4. <b>No.</b> A perceptron is a linear classifier (one straight line), and XOR's points can't be separated by one line. You need several layers with activation functions (or an SVM with a kernel).</p>`};},
+
+s_cnn(){
+  const H=pick([28,32,64]),C=H===28?1:pick([1,3]),k1=pick([3,5]),f1=pick([16,32]),same=Math.random()<.5,k2=3,f2=pick([32,64]);
+  const c1=same?H:H-k1+1,p1s=Math.floor(c1/2),c2=p1s-k2+1,p2s=Math.floor(c2/2),flat=p2s*p2s*f2;
+  const M=Array.from({length:4},()=>rl(4,0,9)),mp=[[0,0],[0,2],[2,0],[2,2]].map(([i,j])=>Math.max(M[i][j],M[i][j+1],M[i+1][j],M[i+1][j+1]));
+  const img=Array.from({length:3},()=>rl(3,0,3)),ker=pick([[[1,0,-1],[1,0,-1],[1,0,-1]],[[0,1,0],[1,-4,1],[0,1,0]],[[1,1,1],[0,0,0],[-1,-1,-1]]]);
+  let cv=0;const terms=[];for(let i=0;i<3;i++)for(let j=0;j<3;j++){cv+=img[i][j]*ker[i][j];if(ker[i][j])terms.push(img[i][j]+'×'+ker[i][j]);}
+  const mat=m=>'<table class="mat">'+m.map(rw=>'<tr>'+rw.map(v=>'<td>'+v+'</td>').join('')+'</tr>').join('')+'</table>';
+  return{title:'CNN: sizes, convolution and pooling',
+  task:`<p><b>Part 1.</b> A CNN receives ${H}×${H}×${C} images:</p>${code(`Conv2D(${f1}, (${k1}, ${k1}), padding='${same?'same':'valid'}', activation='relu')\nMaxPooling2D((2, 2))\nConv2D(${f2}, (3, 3), padding='valid', activation='relu')\nMaxPooling2D((2, 2))\nFlatten()\nDense(10, activation='softmax')`)}<ol><li>Give the output shape after each layer. ('valid' = no padding, 'same' = padding that keeps the size; pooling rounds down.)</li><li>How many values come out of Flatten?</li><li>Why softmax with 10 units at the end?</li></ol><p><b>Part 2.</b></p><div class="grid2"><div><p>4. Apply 2×2 max pooling to:</p>${mat(M)}</div><div><p>5. Apply this kernel to the image patch (one output value):</p><div style="display:flex;gap:14px;align-items:center">${mat(img)}<span>⊛</span>${mat(ker)}</div></div></div>`,
+  sol:`<div class="tbl"><table><tr><th>Layer</th><th>Output shape</th><th>How</th></tr><tr><td>Input</td><td class="mono">${H}×${H}×${C}</td><td></td></tr><tr><td>Conv2D ${f1}</td><td class="mono">${c1}×${c1}×${f1}</td><td>${same?'same padding keeps '+H:H+' − '+k1+' + 1 = '+c1}; one channel per filter</td></tr><tr><td>MaxPool</td><td class="mono">${p1s}×${p1s}×${f1}</td><td>${c1} ÷ 2${c1%2?' rounded down':''}</td></tr><tr><td>Conv2D ${f2}</td><td class="mono">${c2}×${c2}×${f2}</td><td>${p1s} − 3 + 1</td></tr><tr><td>MaxPool</td><td class="mono">${p2s}×${p2s}×${f2}</td><td>${c2} ÷ 2${c2%2?' rounded down':''}</td></tr><tr><td>Flatten</td><td class="mono">${flat}</td><td>${p2s} × ${p2s} × ${f2}</td></tr><tr><td>Dense</td><td class="mono">10</td><td>one probability per class</td></tr></table></div>`+
+   `<p>3. Softmax turns the 10 outputs into probabilities that sum to 1: multi-class classification with 10 classes.</p><p>4. Max of each 2×2 block:</p>${mat([[mp[0],mp[1]],[mp[2],mp[3]]])}<p>5. Multiply element by element and add: ${terms.join(' + ')||'0'} = <b>${cv}</b></p>`};},
+
+s_bellman(){
+  const g=pick([0.9,0.5,1]),rs=pick([-1,0]),R=pick([10,20,5]),n=4,V=[];V[n-1]=R;for(let i=n-2;i>=0;i--)V[i]=rs+g*V[i+1];
+  const seq=rl(4,-2,5),gg=pick([0.9,0.5]),G=seq.reduce((s,v,i)=>s+v*gg**i,0),N=['S1','S2','S3','S4'];
+  return{title:'Reinforcement learning: discounted return and Bellman',
+  task:`<p><b>Part 1.</b> A robot moves along a corridor S1 → S2 → S3 → S4 → <b>Goal</b>. Each move between states gives a reward of ${rs}; the move from S4 into the Goal gives +${R}. The Goal is terminal (value 0). Discount factor γ = ${g}.</p><ol><li>Using the Bellman equation V(s) = R + γ·V(s'), compute V(S4), V(S3), V(S2) and V(S1).</li><li>Why is it smart to start from S4?</li></ol><p><b>Part 2.</b> An agent receives the rewards ${seq.join(', ')} at steps 1 to 4, with γ = ${gg}.</p><ol start="3"><li>Compute the discounted return G.</li><li>What happens to G if γ = 0? And if γ = 1?</li></ol>`,
+  sol:`<div class="tbl"><table><tr><th>State</th><th>Bellman</th><th class="n">V</th></tr>${N.slice().reverse().map((s,ri)=>{const i=n-1-ri;return '<tr><td>'+s+'</td><td class="mono" style="font-size:13px">'+(i===n-1?R+' + '+g+' × 0':rs+' + '+g+' × '+d2(V[i+1]))+'</td><td class="n">'+d2(V[i])+'</td></tr>';}).join('')}</table></div>`+
+   `<p>2. Each value reuses the value of the next state, so going backwards from the goal avoids recomputing every path. That's the whole point of the Bellman equation.</p><p>3. G = ${seq.map((v,i)=>i===0?v:gg+(i>1?'^'+i:'')+' × '+v).join(' + ')} = <b>${d2(G)}</b></p><p>4. γ = 0: only the first reward counts (G = ${seq[0]}), a very short-sighted agent. γ = 1: all rewards count equally (G = ${seq.reduce((s,v)=>s+v,0)}).</p>`};},
+
+s_prob(){
+  const dice=pick([{t:'rolling a 6 on a die, twice in a row',p:'1/6 × 1/6 = 1/36 ≈ 2.8%'},{t:'getting heads three times in a row with a coin',p:'1/2 × 1/2 × 1/2 = 1/8 = 12.5%'},{t:'rolling an even number on a die and getting heads on a coin',p:'1/2 × 1/2 = 1/4 = 25%'}]);
+  const pa=pick([0.2,0.3,0.4,0.5]),pba=pick([0.6,0.7,0.8,0.9]);
+  const rs=[['A rule says all employees get a bonus in December. Ana is an employee, so Ana gets a bonus.','Deduction: rule + fact → certain conclusion.'],['Every customer I surveyed who used the app also renewed, so app users renew.','Induction: general rule from observations (fallible).'],['The server is down and the logs end at 3 a.m. during an update; the update probably crashed it.','Abduction: the most likely explanation of what we see (can fail).'],['Every time the shop ran a discount, sales rose, so discounts raise sales.','Induction: generalizing from repeated observations.'],['All mammals are warm-blooded. A dolphin is a mammal, so it is warm-blooded.','Deduction: infallible if the rules are true.']];
+  const pickR=rs.sort(()=>Math.random()-.5).slice(0,2);
+  return{title:'Probability and ways of reasoning',
+  task:`<ol><li>What is the probability of ${dice.t}?</li><li>P(it rains) = ${pa} and P(wet floor | it rains) = ${pba}. What is P(it rains and wet floor)?</li><li>Could you answer question 2 knowing only P(it rains) and P(wet floor)? Why?</li><li>Deduction, induction or abduction?<br>a) ${pickR[0][0]}<br>b) ${pickR[1][0]}</li></ol>`,
+  sol:`<p>1. Independent events: ${dice.p}.</p><p>2. P(rain and wet) = P(rain) × P(wet | rain) = ${pa} × ${pba} = <b>${d2(pa*pba)}</b>.</p><p>3. <b>No.</b> The events are dependent, so you need the conditional probability P(wet | rain): you need more data.</p><p>4. a) ${pickR[0][1]}<br>b) ${pickR[1][1]}</p>`};},
+
+s_open(){
+  const qs=OPENQ.sort(()=>Math.random()-.5).slice(0,3);
+  return{title:'Open questions',task:'<ol>'+qs.map(q=>'<li>'+q.q+' <span class="tag">'+q.c+'</span></li>').join('')+'</ol><p style="color:var(--muted);font-size:14px">Write 4–6 lines per answer, with an example where you can.</p>',
+  sol:'<ol>'+qs.map(q=>'<li><p>'+q.a+'</p></li>').join('')+'</ol>'};}
+});
+
+const OPENQ=[
+ {c:'Class 1',q:'Explain the difference between symbolic and subsymbolic AI, with an example of each.',a:'Symbolic AI (GOFAI) writes knowledge explicitly as symbols and logical rules: rule-based expert systems like MYCIN, or theorem provers. It is explainable but struggles with uncertainty and can\'t learn from experience. Subsymbolic AI learns from raw data with neural networks (e.g. image recognition, ChatGPT): very powerful with data, but harder to explain.'},
+ {c:'Class 1',q:'Why did AI go through "winters"? Give two causes.',a:'Promises far beyond results. 1st winter (1974–80): the 1969 Perceptrons book showed perceptrons can\'t learn XOR, the ALPAC and Lighthill reports criticized machine translation and the combinatorial explosion, so funding was cut. 2nd winter (1987–93): expert systems were costly, depended on human experts and couldn\'t generalize; the LISP machine market collapsed.'},
+ {c:'Class 1',q:'What is Moravec\'s paradox?',a:'Things that are easy for a 4-year-old (seeing a cup, walking) are very hard for computers, while things hard for educated adults (chess, theorems, algebra) turned out easy for machines. Early AI focused on the "hard" intellectual tasks and underestimated perception and movement.'},
+ {c:'Class 2',q:'Explain overfitting and underfitting, and how you would detect each one.',a:'Underfitting: the model is too simple and doesn\'t capture the pattern, so it is bad on training and test data (like not studying). Overfitting: the model memorises the training data, noise included, so it is excellent on training data but bad on new data (like memorising last year\'s exam). You detect it by comparing training and test/validation performance: a big gap means overfitting.'},
+ {c:'Class 2',q:'Why do we split the data into a training set and a test set?',a:'To check that the model generalizes to data it has never seen. The model learns on the training set (70–90%) and is evaluated on the independent test set (10–30%). No test sample may be in the training set, otherwise the score is too optimistic.'},
+ {c:'Class 2',q:'Compare a decision tree and a random forest.',a:'A decision tree splits the data on the most informative feature again and again: easy to interpret, but prone to overfitting. A random forest trains many trees on bootstrapped samples with random features at each split and takes a vote (or average). It is more accurate and overfits less, but is more expensive and less interpretable.'},
+ {c:'Class 2',q:'For a medical test, would you rather maximize precision or recall? Explain.',a:'Recall = TP ÷ (TP + FN): the share of sick patients the test finds. A false negative sends a sick person home, which is the most costly error, so recall matters most. Precision = TP ÷ (TP + FP) matters more when false alarms are costly, like a spam filter.'},
+ {c:'Class 3',q:'Why do neural networks need activation functions?',a:'Without them, each neuron is linear and a composition of linear functions is still linear, so even a big network would only draw a straight boundary (it couldn\'t solve XOR). Non-linear activations (ReLU, sigmoid…) let the network approximate almost any function: "neural networks are universal function approximators".'},
+ {c:'Class 3',q:'Describe how a neural network learns (forward pass, loss, backpropagation, gradient descent).',a:'Forward pass: the input goes through the layers to an output. Loss: compare the output with the label (MSE for regression, cross-entropy for classification). Backpropagation: compute the partial derivative of the loss for every weight with the chain rule. Gradient descent: move each weight a small step (the learning rate) in the direction that lowers the loss. Repeat over batches and epochs.'},
+ {c:'Class 3',q:'Name and explain three techniques to reduce overfitting in neural networks.',a:'Regularization: add a penalty on large weights to the loss. Dropout: randomly switch off neurons during training so the rest must compensate. Batch normalization: normalize each layer\'s inputs per mini-batch (then scale and shift). Also convolutional layers for images, and data augmentation.'},
+ {c:'Class 4',q:'What is a genetic algorithm? Describe its steps with the travelling salesman example.',a:'A search heuristic inspired by natural selection. Create a random population of solutions (chromosome = order of the cities), evaluate the fitness (total distance), select the fittest as parents, crossover (exchange parts of routes), mutate (swap two cities), replace the population, and repeat until the route is short enough.'},
+ {c:'Class 5',q:'Compare k-means and DBSCAN.',a:'K-means needs k in advance, places centroids and alternates between assigning points to the nearest centroid and moving centroids to the mean. It is simple and fast but sensitive to initialization and outliers. DBSCAN groups dense regions using Eps and MinPts, finds the number of clusters itself and labels outliers as noise, but is sensitive to its parameters and more expensive.'},
+ {c:'Class 5',q:'What is dimensionality reduction for? Compare PCA and t-SNE.',a:'Datasets with many features are hard to analyse, slow to process and impossible to plot, so we reduce the number of dimensions while keeping as much information as possible. PCA is linear: standardize, covariance matrix, keep the eigenvectors with the highest variance. t-SNE is non-linear and keeps local neighbourhoods, mainly to visualize data in 2D/3D.'},
+ {c:'Class 6',q:'Why do CNNs work better than dense networks on images?',a:'A dense network flattens the image and loses the spatial relations between neighbouring pixels. A CNN uses small kernels (3×3, 5×5) that slide over the image and learn local patterns (edges, textures), then pooling reduces size, adds translation invariance and builds increasingly abstract features.'},
+ {c:'Class 6',q:'What is fine-tuning and why is it useful?',a:'Taking a network already trained on a large dataset (e.g. ImageNet) and continuing its training on your smaller, specific dataset. It needs less data and compute and is usually more accurate than training from scratch, because the network already knows general visual features.'},
+ {c:'Class 7',q:'Explain the exploration–exploitation dilemma with an example.',a:'Exploit: take the action you know gives a good reward. Explore: try something new that might be better but might fail. Example: always going to your favourite restaurant vs trying a new one. An agent that only exploits can get stuck with a mediocre policy; one that only explores never profits from what it learned.'},
+ {c:'Class 7',q:'Compare policy-based and value-based methods in reinforcement learning.',a:'Policy-based methods learn the policy directly (state → action or probability of each action) and improve it with gradient ascent on the expected reward. Value-based methods (Q-learning) learn how valuable each state or state–action pair is, using the Bellman equation, and the policy is to go to the highest-value state.'},
+ {c:'Class 7',q:'How was AlphaGo trained?',a:'1) A policy network learns from human games. 2) An agent with this policy plays against itself (self-play), reward +1 for a win, −1 for a loss. 3) Policy optimization makes it stronger. 4) Its self-play games train a value network. 5) At play time, Monte Carlo tree search is guided by the policy network (which moves to explore) and the value network (how good a position is).'},
+ {c:'Class 8',q:'Explain how a GAN works.',a:'Two networks compete. The generator turns random noise into fake examples; the discriminator receives real and fake examples and tries to tell them apart. Each improves against the other until the discriminator can\'t do better than 50% (chance): the fakes look real.'},
+ {c:'Class 8',q:'How does a diffusion model generate an image from a text prompt?',a:'In training, noise is added to images step by step (forward diffusion) and a noise predictor (U-Net) learns to remove it (reverse diffusion). To generate, it starts from random noise and removes noise step by step. The prompt is encoded into an embedding (CLIP, transformer) and injected into the U-Net with attention: that conditioning steers the image. Stable Diffusion does this in the small latent space to be faster.'},
+ {c:'Class 8',q:'What is attention in transformers, and why did transformers change AI?',a:'Attention tells the model which tokens matter most for each token, based on similarity (dot product) between learned Query and Key vectors, weighting the Values. Transformers (2017) can be stacked to huge sizes (scaling laws), are trained only to predict the next token, and still solve almost any text task; they also work for images and video.'}
+];
+
+const SOI_EXLIST=[
+ {g:'s_prob',tag:'Class 1 · Probability &amp; reasoning',pts:10},
+ {g:'s_metrics',tag:'Class 2 · Evaluation metrics',pts:15},
+ {g:'s_linreg',tag:'Class 2 · Linear regression &amp; MSE',pts:15},
+ {g:'s_knn',tag:'Class 2 · k-nearest neighbours',pts:15},
+ {g:'s_neuron',tag:'Class 3 · Perceptron',pts:15},
+ {g:'s_py',tag:'Class 4 · Python output',pts:20},
+ {g:'s_kmeans',tag:'Class 5 · K-means',pts:15},
+ {g:'s_cnn',tag:'Class 6 · CNN',pts:15},
+ {g:'s_bellman',tag:'Class 7 · Bellman &amp; return',pts:15},
+ {g:'s_open',tag:'All classes · Open questions',pts:20}];
+
+const soiQroot=document.getElementById('soi-quiz-root');
+SOI_QUIZ.forEach(ch=>soiQroot.append(buildChapter(ch)));
+const soiExRoot=document.getElementById('soi-ex-root');
+SOI_EXLIST.forEach((x,i)=>soiExRoot.append(exSection('sx'+(i+1),'EX '+(i+1),x.g,x.tag,x.pts,true)));
+
+const SOI_POOL=SOI_QUIZ.flatMap(c=>c.qs);let soiMockNo=0;
+function buildSoiMock(){
+  soiMockNo++;const root=document.getElementById('soi-mock-root');root.innerHTML='';
+  const top=document.createElement('section');top.innerHTML='<div class="head"><span class="num">MOCK '+soiMockNo+'</span><h2>Science of Intelligence mock '+soiMockNo+'</h2><p class="oneline">Answer Part A here, the rest on paper, then open each solution.</p></div>';root.append(top);
+  const s=document.createElement('section');s.innerHTML='<div class="head"><span class="num">PART A</span><h3>Multiple choice</h3><span class="pts">15 × 2 pts</span></div>';
+  const list=document.createElement('div');list.className='qlist';[...SOI_POOL].sort(()=>Math.random()-.5).slice(0,15).forEach((it,k)=>list.append(makeQ(it,k,'exam')));
+  const bar=document.createElement('div');bar.className='bar';const b=document.createElement('button');b.type='button';b.className='btn';b.textContent='Submit Part A';const res=document.createElement('span');res.className='result';
+  b.addEventListener('click',()=>{if(list.dataset.done)return;list.dataset.done='1';let ok=0;list.querySelectorAll('.q').forEach(d=>{const c=d.dataset.choice===undefined?-1:+d.dataset.choice;if(c===d._item.a)ok++;reveal(d,d._item,c);});res.textContent='Part A: '+ok+' / 15 right → '+ok*2+' / 30 pts';});
+  bar.append(b,res);s.append(list,bar);root.append(s);
+  const calc=['s_metrics','s_linreg','s_knn','s_kmeans','s_neuron','s_cnn','s_bellman'].sort(()=>Math.random()-.5).slice(0,2);
+  [{g:'s_py',tag:'Part B · Python',pts:20},{g:calc[0],tag:'Part C',pts:15},{g:calc[1],tag:'Part C',pts:15},{g:'s_open',tag:'Part D',pts:20}].forEach((p,i)=>root.append(exSection('smx'+(i+1),'EX '+(i+1),p.g,p.tag,p.pts,false)));
+}
+buildSoiMock();
+document.getElementById('soi-new-mock').addEventListener('click',()=>{buildSoiMock();document.getElementById('soi-mock-root').scrollIntoView();});
+
+function makeTimer(pre,secs){let left=secs,tid=null;const el=document.getElementById(pre+'timer');
+  const draw=()=>{el.textContent=left>0?fmt(left):"Time's up";el.classList.toggle('done',left<=0);};
+  document.getElementById(pre+'t-start').addEventListener('click',()=>{if(tid)return;if(left<=0)left=secs;tid=setInterval(()=>{left--;draw();if(left<=0){clearInterval(tid);tid=null;}},1000);});
+  document.getElementById(pre+'t-pause').addEventListener('click',()=>{clearInterval(tid);tid=null;});
+  document.getElementById(pre+'t-reset').addEventListener('click',()=>{clearInterval(tid);tid=null;left=secs;draw();});}
+makeTimer('soi-',7200);
+
+/* ===================== HOME ===================== */
+const SUBJECTS=[
+ {id:'acc',name:'Accounting for Business Decisions',date:'2026-12-01T12:00:00',when:'Tue 1 Dec · 12–14h',ready:true,what:'9 chapters · journal entries, statements, inventories, depreciation'},
+ {id:'se',name:'Software Engineering for AI Projects',date:'2026-12-02T09:00:00',when:'Wed 2 Dec · 9–11h',ready:false},
+ {id:'soi',name:'The Science of Intelligence',date:'2026-12-04T09:00:00',when:'Fri 4 Dec · 9–11h',ready:true,what:'8 classes · ML, deep learning, Python, vision, RL, generative AI'},
+ {id:'calc',name:'Business and Economics Calculus',date:'2026-12-10T09:00:00',when:'Thu 10 Dec · 9–11h',ready:false},
+ {id:'cca',name:'Consumer Computer Applications (Excel)',date:'2026-12-11T09:00:00',when:'Fri 11 Dec · 9–11h',ready:false}];
+PROG.soi={el:'soi-progress',list:SOI_EXLIST,anchor:'sx'};
+function renderHome(){
+  const el=document.getElementById('home-cards');if(!el)return;const now=new Date();
+  el.innerHTML=SUBJECTS.map(s=>{const days=Math.ceil((new Date(s.date)-now)/86400000),cd=days>1?'in '+days+' days':days===1?'tomorrow':days===0?'today':'done';
+    if(!s.ready)return '<div class="hcard off"><div class="hc-top"><b>'+s.name+'</b><span class="pill n">'+cd+'</span></div><p class="hc-when">'+s.when+'</p><p class="hc-what">Not added yet. Send me the slides in the chat and I\'ll add this subject.</p></div>';
+    const st=subjStats(PROG[s.id]);
+    return '<div class="hcard"><div class="hc-top"><b>'+s.name+'</b><span class="pill '+(days<=5?'b':'c')+'">'+cd+'</span></div><p class="hc-when">'+s.when+'</p><p class="hc-what">'+s.what+'</p><p class="hc-prog">'+(st.n?Math.round(st.ok/st.n*100)+'% exercises got it · '+st.n+(st.n===1?' attempt':' attempts'):'No exercises rated yet')+'</p><div class="hc-links"><a class="btn" href="#'+s.id+'-recap">Recap</a><a class="btn ghost" href="#'+s.id+'-quiz">Quizzes</a><a class="btn ghost" href="#'+s.id+'-exercises">Exercises</a><a class="btn ghost" href="#'+s.id+'-mock">Mock</a></div></div>';}).join('');
+}
+
 /* routing */
 const VIEWS=['recap','quiz','exercises','mock'];
 function route(){
-  const h=location.hash.slice(1);
-  let v='recap';
-  if(VIEWS.includes(h))v=h;else if(/^mock\d/.test(h))v='mock';else if(/^ex\d/.test(h))v='exercises';
-  document.querySelectorAll('.wrap > .view').forEach(x=>x.hidden=x.id!=='view-'+v);
-  document.querySelectorAll('.tab').forEach(t=>{if(t.dataset.view===v)t.setAttribute('aria-current','page');else t.removeAttribute('aria-current');});
-  document.getElementById('chips').hidden=v!=='recap';
-  const el=h&&!VIEWS.includes(h)?document.getElementById(h):null;
-  if(el)el.scrollIntoView();else window.scrollTo(0,0);
+  let h=location.hash.slice(1)||'home';
+  if(VIEWS.includes(h))h='acc-'+h;
+  let view=null,target=null;
+  const m=h.match(/^(acc|soi)(?:-(recap|quiz|exercises|mock))?$/);
+  if(h==='home')view=document.getElementById('view-home');
+  else if(m)view=document.querySelector('.wrap > .view[data-subj="'+m[1]+'"][data-view="'+(m[2]||'recap')+'"]');
+  else{target=document.getElementById(h);if(target)view=target.closest('.wrap > .view');}
+  if(!view){view=document.getElementById('view-home');target=null;}
+  document.querySelectorAll('.wrap > .view').forEach(x=>x.hidden=x!==view);
+  const subj=view.dataset.subj||'',v=view.dataset.view;
+  document.body.dataset.subj=subj;
+  document.querySelectorAll('.sbtn').forEach(a=>{if(a.dataset.subj===(subj||'home'))a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+  const tabs=document.getElementById('tabs');tabs.hidden=!subj;
+  tabs.querySelectorAll('.tab').forEach(t=>{t.href='#'+subj+'-'+t.dataset.view;if(t.dataset.view===v)t.setAttribute('aria-current','page');else t.removeAttribute('aria-current');});
+  document.querySelectorAll('.chips').forEach(c=>c.hidden=!(v==='recap'&&c.dataset.subj===subj));
+  if(v==='home')renderHome();
+  if(target)target.scrollIntoView();else window.scrollTo(0,0);
 }
-window.addEventListener('hashchange',route);route();
+window.addEventListener('hashchange',route);renderProgress();route();
 </script>
+
 </body>
 </html>
