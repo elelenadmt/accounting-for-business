@@ -190,6 +190,12 @@ table.mat td{min-width:34px}
 .fc-meta{font-size:13px;color:var(--muted)}
 .fc-q{font:600 20px/1.35 var(--display);text-wrap:balance}
 .fc-a{border-top:1px dashed var(--line);padding-top:12px;font-size:16px;max-width:75ch}
+.ans{display:grid;gap:6px;border:1px dashed var(--line);border-radius:10px;padding:10px 12px}
+.ans textarea{width:100%;font:14px/1.5 var(--body);color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:8px 10px;resize:vertical}
+.ans textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.ai-only{display:none}body.has-ai .ai-only{display:inline-block}
+.fb{white-space:pre-wrap;font-size:14px;background:var(--debit-soft);border-left:3px solid var(--accent);border-radius:8px;padding:10px 12px}
+.btn:disabled{opacity:.6;cursor:wait}
 .or{font:italic 12px var(--body);color:var(--muted);padding:0 4px}
 .fc-hide{font-size:14px;color:var(--muted);display:flex;gap:6px;align-items:center}
 .hcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
@@ -1468,6 +1474,7 @@ print(model.score(X_test, y_test))      # 4. evaluate</pre></div>
       <div class="fc-q" id="fc-q"></div>
       <div class="fc-a" id="fc-a" hidden></div>
     </div>
+    <div id="fc-ans"></div>
     <div class="bar">
       <button class="btn" type="button" id="fc-flip">Show answer</button>
       <button class="rbtn ok" type="button" id="fc-know">✓ I knew it</button>
@@ -1856,6 +1863,31 @@ const MOCKS=[
  {q:"Costs paid by the seller to deliver goods to customers are recorded as…",o:["Part of inventory","Cost of goods sold","Delivery expense","Contra-revenue"],a:2,e:"Delivery expense is an operating expense. Transport on purchases is part of inventory cost."}
 ]];
 
+/* ===== answer boxes + Claude feedback ===== */
+let SAMPLE=null;(async()=>{try{SAMPLE=await window.claude?.use?.('sample');}catch(e){SAMPLE=null;}document.body.classList.toggle('has-ai',!!SAMPLE);})();
+const SUBJ_NAMES={acc:'Accounting for Business Decisions',soi:'The Science of Intelligence',se:'Software Engineering for AI Projects',calc:'Business and Economics Calculus'};
+function htmlToText(h){const t=document.createElement('div');t.innerHTML=String(h).replace(/<\/(td|th)>/g,' | ').replace(/<\/(tr|p|li|div|h3|pre)>|<br\s*\/?>/g,'\n').replace(/<sup>/g,'^').replace(/<sub>/g,'_');return (t.textContent||'').replace(/\n{3,}/g,'\n\n').trim();}
+function answerBox(ctx,key){
+  const el=document.createElement('div');el.className='ans';
+  el.innerHTML='<label class="tag">Your answer</label><textarea rows="5" placeholder="Write your answer here (steps, calculations, explanation)…"></textarea><div class="bar"><button type="button" class="btn ai-only">✦ Check my answer</button><span class="tag ans-st"></span></div><div class="fb" hidden></div>';
+  const ta=el.querySelector('textarea'),btn=el.querySelector('button'),st=el.querySelector('.ans-st'),fb=el.querySelector('.fb');
+  try{ta.value=localStorage.getItem(key)||'';}catch(e){}
+  ta.addEventListener('input',()=>{try{localStorage.setItem(key,ta.value);}catch(e){}});
+  let busy=false;
+  btn.addEventListener('click',async()=>{
+    if(busy)return;if(!ta.value.trim()){st.textContent='Write an answer first.';return;}
+    if(!SAMPLE){st.textContent='Checking with Claude is not available here: compare with the solution instead.';return;}
+    const c=ctx();busy=true;btn.disabled=true;st.textContent='Checking…';fb.hidden=false;fb.textContent='Thinking…';
+    const prompt='You are a strict but kind teaching assistant grading a first-year Global BBA student at a business school, for the final exam of "'+c.subj+'".\n\n'+
+      'EXERCISE ('+c.pts+' points): '+c.title+'\n'+htmlToText(c.task)+'\n\nMODEL SOLUTION (from the course):\n'+htmlToText(c.sol).replace(/^Show (solution|model answer)\s*/,'')+
+      '\n\nSTUDENT ANSWER:\n'+ta.value+'\n\nGrade the student answer against the model solution, as the professor would: the process counts, accept any correct equivalent method, ordering or reasonable rounding, and do not penalize parts the student clearly did not attempt twice. Reply in the same language the student wrote in (French or English). Plain text only, no markdown symbols, no tables. Format exactly:\nScore: X / '+c.pts+'\n✓ What is right: …\n✗ What is missing or wrong: … (point to the exact step or value)\n→ Tip: one concrete thing to do next time.\nKeep it under 170 words.';
+    try{const res=await SAMPLE(prompt,{modelTier:'default',onText:({text})=>{fb.textContent=text;}});fb.textContent=res.text;st.textContent='Feedback from Claude: double-check it against the solution.';}
+    catch(e){fb.hidden=true;st.textContent=e&&e.code==='rate_limited'?'Too many checks in a row: wait a minute and try again.':e&&e.code==='not_granted'?'Checking with Claude was not allowed on this page.':'The check failed. Try again in a moment.';}
+    busy=false;btn.disabled=false;});
+  return{el,reset(){ta.value='';fb.hidden=true;fb.textContent='';st.textContent='';try{localStorage.removeItem(key);}catch(e){}}};
+}
+const subjOf=el=>{const v=el.closest('.wrap > .view');return SUBJ_NAMES[v&&v.dataset.subj]||'';};
+
 function makeQ(item,idx,mode,onPick){
   const d=document.createElement('div');d.className='q';
   const p=document.createElement('p');p.innerHTML='<b>'+(idx+1)+'.</b> '+item.q;d.append(p);
@@ -2176,7 +2208,8 @@ function exSection(id,num,gk,tag,pts,withBtn){
     d[b.dataset.r]++;d.last=b.dataset.r;s.dataset.rated=b.dataset.r;saveP(P);
     rate.querySelectorAll('.rbtn').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));renderProgress();}));
   s.append(rate);
-  const refill=()=>{fill();s.dataset.rated='';rate.querySelectorAll('.rbtn').forEach(x=>x.setAttribute('aria-pressed','false'));};
+  const ab=answerBox(()=>({subj:subjOf(s),title:s.querySelector('h3').textContent,task:s.querySelector('.task').innerHTML,sol:s.querySelector('details').innerHTML,pts}),'ans:'+id);s.insertBefore(ab.el,s.querySelector('details'));
+  const refill=()=>{fill();ab.reset();s.dataset.rated='';rate.querySelectorAll('.rbtn').forEach(x=>x.setAttribute('aria-pressed','false'));};
   fill();if(withBtn)s.querySelector('.bar button').addEventListener('click',refill);return s;
 }
 const PKEY='acct-progress-v1';
@@ -2624,7 +2657,7 @@ function fcRender(){
   if(!deck.length){meta.textContent='';q.textContent='No cards here. Change the filter or untick "Hide the cards I already know".';an.textContent='';return;}
   if(fcPos>=deck.length)fcPos=0;if(fcPos<0)fcPos=deck.length-1;const c=deck[fcPos];
   meta.innerHTML='Card '+(fcPos+1)+' / '+deck.length+' · '+(c.s==='Basics'?'Basics':'Session '+c.s.slice(1))+(c.st===2?' · <b style="color:var(--bad)">★★ confirmed final exam question</b>':c.st===1?' · <b style="color:var(--credit)">★ on your Question Exam list</b>':'')+(K[c.id]==='k'?' · <span class="pill g">known</span>':K[c.id]==='n'?' · <span class="pill b">not yet</span>':'');
-  q.textContent=c.q;an.textContent=c.a;
+  q.textContent=c.q;an.textContent=c.a;if(typeof fcAB!=='undefined'&&fcAB.cur!==c.id){fcAB.reset();fcAB.cur=c.id;}
   document.getElementById('fc-export').value=SE_CARDS.map(x=>x.q+'\t'+x.a).join('\n');
 }
 function fcMark(v){const deck=fcDeck();if(!deck.length)return;const K=loadK();K[deck[fcPos].id]=v;saveK(K);if(!(document.getElementById('fc-hide').checked&&v==='k'))fcPos++;fcRender();renderHome();}
@@ -2637,6 +2670,7 @@ document.getElementById('fc-shuffle').addEventListener('click',()=>{fcOrder.sort
 document.getElementById('fc-hide').addEventListener('change',()=>{fcPos=0;fcRender();});
 document.getElementById('fc-copy').addEventListener('click',async()=>{const t=document.getElementById('fc-export'),m=document.getElementById('fc-copied');
   try{await navigator.clipboard.writeText(t.value);m.textContent='Copied '+SE_CARDS.length+' cards. Paste them in Quizlet → Import.';}catch(e){t.focus();t.select();m.textContent='Copy blocked here: the text is selected, press Ctrl+C / Cmd+C.';}});
+const fcAB=answerBox(()=>{const c=fcDeck()[fcPos]||SE_CARDS[0];return{subj:SUBJ_NAMES.se,title:'Open question (flashcard)',task:esc(c.q),sol:esc(c.a),pts:10};},'ans:fc');document.getElementById('fc-ans').append(fcAB.el);
 fcRender();
 const seQroot=document.getElementById('se-quiz-root');SE_QUIZ.forEach(ch=>seQroot.append(buildChapter(ch)));
 
@@ -2757,6 +2791,7 @@ function buildSeMock(){
   const upd=()=>{const v=Object.values(sc).reduce((a,b)=>a+b,0);document.getElementById('se-mock-score').textContent=v+' / 10'+(Object.keys(sc).length===10?' · done':'');};
   qs.forEach((c,i)=>{const d=document.createElement('div');d.className='q';
     d.innerHTML='<p><b>'+(i+1)+'.</b> '+esc(c.q)+(c.st===2?' <span class="pill b">★★ confirmed</span>':'')+'</p><details><summary>Show model answer</summary><p>'+esc(c.a)+'</p></details><div class="rate"><span class="tag">My answer</span><button type="button" class="rbtn ok" data-v="1">✓ Got it</button><button type="button" class="rbtn mid" data-v="0.5">~ Partly</button><button type="button" class="rbtn ko" data-v="0">✗ Not yet</button></div>';
+    {const ab=answerBox(()=>({subj:SUBJ_NAMES.se,title:'Open question',task:esc(c.q),sol:esc(c.a),pts:1}),'ans:sem'+i);ab.reset();d.insertBefore(ab.el,d.querySelector('details'));}
     d.querySelectorAll('.rbtn').forEach(b=>b.addEventListener('click',()=>{sc[i]=+b.dataset.v;d.querySelectorAll('.rbtn').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));const K=loadK();K[c.id]=b.dataset.v==='1'?'k':'n';saveK(K);upd();}));
     list.append(d);});
   s.append(list);root.append(s);
