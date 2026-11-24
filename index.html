@@ -190,6 +190,7 @@ table.mat td{min-width:34px}
 .fc-meta{font-size:13px;color:var(--muted)}
 .fc-q{font:600 20px/1.35 var(--display);text-wrap:balance}
 .fc-a{border-top:1px dashed var(--line);padding-top:12px;font-size:16px;max-width:75ch}
+.or{font:italic 12px var(--body);color:var(--muted);padding:0 4px}
 .fc-hide{font-size:14px;color:var(--muted);display:flex;gap:6px;align-items:center}
 .hcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
 .hcard{border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:8px;align-content:start;background:var(--paper)}
@@ -1297,14 +1298,14 @@ Leo,31,Paris,no</pre>
     <div class="tbl"><table>
       <tr><th>Task</th><th>Linux / macOS (bash, zsh)</th><th>Windows CMD</th></tr>
       <tr><td>Where am I?</td><td class="mono">pwd</td><td class="mono">cd</td></tr>
-      <tr><td>List files</td><td class="mono">ls  ·  ls -la</td><td class="mono">dir</td></tr>
-      <tr><td>Enter / go up</td><td class="mono">cd folder  ·  cd ..</td><td class="mono">cd folder  ·  cd ..</td></tr>
+      <tr><td>List files</td><td class="mono">ls <span class="or">or</span> ls -la</td><td class="mono">dir</td></tr>
+      <tr><td>Enter / go up</td><td class="mono">cd folder <span class="or">or</span> cd ..</td><td class="mono">cd folder <span class="or">or</span> cd ..</td></tr>
       <tr><td>Create a folder</td><td class="mono">mkdir data</td><td class="mono">mkdir data</td></tr>
       <tr><td>Create a file</td><td class="mono">touch notes.txt</td><td class="mono">type nul &gt; notes.txt</td></tr>
       <tr><td>Edit a file</td><td class="mono">nano notes.txt</td><td class="mono">notepad notes.txt</td></tr>
       <tr><td>Show a file</td><td class="mono">cat notes.txt</td><td class="mono">type notes.txt</td></tr>
-      <tr><td>Copy / move-rename</td><td class="mono">cp a b  ·  mv a b</td><td class="mono">copy a b  ·  move a b</td></tr>
-      <tr><td>Delete file / folder</td><td class="mono">rm file  ·  rm -r folder</td><td class="mono">del file  ·  rmdir /s folder</td></tr>
+      <tr><td>Copy / move-rename</td><td class="mono">cp a b <span class="or">or</span> mv a b</td><td class="mono">copy a b <span class="or">or</span> move a b</td></tr>
+      <tr><td>Delete file / folder</td><td class="mono">rm file <span class="or">or</span> rm -r folder</td><td class="mono">del file <span class="or">or</span> rmdir /s folder</td></tr>
       <tr><td>Print text</td><td class="mono">echo "Hello"</td><td class="mono">echo Hello</td></tr>
       <tr><td>Run a script</td><td class="mono">chmod +x run.sh; ./run.sh</td><td class="mono">run.bat</td></tr>
     </table></div>
